@@ -504,18 +504,24 @@ tr:hover{
                     
                     {% endif %}
 
-                </td>
+<td>
 
-                <td>
+{% if u[1] != 'rawishtahir' %}
 
-                    <a class="delete"
-                    href="/delete-user/{{ u[0] }}">
+    <a class="delete"
+    href="/delete-user/{{ u[0] }}">
 
-                        Delete
+        Delete
 
-                    </a>
+    </a>
 
-                </td>
+{% else %}
+
+    🔒 Protected
+
+{% endif %}
+
+</td>
 
             </tr>
 
