@@ -1,8 +1,12 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 import sqlite3
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
+
+# SECRET KEY
+app.secret_key = "umeedsecret"
+
 
 # DATABASE
 conn = sqlite3.connect("database.db")
@@ -20,8 +24,41 @@ conn.commit()
 conn.close()
 
 
+# LOGIN
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+        password = request.form["password"]
+
+        # CHANGE THESE
+        if username == "rawish" and password == "12345":
+
+            session["user"] = username
+
+            return redirect("/")
+
+    return render_template("login.html")
+
+
+# LOGOUT
+@app.route("/logout")
+def logout():
+
+    session.pop("user", None)
+
+    return redirect("/login")
+
+
+# DASHBOARD
 @app.route("/")
 def dashboard():
+
+    # PROTECTION
+    if "user" not in session:
+        return redirect("/login")
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
@@ -135,8 +172,13 @@ def dashboard():
     )
 
 
+# ADMIN PANEL
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
+
+    # PROTECTION
+    if "user" not in session:
+        return redirect("/login")
 
     if request.method == "POST":
 
