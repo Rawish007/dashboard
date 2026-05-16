@@ -7,13 +7,12 @@ app.secret_key = "umeedsecret"
 
 
 # =========================
-# DATABASE INIT
+# DATABASE INIT (FIXED + SAFE)
 # =========================
 def init_db():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    # analytics table
     c.execute("""
     CREATE TABLE IF NOT EXISTS analytics(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,7 +21,6 @@ def init_db():
     )
     """)
 
-    # users table
     c.execute("""
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,9 +29,11 @@ def init_db():
     )
     """)
 
-    # DEFAULT ADMIN (ONLY ONE)
-    c.execute("SELECT * FROM users WHERE username=?", ("rawishtahir",))
-    if not c.fetchone():
+    # 🔥 AUTO ADMIN RESTORE (IMPORTANT FIX)
+    c.execute("SELECT COUNT(*) FROM users")
+    count = c.fetchone()[0]
+
+    if count == 0:
         c.execute(
             "INSERT INTO users(username, password) VALUES(?,?)",
             ("rawishtahir", "RAWiSH786rawi@")
@@ -86,7 +86,7 @@ def logout():
 
 
 # =========================
-# DASHBOARD (FULL FIXED)
+# DASHBOARD (FIXED SAFE)
 # =========================
 @app.route("/")
 def dashboard():
@@ -103,11 +103,10 @@ def dashboard():
 
     total = 0
     today_total = 0
-
-    today = datetime.now().date()
-
     labels = []
     amounts = []
+
+    today = datetime.now().date()
 
     for row in data:
         amount = int(row[2])
@@ -142,7 +141,6 @@ def admin():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    # ADD RECOVERY
     if request.method == "POST":
         day = request.form["day"]
         amount = request.form["amount"]
@@ -153,7 +151,6 @@ def admin():
         )
         conn.commit()
 
-    # USERS
     c.execute("SELECT * FROM users ORDER BY id DESC")
     users = c.fetchall()
 
