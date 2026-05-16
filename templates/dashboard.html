@@ -3,12 +3,12 @@
 
 <head>
 
-    <title>UMEED ANALYTICS</title>
+<title>Dashboard</title>
 
-    <link rel="stylesheet"
-    href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet"
+href="{{ url_for('static', filename='style.css') }}">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -19,7 +19,7 @@
     <h2>UMEED</h2>
 
     <a href="/">Dashboard</a>
-    <a href="/admin">Admin Panel</a>
+    <a href="/admin">Admin</a>
 
 </div>
 
@@ -27,21 +27,49 @@
 
     <h1>Analytics Dashboard</h1>
 
-<div class="cards">
-
     <div class="card">
+
         <h3>Total Recovery</h3>
+
         <p>Rs {{ total }}</p>
+
     </div>
 
-    <div class="card">
-        <h3>Today's Recovery</h3>
-        <p>Rs {{ today_total }}</p>
-    </div>
+    <div class="chart-box">
 
-    <div class="card">
-        <h3>Total Entries</h3>
-        <p>{{ total_entries }}</p>
+        <canvas id="myChart"></canvas>
+
     </div>
 
 </div>
+
+<script>
+
+const ctx = document.getElementById('myChart');
+
+new Chart(ctx, {
+
+    type: 'line',
+
+    data: {
+
+        labels: {{ labels|tojson }},
+
+        datasets: [{
+
+            label: 'Recovery',
+
+            data: {{ amounts|tojson }},
+
+            borderColor: '#2563eb',
+            tension: 0.4
+
+        }]
+    }
+
+});
+
+</script>
+
+</body>
+</html>
