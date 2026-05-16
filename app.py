@@ -22,11 +22,11 @@ def init_db():
     )
     """)
 
-    # users table (SIMPLE)
+    # users table
     c.execute("""
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT,
+        username TEXT UNIQUE,
         password TEXT
     )
     """)
@@ -40,6 +40,7 @@ def init_db():
     conn.commit()
     conn.close()
 
+
 init_db()
 
 
@@ -48,7 +49,6 @@ init_db()
 # =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
-
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -63,10 +63,10 @@ def login():
         conn.close()
 
         if user:
-            session["user"] = username
+            session["user"] = user[1]
             return redirect("/")
         else:
-            return "Invalid login"
+            return "Invalid username or password"
 
     return render_template("login.html")
 
@@ -81,11 +81,10 @@ def logout():
 
 
 # =========================
-# DASHBOARD
+# DASHBOARD (FIXED FULL)
 # =========================
 @app.route("/")
 def dashboard():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -96,9 +95,32 @@ def dashboard():
     data = c.fetchall()
     conn.close()
 
-    total = sum(int(i[2]) for i in data)
+    total = 0
+    labels = []
+    amounts = []
 
-    return render_template("dashboard.html", total=total, data=data[::-1])
+    today_total = 0
+    today = datetime.now().date()
+
+    for row in data:
+        amount = int(row[2])
+        date = datetime.strptime(row[1], "%Y-%m-%d").date()
+
+        total += amount
+        labels.append(row[1])
+        amounts.append(amount)
+
+        if date == today:
+            today_total += amount
+
+    return render_template(
+        "dashboard.html",
+        total=total,
+        today_total=today_total,
+        labels=labels,
+        amounts=amounts,
+        data=data[::-1]
+    )
 
 
 # =========================
@@ -106,7 +128,6 @@ def dashboard():
 # =========================
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -136,7 +157,6 @@ def admin():
 # =========================
 @app.route("/add-user", methods=["POST"])
 def add_user():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -146,10 +166,13 @@ def add_user():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute("INSERT INTO users(username, password) VALUES(?,?)",
-              (username, password))
+    try:
+        c.execute("INSERT INTO users(username, password) VALUES(?,?)",
+                  (username, password))
+        conn.commit()
+    except:
+        pass
 
-    conn.commit()
     conn.close()
 
     return redirect("/admin")
@@ -160,12 +183,13 @@ def add_user():
 # =========================
 @app.route("/delete-user/<int:id>")
 def delete_user(id):
+    if "user" not in session:
+        return redirect("/login")
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
     c.execute("DELETE FROM users WHERE id=?", (id,))
-
     conn.commit()
     conn.close()
 
@@ -173,7 +197,7 @@ def delete_user(id):
 
 
 # =========================
-# RUN APP
+# RUN
 # =========================
 if __name__ == "__main__":
     app.run(debug=True)
