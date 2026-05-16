@@ -54,7 +54,6 @@ body{
     color:#444;
     border-radius:10px;
     font-size:14px;
-    transition:0.2s;
 }
 
 .menu a:hover{
@@ -79,7 +78,6 @@ body{
 .header h1{
     font-size:22px;
     font-weight:700;
-    color:#111;
 }
 
 .badge{
@@ -105,7 +103,6 @@ body{
     font-size:15px;
     font-weight:700;
     margin-bottom:14px;
-    color:#111;
     display:flex;
     align-items:center;
     gap:10px;
@@ -118,7 +115,6 @@ input, select{
     margin:8px 0;
     border:1px solid #e5e7eb;
     border-radius:10px;
-    outline:none;
     font-size:14px;
 }
 
@@ -163,7 +159,6 @@ td{
     padding:14px 12px;
     border-bottom:1px solid #eee;
     font-size:14px;
-    color:#111;
 }
 
 /* ROLE */
@@ -196,9 +191,7 @@ td{
     <div class="menu">
 
         <a href="/"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
-
         <a href="/admin"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Panel</a>
-
         <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 
     </div>
@@ -215,20 +208,17 @@ td{
 
     <!-- RECOVERY -->
     <div class="box">
-
         <h2><i class="fa-solid fa-sack-dollar"></i> Add Recovery</h2>
 
         <form method="POST">
             <input type="date" name="day" required>
             <input type="number" name="amount" placeholder="Enter Amount" required>
-            <button><i class="fa-solid fa-plus"></i> Add Recovery</button>
+            <button>Add Recovery</button>
         </form>
-
     </div>
 
     <!-- CREATE USER -->
     <div class="box">
-
         <h2><i class="fa-solid fa-user-plus"></i> Create User</h2>
 
         <form action="/add-user" method="POST">
@@ -236,16 +226,16 @@ td{
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
 
+            <!-- CLEAN DROPDOWN (NO ICONS) -->
             <select name="role" required>
-                <option value="viewer">👁 Viewer</option>
-                <option value="editor">✏ Editor</option>
-                <option value="admin">⚡ Admin</option>
+                <option value="viewer">Viewer</option>
+                <option value="editor">Editor</option>
+                <option value="admin">Admin</option>
             </select>
 
-            <button><i class="fa-solid fa-user-check"></i> Create User</button>
+            <button>Create User</button>
 
         </form>
-
     </div>
 
     <!-- USERS -->
