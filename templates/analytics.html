@@ -1,32 +1,250 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Analytics</title>
-
+<title> Deep Research </title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f6f8fc;
+    padding:20px;
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+/* TOP STATS */
+.top-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.card{
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+.card h3{
+    margin:0;
+    font-size:13px;
+    color:#666;
+}
+
+.card p{
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* MAIN GRID */
+.grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+    margin-top:20px;
+}
+
+/* BOX */
+.box{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+canvas{
+    margin-top:15px;
+}
+
+.diff{
+    color:#2563eb;
+    font-weight:bold;
+}
+
+</style>
 
 </head>
 
 <body>
 
-<h2>Analytics Page</h2>
+<h1>📊 Analytics Studio Pro (Full System)</h1>
 
-<canvas id="chart"></canvas>
+<!-- TOP STATS -->
+<div class="top-grid">
+
+<div class="card"><h3>Today</h3><p>{{ today_val }}</p></div>
+<div class="card"><h3>Yesterday</h3><p>{{ yesterday_val }}</p></div>
+<div class="card"><h3>Total</h3><p>{{ total_val }}</p></div>
+
+<div class="card">
+<h3>Growth</h3>
+<p class="diff">{{ today_val - yesterday_val }}</p>
+</div>
+
+</div>
+
+<!-- MAIN -->
+<div class="grid">
+
+    <!-- LEFT SIDE (ALL GRAPHS) -->
+    <div>
+
+        <div class="box">
+            <h3>📈 Daily Trend</h3>
+            <canvas id="daily"></canvas>
+        </div>
+
+        <div class="box">
+            <h3>📊 Weekly Trend</h3>
+            <canvas id="weekly"></canvas>
+        </div>
+
+        <div class="box">
+            <h3>📊 Monthly Trend</h3>
+            <canvas id="monthly"></canvas>
+        </div>
+
+        <div class="box">
+            <h3>📊 Yearly Trend</h3>
+            <canvas id="yearly"></canvas>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE (COMPARE PANEL) -->
+    <div>
+
+        <div class="box">
+            <h3>⚖ Weekly Compare</h3>
+
+            <p>This Week: <b>{{ week_now }}</b></p>
+            <p>Last Week: <b>{{ week_last }}</b></p>
+            <p>Diff: <b class="diff">{{ week_now - week_last }}</b></p>
+
+            <canvas id="wcompare"></canvas>
+        </div>
+
+        <div class="box">
+            <h3>⚖ Monthly Compare</h3>
+
+            <p>This Month: <b>{{ month_now }}</b></p>
+            <p>Last Month: <b>{{ month_last }}</b></p>
+            <p>Diff: <b class="diff">{{ month_now - month_last }}</b></p>
+
+            <canvas id="mcompare"></canvas>
+        </div>
+
+        <div class="box">
+            <h3>⚖ Yearly Compare</h3>
+
+            <p>This Year: <b>{{ year_now }}</b></p>
+            <p>Last Year: <b>{{ year_last }}</b></p>
+            <p>Diff: <b class="diff">{{ year_now - year_last }}</b></p>
+
+            <canvas id="ycompare"></canvas>
+        </div>
+
+    </div>
+
+</div>
 
 <script>
 
-const labels = {{ labels|tojson }};
-const amounts = {{ amounts|tojson }};
+// DAILY
+new Chart(document.getElementById("daily"), {
+    type:"line",
+    data:{
+        labels: {{ daily_labels|tojson }},
+        datasets:[{
+            label:"Daily",
+            data: {{ daily_values|tojson }},
+            borderColor:"#2563eb",
+            fill:true
+        }]
+    }
+});
 
-new Chart(document.getElementById("chart"), {
-    type: "line",
-    data: {
-        labels: labels,
-        datasets: [{
-            label: "Recovery Trend",
-            data: amounts,
-            borderColor: "#2563eb",
-            tension: 0.4
+// WEEKLY
+new Chart(document.getElementById("weekly"), {
+    type:"line",
+    data:{
+        labels: {{ week_labels|tojson }},
+        datasets:[{
+            label:"Weekly Trend",
+            data: {{ week_values|tojson }},
+            borderColor:"#22c55e",
+            fill:true
+        }]
+    }
+});
+
+// MONTHLY
+new Chart(document.getElementById("monthly"), {
+    type:"bar",
+    data:{
+        labels: {{ month_labels|tojson }},
+        datasets:[{
+            label:"Monthly Trend",
+            data: {{ month_values|tojson }},
+            backgroundColor:"#f59e0b"
+        }]
+    }
+});
+
+// YEARLY
+new Chart(document.getElementById("yearly"), {
+    type:"line",
+    data:{
+        labels: {{ year_labels|tojson }},
+        datasets:[{
+            label:"Yearly Trend",
+            data: {{ year_values|tojson }},
+            borderColor:"#ef4444",
+            fill:true
+        }]
+    }
+});
+
+// WEEK COMPARE
+new Chart(document.getElementById("wcompare"), {
+    type:"bar",
+    data:{
+        labels:["This","Last"],
+        datasets:[{
+            label:"Week",
+            data:[{{ week_now }}, {{ week_last }}],
+            backgroundColor:["#2563eb","#94a3b8"]
+        }]
+    }
+});
+
+// MONTH COMPARE
+new Chart(document.getElementById("mcompare"), {
+    type:"bar",
+    data:{
+        labels:["This","Last"],
+        datasets:[{
+            label:"Month",
+            data:[{{ month_now }}, {{ month_last }}],
+            backgroundColor:["#22c55e","#94a3b8"]
+        }]
+    }
+});
+
+// YEAR COMPARE
+new Chart(document.getElementById("ycompare"), {
+    type:"bar",
+    data:{
+        labels:["This","Last"],
+        datasets:[{
+            label:"Year",
+            data:[{{ year_now }}, {{ year_last }}],
+            backgroundColor:["#ef4444","#94a3b8"]
         }]
     }
 });
