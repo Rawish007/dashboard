@@ -232,6 +232,118 @@ def analytics():
         data=data
     )
 
+@app.route("/analytics")
+def analytics():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM analytics ORDER BY id DESC")
+    data = c.fetchall()
+    conn.close()
+
+    # ---------------------------
+    # BASIC CALCULATION
+    # ---------------------------
+    today_val = 0
+    yesterday_val = 0
+    total_val = 0
+
+    week_now = 0
+    week_last = 0
+
+    month_now = 0
+    month_last = 0
+
+    year_now = 0
+    year_last = 0
+
+    today = datetime.now().date()
+    yesterday = today - timedelta(days=1)
+
+    current_week = today.isocalendar()[1]
+    current_year = today.year
+    current_month = today.month
+
+    for row in data:
+
+        try:
+            amount = int(row[2])
+            date = datetime.strptime(row[1], "%Y-%m-%d").date()
+
+            total_val += amount
+
+            # TODAY / YESTERDAY
+            if date == today:
+                today_val += amount
+            if date == yesterday:
+                yesterday_val += amount
+
+            # WEEK
+            if date.isocalendar()[1] == current_week:
+                week_now += amount
+            if date.isocalendar()[1] == current_week - 1:
+                week_last += amount
+
+            # MONTH
+            if date.month == current_month:
+                month_now += amount
+            if date.month == (current_month - 1):
+                month_last += amount
+
+            # YEAR
+            if date.year == current_year:
+                year_now += amount
+            if date.year == current_year - 1:
+                year_last += amount
+
+        except:
+            pass
+
+    # dummy graphs (safe)
+    daily_labels = [r[1] for r in data[:10]]
+    daily_values = [r[2] for r in data[:10]]
+
+    week_labels = daily_labels
+    week_values = daily_values
+
+    month_labels = daily_labels
+    month_values = daily_values
+
+    year_labels = daily_labels
+    year_values = daily_values
+
+    return render_template(
+        "analytics.html",
+
+        today_val=today_val,
+        yesterday_val=yesterday_val,
+        total_val=total_val,
+
+        week_now=week_now,
+        week_last=week_last,
+
+        month_now=month_now,
+        month_last=month_last,
+
+        year_now=year_now,
+        year_last=year_last,
+
+        daily_labels=daily_labels,
+        daily_values=daily_values,
+
+        week_labels=week_labels,
+        week_values=week_values,
+
+        month_labels=month_labels,
+        month_values=month_values,
+
+        year_labels=year_labels,
+        year_values=year_values
+    )
 
 
 # =========================
