@@ -3,10 +3,211 @@
 
 <head>
 
-<title>UMEED Admin Panel</title>
+<title>UMEED Admin Dashboard</title>
 
 <link rel="stylesheet"
 href="{{ url_for('static', filename='style.css') }}">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* BODY */
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#f1f5f9;
+    display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:240px;
+    height:100vh;
+    background:#0f172a;
+    color:white;
+    padding:25px;
+}
+
+.sidebar h2{
+    color:#38bdf8;
+    margin-bottom:30px;
+}
+
+.sidebar a{
+    display:block;
+    color:#cbd5e1;
+    text-decoration:none;
+    margin:14px 0;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.sidebar a:hover{
+    color:white;
+    padding-left:5px;
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    padding:25px;
+}
+
+/* HEADER */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.header h1{
+    font-size:22px;
+    color:#0f172a;
+}
+
+.badge{
+    background:#dbeafe;
+    color:#2563eb;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:600;
+}
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:18px;
+    border-radius:14px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.card h3{
+    font-size:14px;
+    color:#64748b;
+}
+
+.card p{
+    font-size:18px;
+    font-weight:700;
+    margin-top:8px;
+    color:#0f172a;
+}
+
+/* BOX */
+
+.box{
+    background:white;
+    padding:20px;
+    margin-top:20px;
+    border-radius:14px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+/* INPUT */
+
+input, select{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    outline:none;
+}
+
+input:focus, select:focus{
+    border-color:#2563eb;
+}
+
+/* BUTTON */
+
+button{
+    padding:12px 16px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    cursor:pointer;
+    border-radius:10px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+/* TABLE */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+table th{
+    text-align:left;
+    font-size:13px;
+    color:#64748b;
+    padding:10px;
+}
+
+table td{
+    padding:12px 10px;
+    border-top:1px solid #f1f5f9;
+    font-size:14px;
+}
+
+/* ROLES */
+
+.role-admin{
+    color:#ef4444;
+    font-weight:700;
+}
+
+.role-editor{
+    color:#f59e0b;
+    font-weight:700;
+}
+
+.role-viewer{
+    color:#3b82f6;
+    font-weight:700;
+}
+
+/* DELETE */
+
+.delete{
+    color:#ef4444;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.delete:hover{
+    text-decoration:underline;
+}
+
+</style>
 
 </head>
 
@@ -28,215 +229,131 @@ href="{{ url_for('static', filename='style.css') }}">
 
 <div class="main">
 
-    <!-- TOPBAR -->
+    <!-- HEADER -->
 
-    <div class="topbar">
+    <div class="header">
 
-        <h1>Admin Panel</h1>
+        <h1>Admin Dashboard</h1>
 
-        <div class="profile"></div>
+        <div class="badge">
+            Secure System • Active
+        </div>
 
     </div>
 
-    <!-- QUICK STATUS -->
+    <!-- CARDS -->
 
     <div class="cards">
 
         <div class="card">
-
-            <h3>Daily Analytics</h3>
-
-            <p>📈 Active</p>
-
+            <h3>Total Users</h3>
+            <p>{{ users|length }}</p>
         </div>
 
         <div class="card">
-
-            <h3>Weekly Reports</h3>
-
-            <p>📊 Running</p>
-
+            <h3>System Status</h3>
+            <p>Online</p>
         </div>
 
         <div class="card">
-
-            <h3>Monthly Reports</h3>
-
-            <p>🚀 Enabled</p>
-
+            <h3>Analytics</h3>
+            <p>Live</p>
         </div>
 
         <div class="card">
-
-            <h3>Database Status</h3>
-
-            <p>🟢 Connected</p>
-
+            <h3>Security</h3>
+            <p>Protected</p>
         </div>
 
     </div>
 
-    <!-- FORM SECTION -->
+    <!-- ANALYTICS -->
 
-    <div class="chart-box">
+    <div class="box">
 
         <h2>Add Recovery Analytics</h2>
 
         <form method="POST">
 
-            <!-- DATE -->
+            <input type="date" name="day" required>
+            <input type="number" name="amount" placeholder="Enter Amount" required>
 
-            <label>Select Date</label>
-
-            <input
-            type="date"
-            name="day"
-            required>
-
-            <!-- AMOUNT -->
-
-            <label>Recovery Amount</label>
-
-            <input
-            type="number"
-            name="amount"
-            placeholder="Enter Recovery Amount"
-            required>
-
-            <!-- BUTTON -->
-
-            <button type="submit">
-
-                ➕ Add Analytics
-
-            </button>
+            <button type="submit">Add Analytics</button>
 
         </form>
 
     </div>
 
-    <!-- ANALYTICS TOOLS -->
+    <!-- CREATE USER -->
 
-    <div class="analytics-grid">
+    <div class="box">
 
-        <div class="mini-card">
+        <h2>Create New User</h2>
 
-            <h4>Daily Tracking</h4>
+        <form action="/add-user" method="POST">
 
-            <p>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
 
-                Track every day's recovery,
-                growth and analytics automatically.
+            <select name="role" required>
 
-            </p>
+                <option value="viewer">Viewer</option>
+                <option value="editor">Editor</option>
+                <option value="admin">Admin</option>
 
-        </div>
+            </select>
 
-        <div class="mini-card">
+            <button type="submit">Create User</button>
 
-            <h4>Weekly Comparison</h4>
-
-            <p>
-
-                Compare current week with previous week performance.
-
-            </p>
-
-        </div>
+        </form>
 
     </div>
 
-    <!-- EXTRA INFO -->
+    <!-- USERS TABLE -->
 
-    <div class="table-box">
+    <div class="box">
 
-        <h2>Admin Features</h2>
+        <h2>Users Management</h2>
 
         <table>
 
             <tr>
-
-                <th>Feature</th>
-                <th>Status</th>
-
+                <th>ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Action</th>
             </tr>
+
+            {% for u in users %}
 
             <tr>
 
-                <td>Daily Analytics</td>
-                <td>✅ Enabled</td>
+                <td>{{ u[0] }}</td>
+                <td>{{ u[1] }}</td>
+                <td>{{ u[2] }}</td>
+
+                <td>
+
+                    {% if u[3] == 'admin' %}
+                        <span class="role-admin">Admin</span>
+                    {% elif u[3] == 'editor' %}
+                        <span class="role-editor">Editor</span>
+                    {% else %}
+                        <span class="role-viewer">Viewer</span>
+                    {% endif %}
+
+                </td>
+
+                <td>
+                    <a class="delete" href="/delete-user/{{ u[0] }}">Delete</a>
+                </td>
 
             </tr>
 
-            <tr>
-
-                <td>Weekly Reports</td>
-                <td>✅ Enabled</td>
-
-            </tr>
-
-            <tr>
-
-                <td>Monthly Reports</td>
-                <td>✅ Enabled</td>
-
-            </tr>
-
-            <tr>
-
-                <td>Yearly Reports</td>
-                <td>✅ Enabled</td>
-
-            </tr>
-
-            <tr>
-
-                <td>Private Dashboard</td>
-                <td>🔒 Protected</td>
-
-            </tr>
-
-            <tr>
-
-                <td>Database System</td>
-                <td>🟢 Connected</td>
-
-            </tr>
-
-            <tr>
-
-                <td>Charts & Graphs</td>
-                <td>📈 Active</td>
-
-            </tr>
+            {% endfor %}
 
         </table>
-
-    </div>
-
-    <!-- GUIDE -->
-
-    <div class="chart-box">
-
-        <h2>How To Use</h2>
-
-        <p>
-
-            • Date select karo <br><br>
-
-            • Recovery amount enter karo <br><br>
-
-            • Add Analytics button press karo <br><br>
-
-            • Dashboard automatically update hojayega <br><br>
-
-            • Weekly, Monthly, Yearly analytics auto calculate hongi <br><br>
-
-            • Graphs automatically generate hongi <br><br>
-
-            • Data securely database me save hoga
-
-        </p>
 
     </div>
 
