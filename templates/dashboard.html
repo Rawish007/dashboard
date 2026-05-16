@@ -2,17 +2,14 @@
 <html>
 
 <head>
-
 <title>UMEED Analytics</title>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
 body{
     margin:0;
     font-family:Inter,sans-serif;
@@ -20,7 +17,6 @@ body{
     background:#f5f6f8;
 }
 
-/* SIDEBAR */
 .sidebar{
     width:240px;
     height:100vh;
@@ -47,13 +43,11 @@ body{
     background:#f1f1f1;
 }
 
-/* MAIN */
 .main{
     flex:1;
     padding:25px;
 }
 
-/* CARDS */
 .cards{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
@@ -79,51 +73,25 @@ body{
     margin-top:8px;
 }
 
-/* CHART */
 .chart-box{
     margin-top:20px;
     background:#fff;
     padding:20px;
     border-radius:12px;
 }
-
-/* TABLE */
-.table-box{
-    margin-top:20px;
-    background:#fff;
-    padding:20px;
-    border-radius:12px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th,td{
-    padding:10px;
-    border-bottom:1px solid #eee;
-    text-align:left;
-}
-
 </style>
 
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
-
     <h2><i class="fa-solid fa-building-columns"></i> UMEED</h2>
-
     <a href="/"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
     <a href="/admin"><i class="fa-solid fa-gear"></i> Admin Panel</a>
     <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
     <h2><i class="fa-solid fa-chart-simple"></i> Analytics Dashboard</h2>
@@ -136,55 +104,38 @@ th,td{
         <div class="card"><h3>Yesterday</h3><p>Rs {{ yesterday_total }}</p></div>
         <div class="card"><h3>This Week</h3><p>Rs {{ this_week }}</p></div>
         <div class="card"><h3>Last Week</h3><p>Rs {{ last_week }}</p></div>
-        <div class="card"><h3>This Month</h3><p>Rs {{ this_month }}</p></div>
-        <div class="card"><h3>Last Month</h3><p>Rs {{ last_month }}</p></div>
-        <div class="card"><h3>This Year</h3><p>Rs {{ this_year }}</p></div>
 
     </div>
 
-    <!-- CHART -->
+    <!-- BAR CHART (YOUR ADDED VERSION FIXED) -->
     <div class="chart-box">
-        <h3>Recovery Graph</h3>
+        <h2>📊 Recovery Chart</h2>
         <canvas id="myChart"></canvas>
-    </div>
-
-    <!-- TABLE -->
-    <div class="table-box">
-        <h3>Recent Data</h3>
-
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Amount</th>
-            </tr>
-
-            {% for row in data %}
-            <tr>
-                <td>{{ row[1] }}</td>
-                <td>Rs {{ row[2] }}</td>
-            </tr>
-            {% endfor %}
-
-        </table>
     </div>
 
 </div>
 
-<!-- CHART JS -->
 <script>
 const ctx = document.getElementById('myChart');
 
 new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
         labels: {{ labels|tojson }},
         datasets: [{
-            label: 'Recovery',
+            label: 'Daily Recovery',
             data: {{ amounts|tojson }},
-            borderColor: '#2563eb',
-            fill: true,
-            tension: 0.4
+            backgroundColor: '#111',
+            borderRadius: 6
         }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
     }
 });
 </script>
