@@ -82,6 +82,18 @@ body{
     color:white;
 }
 
+/* ACTIVE MENU */
+
+.sidebar a.active{
+    background:#2563eb;
+    color:white;
+}
+
+.sidebar a.active i{
+    background:white;
+    color:#2563eb;
+}
+
 /* MAIN */
 
 .main{
@@ -233,6 +245,37 @@ body{
     border-radius:14px;
 }
 
+/* FILTER BUTTONS */
+
+.filters{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.filter-btn{
+    padding:10px 18px;
+    border:none;
+    border-radius:12px;
+    background:#f1f5f9;
+    color:#111;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.filter-btn:hover{
+    background:#2563eb;
+    color:white;
+}
+
+.filter-btn.active{
+    background:#111;
+    color:white;
+}
+
 /* TABLE */
 
 .table-box{
@@ -299,7 +342,7 @@ form{
     gap:20px;
 }
 
-input{
+input,select{
     padding:16px;
     border:1px solid #cbd5e1;
     border-radius:12px;
@@ -308,7 +351,8 @@ input{
     transition:0.3s;
 }
 
-input:focus{
+input:focus,
+select:focus{
     border-color:#2563eb;
     box-shadow:0 0 0 4px rgba(37,99,235,0.1);
 }
@@ -389,4 +433,8 @@ button:hover{
         width:100%;
     }
 
-}
+    .filters{
+        flex-direction:column;
+    }
+
+    }
