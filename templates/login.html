@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -11,45 +10,118 @@
 <link rel="stylesheet"
 href="{{ url_for('static', filename='style.css') }}">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
 /* BODY */
 
 body{
-    margin:0;
-    padding:0;
-    font-family:'Segoe UI',sans-serif;
-    background:#f1f5f9;
+
+    font-family:'Inter',sans-serif;
+
     height:100vh;
+
     display:flex;
+
     justify-content:center;
+
     align-items:center;
+
     overflow:hidden;
+
+    background:
+    radial-gradient(circle at top left,#2563eb20,transparent 35%),
+    radial-gradient(circle at bottom right,#3b82f620,transparent 35%),
+    #f8fafc;
+
+    position:relative;
+
 }
 
-/* MAIN CONTAINER */
+/* FLOATING BLUR */
+
+body::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    background:#2563eb18;
+
+    border-radius:50%;
+
+    filter:blur(90px);
+
+    top:-180px;
+    left:-180px;
+
+}
+
+body::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:400px;
+    height:400px;
+
+    background:#60a5fa18;
+
+    border-radius:50%;
+
+    filter:blur(80px);
+
+    bottom:-150px;
+    right:-150px;
+
+}
+
+/* WRAPPER */
 
 .login-wrapper{
+
     width:100%;
-    max-width:430px;
+    max-width:450px;
+
     padding:20px;
+
+    z-index:2;
+
 }
 
-/* LOGIN CARD */
+/* CARD */
 
 .login-card{
 
-    background:white;
+    background:rgba(255,255,255,0.75);
 
-    border-radius:28px;
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.4);
+
+    border-radius:32px;
 
     padding:45px;
 
     box-shadow:
-    0 10px 30px rgba(15,23,42,0.08),
-    0 2px 8px rgba(15,23,42,0.04);
+    0 10px 40px rgba(15,23,42,0.10),
+    0 2px 12px rgba(15,23,42,0.05);
 
-    border:1px solid #e2e8f0;
+    animation:fadeUp 0.8s ease;
 
     position:relative;
 
@@ -57,7 +129,7 @@ body{
 
 }
 
-/* TOP BLUE LINE */
+/* TOP GLOW */
 
 .login-card::before{
 
@@ -69,9 +141,34 @@ body{
     left:0;
 
     width:100%;
-    height:6px;
+    height:5px;
 
-    background:#2563eb;
+    background:linear-gradient(
+    90deg,
+    #2563eb,
+    #3b82f6,
+    #60a5fa
+    );
+
+}
+
+/* ANIMATION */
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
 
 }
 
@@ -79,13 +176,47 @@ body{
 
 .logo-section{
 
-    margin-bottom:35px;
+    text-align:center;
+
+    margin-bottom:38px;
+
+}
+
+.logo-icon{
+
+    width:75px;
+    height:75px;
+
+    margin:auto;
+    margin-bottom:20px;
+
+    border-radius:22px;
+
+    background:linear-gradient(
+    135deg,
+    #2563eb,
+    #60a5fa
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:34px;
+
+    color:white;
+
+    font-weight:800;
+
+    box-shadow:0 10px 25px rgba(37,99,235,0.30);
 
 }
 
 .logo{
 
-    font-size:42px;
+    font-size:36px;
 
     font-weight:800;
 
@@ -93,15 +224,15 @@ body{
 
     letter-spacing:1px;
 
-    margin-bottom:8px;
+    margin-bottom:10px;
 
 }
 
 .subtitle{
 
-    color:#64748b;
-
     font-size:15px;
+
+    color:#64748b;
 
     line-height:1.6;
 
@@ -119,23 +250,23 @@ form{
 
 }
 
-/* INPUT GROUP */
+/* INPUT */
 
 .input-group{
 
-    display:flex;
-
-    flex-direction:column;
+    position:relative;
 
 }
 
 .input-group label{
 
+    display:block;
+
+    margin-bottom:10px;
+
     font-size:14px;
 
     font-weight:600;
-
-    margin-bottom:10px;
 
     color:#334155;
 
@@ -143,23 +274,25 @@ form{
 
 .input-group input{
 
-    height:56px;
+    width:100%;
 
-    border:1px solid #cbd5e1;
+    height:60px;
 
-    border-radius:16px;
+    border:1px solid #dbe2ea;
+
+    border-radius:18px;
+
+    background:white;
 
     padding:0 18px;
 
-    font-size:16px;
+    font-size:15px;
 
     outline:none;
 
     transition:0.3s;
 
-    background:#fff;
-
-    box-sizing:border-box;
+    color:#0f172a;
 
 }
 
@@ -167,7 +300,64 @@ form{
 
     border-color:#2563eb;
 
-    box-shadow:0 0 0 4px rgba(37,99,235,0.08);
+    box-shadow:
+    0 0 0 5px rgba(37,99,235,0.08);
+
+    transform:translateY(-1px);
+
+}
+
+.input-group input::placeholder{
+
+    color:#94a3b8;
+
+}
+
+/* OPTIONS */
+
+.options{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:-5px;
+
+}
+
+.remember{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    font-size:14px;
+
+    color:#475569;
+
+}
+
+.forgot{
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#2563eb;
+
+    transition:0.3s;
+
+}
+
+.forgot:hover{
+
+    opacity:0.8;
 
 }
 
@@ -175,17 +365,21 @@ form{
 
 .login-btn{
 
-    height:58px;
+    height:60px;
 
     border:none;
 
-    border-radius:16px;
+    border-radius:18px;
 
-    background:#2563eb;
+    background:linear-gradient(
+    135deg,
+    #2563eb,
+    #3b82f6
+    );
 
     color:white;
 
-    font-size:17px;
+    font-size:16px;
 
     font-weight:700;
 
@@ -195,13 +389,17 @@ form{
 
     margin-top:10px;
 
+    box-shadow:
+    0 10px 20px rgba(37,99,235,0.25);
+
 }
 
 .login-btn:hover{
 
-    background:#1d4ed8;
-
     transform:translateY(-2px);
+
+    box-shadow:
+    0 15px 30px rgba(37,99,235,0.35);
 
 }
 
@@ -209,35 +407,13 @@ form{
 
 .footer{
 
-    margin-top:30px;
-
     text-align:center;
 
-    color:#94a3b8;
-
-    font-size:14px;
-
-}
-
-/* SECURITY BADGE */
-
-.badge{
-
-    display:inline-block;
-
-    padding:8px 16px;
-
-    background:#eff6ff;
-
-    color:#2563eb;
-
-    border-radius:999px;
+    margin-top:30px;
 
     font-size:13px;
 
-    font-weight:600;
-
-    margin-bottom:18px;
+    color:#94a3b8;
 
 }
 
@@ -247,15 +423,24 @@ form{
 
     .login-card{
 
-        padding:30px;
+        padding:30px 24px;
 
-        border-radius:22px;
+        border-radius:28px;
 
     }
 
     .logo{
 
-        font-size:34px;
+        font-size:30px;
+
+    }
+
+    .logo-icon{
+
+        width:65px;
+        height:65px;
+
+        font-size:28px;
 
     }
 
@@ -271,28 +456,20 @@ form{
 
     <div class="login-card">
 
-        <!-- BADGE -->
-
-        <div class="badge">
-
-            🔒 Secure Login
-
-        </div>
-
         <!-- LOGO -->
 
         <div class="logo-section">
 
+            <div class="logo-icon">
+                U
+            </div>
+
             <div class="logo">
-
                 UMEED
-
             </div>
 
             <div class="subtitle">
-
-                Private business analytics dashboard with secure access.
-
+                Secure analytics dashboard for business insights and management.
             </div>
 
         </div>
@@ -329,13 +506,31 @@ form{
 
             </div>
 
+            <!-- OPTIONS -->
+
+            <div class="options">
+
+                <label class="remember">
+
+                    <input type="checkbox">
+
+                    Remember me
+
+                </label>
+
+                <a href="#" class="forgot">
+                    Forgot password?
+                </a>
+
+            </div>
+
             <!-- BUTTON -->
 
             <button
             type="submit"
             class="login-btn">
 
-                Login Dashboard
+                Login to Dashboard
 
             </button>
 
@@ -345,7 +540,7 @@ form{
 
         <div class="footer">
 
-            Private • Secure • Analytics System
+            © 2026 UMEED • Private System
 
         </div>
 
