@@ -1,18 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Admin</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="main">
+
+<h1>Admin Panel</h1>
+
 <form method="POST">
 
     <input
-    type="date"
+    type="text"
     name="day"
-    required>
+    placeholder="Monday">
 
     <input
     type="number"
     name="amount"
-    placeholder="Enter Amount"
-    required>
+    placeholder="Amount">
 
     <button type="submit">
-        Add Analytics
+
+        Add Data
+
     </button>
 
 </form>
+
+</div>
+
+</body>
+</html>
