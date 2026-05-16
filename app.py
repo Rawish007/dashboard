@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "umeedsecret"
@@ -30,7 +31,7 @@ def init_db():
     )
     """)
 
-    # ✅ NEW ADMIN LOGIN SET
+    # DEFAULT ADMIN (ONLY ONE)
     c.execute("SELECT * FROM users WHERE username=?", ("rawishtahir",))
     if not c.fetchone():
         c.execute(
@@ -67,10 +68,10 @@ def login():
         conn.close()
 
         if user:
-            session["user"] = username
+            session["user"] = user[1]
             return redirect("/")
         else:
-            return "Invalid login"
+            return render_template("login.html", error="Invalid login")
 
     return render_template("login.html")
 
@@ -85,7 +86,7 @@ def logout():
 
 
 # =========================
-# DASHBOARD
+# DASHBOARD (FULL FIXED)
 # =========================
 @app.route("/")
 def dashboard():
@@ -96,16 +97,36 @@ def dashboard():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute("SELECT * FROM analytics")
+    c.execute("SELECT * FROM analytics ORDER BY id DESC")
     data = c.fetchall()
     conn.close()
 
-    total = sum(int(i[2]) for i in data)
+    total = 0
+    today_total = 0
+
+    today = datetime.now().date()
+
+    labels = []
+    amounts = []
+
+    for row in data:
+        amount = int(row[2])
+        date = datetime.strptime(row[1], "%Y-%m-%d").date()
+
+        total += amount
+        labels.append(row[1])
+        amounts.append(amount)
+
+        if date == today:
+            today_total += amount
 
     return render_template(
         "dashboard.html",
         total=total,
-        data=data[::-1]
+        today_total=today_total,
+        labels=labels,
+        amounts=amounts,
+        data=data
     )
 
 
@@ -121,6 +142,7 @@ def admin():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
+    # ADD RECOVERY
     if request.method == "POST":
         day = request.form["day"]
         amount = request.form["amount"]
@@ -131,7 +153,8 @@ def admin():
         )
         conn.commit()
 
-    c.execute("SELECT * FROM users")
+    # USERS
+    c.execute("SELECT * FROM users ORDER BY id DESC")
     users = c.fetchall()
 
     conn.close()
@@ -185,7 +208,7 @@ def delete_user(id):
 
 
 # =========================
-# RUN APP
+# RUN
 # =========================
 if __name__ == "__main__":
     app.run(debug=True)
