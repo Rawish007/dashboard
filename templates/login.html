@@ -3,40 +3,251 @@
 
 <head>
 
-<title>Login</title>
+<title>UMEED LOGIN</title>
 
 <link rel="stylesheet"
 href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+
+/* BODY */
+
+body{
+    margin:0;
+    padding:0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:linear-gradient(135deg,#2563eb,#1e3a8a);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+/* BACKGROUND CIRCLES */
+
+.circle1{
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:rgba(255,255,255,0.08);
+    border-radius:50%;
+    top:-100px;
+    left:-100px;
+}
+
+.circle2{
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:rgba(255,255,255,0.06);
+    border-radius:50%;
+    bottom:-150px;
+    right:-100px;
+}
+
+/* LOGIN BOX */
+
+.login-box{
+    width:420px;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(15px);
+    padding:40px;
+    border-radius:30px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.3);
+    color:white;
+    position:relative;
+    z-index:10;
+}
+
+/* LOGO */
+
+.logo{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.logo h1{
+    margin:0;
+    font-size:42px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.logo p{
+    margin-top:10px;
+    font-size:16px;
+    opacity:0.9;
+}
+
+/* FORM */
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.input-box{
+    display:flex;
+    flex-direction:column;
+}
+
+.input-box label{
+    margin-bottom:8px;
+    font-size:15px;
+    font-weight:600;
+}
+
+.input-box input{
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    font-size:16px;
+    outline:none;
+    background:rgba(255,255,255,0.2);
+    color:white;
+}
+
+.input-box input::placeholder{
+    color:#e2e8f0;
+}
+
+/* BUTTON */
+
+button{
+    margin-top:10px;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    background:white;
+    color:#2563eb;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.03);
+}
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+    margin-top:25px;
+    font-size:14px;
+    opacity:0.8;
+}
+
+/* ICON AREA */
+
+.icon{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:white;
+    color:#2563eb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+    margin:0 auto 25px auto;
+    font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+    .login-box{
+        width:90%;
+        padding:30px;
+    }
+
+}
+
+</style>
 
 </head>
 
 <body>
 
-<div class="main">
+<!-- BACKGROUND -->
 
-<form method="POST">
+<div class="circle1"></div>
+<div class="circle2"></div>
 
-    <h2>UMEED LOGIN</h2>
+<!-- LOGIN BOX -->
 
-    <input
-    type="text"
-    name="username"
-    placeholder="Username"
-    required>
+<div class="login-box">
 
-    <input
-    type="password"
-    name="password"
-    placeholder="Password"
-    required>
+    <!-- ICON -->
 
-    <button type="submit">
+    <div class="icon">
 
-        Login
+        🔒
 
-    </button>
+    </div>
 
-</form>
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        <h1>UMEED</h1>
+
+        <p>
+
+            Private Analytics Dashboard
+
+        </p>
+
+    </div>
+
+    <!-- FORM -->
+
+    <form method="POST">
+
+        <div class="input-box">
+
+            <label>Username</label>
+
+            <input
+            type="text"
+            name="username"
+            placeholder="Enter Username"
+            required>
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Password</label>
+
+            <input
+            type="password"
+            name="password"
+            placeholder="Enter Password"
+            required>
+
+        </div>
+
+        <button type="submit">
+
+            Login Dashboard
+
+        </button>
+
+    </form>
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        Secure • Private • Analytics System
+
+    </div>
 
 </div>
 
