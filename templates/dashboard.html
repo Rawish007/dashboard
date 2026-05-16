@@ -27,51 +27,21 @@
 
     <h1>Analytics Dashboard</h1>
 
-    <div class="cards">
+<div class="cards">
 
-        <div class="card">
-            <h3>Total Recovery</h3>
-            <p>Rs {{ total }}</p>
-        </div>
-
+    <div class="card">
+        <h3>Total Recovery</h3>
+        <p>Rs {{ total }}</p>
     </div>
 
-    <div class="chart-box">
-        <canvas id="myChart"></canvas>
+    <div class="card">
+        <h3>Today's Recovery</h3>
+        <p>Rs {{ today_total }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Total Entries</h3>
+        <p>{{ total_entries }}</p>
     </div>
 
 </div>
-
-<script>
-
-const ctx = document.getElementById('myChart');
-
-new Chart(ctx, {
-
-    type: 'line',
-
-    data: {
-
-        labels: {{ labels|tojson }},
-
-        datasets: [{
-
-            label: 'Recovery',
-
-            data: {{ amounts|tojson }},
-
-            borderColor: '#38bdf8',
-            backgroundColor: 'rgba(56,189,248,0.2)',
-
-            tension: 0.4,
-            fill:true
-
-        }]
-    }
-
-});
-
-</script>
-
-</body>
-</html>
