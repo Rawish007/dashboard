@@ -22,29 +22,64 @@ body{
     overflow:auto;
 }
 
-.sidebar h2{
-    color:#2563eb;
-    font-size:30px;
+/* 🔥 LOGO */
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#111;
+    font-size:28px;
     margin-bottom:40px;
-    font-weight:700;
+    font-weight:800;
 }
+
+.logo i{
+    background:#eff6ff;
+    color:#2563eb;
+    padding:12px;
+    border-radius:14px;
+    font-size:22px;
+    box-shadow:0 4px 12px rgba(37,99,235,0.12);
+}
+
+/* SIDEBAR LINKS */
 
 .sidebar a{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:12px;
     text-decoration:none;
     color:#334155;
     padding:14px;
+    border-radius:14px;
+    margin-bottom:12px;
+    font-size:16px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.sidebar a i{
+    background:#f1f5f9;
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     border-radius:12px;
-    margin-bottom:10px;
-    font-size:17px;
+    font-size:18px;
+    color:#111;
     transition:0.3s;
 }
 
 .sidebar a:hover{
     background:#eff6ff;
     color:#2563eb;
+}
+
+.sidebar a:hover i{
+    background:#2563eb;
+    color:white;
 }
 
 /* MAIN */
@@ -66,8 +101,42 @@ body{
 .topbar h1{
     font-size:34px;
     margin:0;
-    font-weight:700;
+    font-weight:800;
+    display:flex;
+    align-items:center;
+    gap:14px;
 }
+
+.topbar h1 i{
+    background:#111;
+    color:white;
+    width:50px;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:16px;
+    font-size:22px;
+}
+
+.badge{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:white;
+    padding:12px 18px;
+    border-radius:999px;
+    border:1px solid #e2e8f0;
+    font-weight:700;
+    font-size:14px;
+}
+
+.badge i{
+    color:#2563eb;
+    font-size:18px;
+}
+
+/* PROFILE */
 
 .profile{
     width:45px;
@@ -88,27 +157,49 @@ body{
 .card{
     background:white;
     padding:25px;
-    border-radius:20px;
+    border-radius:22px;
     box-shadow:0 5px 20px rgba(0,0,0,0.06);
     transition:0.3s;
+    border:1px solid #eef2f7;
 }
 
 .card:hover{
     transform:translateY(-5px);
 }
 
+/* CARD TOP */
+
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.card-top i{
+    width:50px;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:16px;
+    background:#f1f5f9;
+    font-size:22px;
+    color:#111;
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+}
+
 .card h3{
     margin:0;
     color:#64748b;
-    font-size:17px;
-    font-weight:600;
+    font-size:16px;
+    font-weight:700;
 }
 
 .card p{
-    margin-top:15px;
+    margin-top:18px;
     font-size:34px;
-    color:#2563eb;
-    font-weight:700;
+    color:#111;
+    font-weight:800;
 }
 
 /* CHART BOX */
@@ -116,15 +207,30 @@ body{
 .chart-box{
     background:white;
     padding:25px;
-    border-radius:20px;
+    border-radius:22px;
     box-shadow:0 5px 20px rgba(0,0,0,0.06);
     margin-top:25px;
+    border:1px solid #eef2f7;
 }
 
 .chart-box h2{
     margin-top:0;
     margin-bottom:20px;
     font-size:24px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.chart-box h2 i{
+    background:#111;
+    color:white;
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
 }
 
 /* TABLE */
@@ -132,10 +238,29 @@ body{
 .table-box{
     background:white;
     padding:25px;
-    border-radius:20px;
+    border-radius:22px;
     box-shadow:0 5px 20px rgba(0,0,0,0.06);
     margin-top:30px;
     overflow:auto;
+    border:1px solid #eef2f7;
+}
+
+.table-box h2{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.table-box h2 i{
+    background:#111;
+    color:white;
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
 }
 
 table{
@@ -144,7 +269,7 @@ table{
 }
 
 th{
-    background:#2563eb;
+    background:#111;
     color:white;
     padding:16px;
     text-align:left;
@@ -194,16 +319,16 @@ button{
     padding:16px;
     border:none;
     border-radius:12px;
-    background:#2563eb;
+    background:#111;
     color:white;
     font-size:17px;
-    font-weight:600;
+    font-weight:700;
     cursor:pointer;
     transition:0.3s;
 }
 
 button:hover{
-    background:#1d4ed8;
+    background:#000;
 }
 
 /* ANALYTICS GRID */
@@ -219,21 +344,23 @@ button:hover{
 
 .mini-card{
     background:white;
-    padding:20px;
-    border-radius:18px;
+    padding:22px;
+    border-radius:20px;
     box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    border:1px solid #eef2f7;
 }
 
 .mini-card h4{
     margin:0;
     color:#64748b;
+    font-size:16px;
 }
 
 .mini-card p{
     font-size:28px;
-    margin-top:10px;
-    color:#2563eb;
-    font-weight:bold;
+    margin-top:14px;
+    color:#111;
+    font-weight:800;
 }
 
 /* MOBILE */
