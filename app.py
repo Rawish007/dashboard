@@ -22,11 +22,11 @@ def init_db():
     )
     """)
 
-    # users table
+    # users table (SIMPLE)
     c.execute("""
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE,
+        username TEXT,
         password TEXT
     )
     """)
@@ -49,8 +49,6 @@ init_db()
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
-    error = None
-
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -65,12 +63,12 @@ def login():
         conn.close()
 
         if user:
-            session["user"] = user[1]
+            session["user"] = username
             return redirect("/")
         else:
-            error = "Invalid username or password"
+            return "Invalid login"
 
-    return render_template("login.html", error=error)
+    return render_template("login.html")
 
 
 # =========================
@@ -94,30 +92,13 @@ def dashboard():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute("SELECT * FROM analytics ORDER BY id DESC")
+    c.execute("SELECT * FROM analytics")
     data = c.fetchall()
-
     conn.close()
 
-    total = sum(int(row[2]) for row in data)
-    today = datetime.now().date()
+    total = sum(int(i[2]) for i in data)
 
-    today_total = sum(
-        int(row[2]) for row in data
-        if datetime.strptime(row[1], "%Y-%m-%d").date() == today
-    )
-
-    labels = [row[1] for row in data]
-    amounts = [int(row[2]) for row in data]
-
-    return render_template(
-        "dashboard.html",
-        total=total,
-        today_total=today_total,
-        labels=labels,
-        amounts=amounts,
-        data=data
-    )
+    return render_template("dashboard.html", total=total, data=data[::-1])
 
 
 # =========================
@@ -132,14 +113,16 @@ def admin():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
+    # add recovery
     if request.method == "POST":
         day = request.form["day"]
         amount = request.form["amount"]
 
-        c.execute("INSERT INTO analytics(day, amount) VALUES(?, ?)",
+        c.execute("INSERT INTO analytics(day, amount) VALUES(?,?)",
                   (day, amount))
         conn.commit()
 
+    # get users
     c.execute("SELECT * FROM users")
     users = c.fetchall()
 
@@ -163,13 +146,10 @@ def add_user():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    try:
-        c.execute("INSERT INTO users(username, password) VALUES(?,?)",
-                  (username, password))
-        conn.commit()
-    except:
-        pass
+    c.execute("INSERT INTO users(username, password) VALUES(?,?)",
+              (username, password))
 
+    conn.commit()
     conn.close()
 
     return redirect("/admin")
@@ -181,13 +161,11 @@ def add_user():
 @app.route("/delete-user/<int:id>")
 def delete_user(id):
 
-    if "user" not in session:
-        return redirect("/login")
-
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
     c.execute("DELETE FROM users WHERE id=?", (id,))
+
     conn.commit()
     conn.close()
 
@@ -195,37 +173,7 @@ def delete_user(id):
 
 
 # =========================
-# CHANGE PASSWORD
-# =========================
-@app.route("/change-password", methods=["POST"])
-def change_password():
-
-    if "user" not in session:
-        return redirect("/login")
-
-    old = request.form["old"]
-    new = request.form["new"]
-
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
-
-    c.execute("SELECT * FROM users WHERE username=? AND password=?",
-              (session["user"], old))
-
-    user = c.fetchone()
-
-    if user:
-        c.execute("UPDATE users SET password=? WHERE username=?",
-                  (new, session["user"]))
-        conn.commit()
-
-    conn.close()
-
-    return redirect("/admin")
-
-
-# =========================
-# RUN
+# RUN APP
 # =========================
 if __name__ == "__main__":
     app.run(debug=True)
