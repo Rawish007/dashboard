@@ -241,6 +241,33 @@ def dashboard():
         data=data
 
     )
+    @app.route("/analytics")
+def analytics():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM analytics ORDER BY id DESC")
+    data = c.fetchall()
+
+    conn.close()
+
+    labels = []
+    amounts = []
+
+    for row in data:
+        labels.append(row[1])
+        amounts.append(row[2])
+
+    return render_template(
+        "analytics.html",
+        labels=labels,
+        amounts=amounts,
+        data=data
+    )
 
 
 # =========================
