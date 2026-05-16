@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Admin Panel</title>
+<title>UMEED Admin Panel</title>
 
 <link rel="stylesheet"
 href="{{ url_for('static', filename='style.css') }}">
@@ -20,6 +20,7 @@ href="{{ url_for('static', filename='style.css') }}">
 
     <a href="/">📊 Dashboard</a>
     <a href="/admin">⚙️ Admin Panel</a>
+    <a href="/logout">🚪 Logout</a>
 
 </div>
 
@@ -37,42 +38,7 @@ href="{{ url_for('static', filename='style.css') }}">
 
     </div>
 
-    <!-- FORM SECTION -->
-
-    <form method="POST">
-
-        <h2>Add Analytics Data</h2>
-
-        <!-- DATE -->
-
-        <label>Date</label>
-
-        <input
-        type="date"
-        name="day"
-        required>
-
-        <!-- AMOUNT -->
-
-        <label>Recovery Amount</label>
-
-        <input
-        type="number"
-        name="amount"
-        placeholder="Enter Amount"
-        required>
-
-        <!-- SUBMIT -->
-
-        <button type="submit">
-
-            ➕ Add Analytics
-
-        </button>
-
-    </form>
-
-    <!-- QUICK INFO -->
+    <!-- QUICK STATUS -->
 
     <div class="cards">
 
@@ -80,7 +46,7 @@ href="{{ url_for('static', filename='style.css') }}">
 
             <h3>Daily Analytics</h3>
 
-            <p>Track Daily Recovery</p>
+            <p>📈 Active</p>
 
         </div>
 
@@ -88,7 +54,7 @@ href="{{ url_for('static', filename='style.css') }}">
 
             <h3>Weekly Reports</h3>
 
-            <p>Compare Weekly Growth</p>
+            <p>📊 Running</p>
 
         </div>
 
@@ -96,17 +62,163 @@ href="{{ url_for('static', filename='style.css') }}">
 
             <h3>Monthly Reports</h3>
 
-            <p>Monitor Monthly Performance</p>
+            <p>🚀 Enabled</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Database Status</h3>
+
+            <p>🟢 Connected</p>
 
         </div>
 
     </div>
 
-    <!-- GUIDE BOX -->
+    <!-- FORM SECTION -->
 
     <div class="chart-box">
 
-        <h2>Admin Instructions</h2>
+        <h2>Add Recovery Analytics</h2>
+
+        <form method="POST">
+
+            <!-- DATE -->
+
+            <label>Select Date</label>
+
+            <input
+            type="date"
+            name="day"
+            required>
+
+            <!-- AMOUNT -->
+
+            <label>Recovery Amount</label>
+
+            <input
+            type="number"
+            name="amount"
+            placeholder="Enter Recovery Amount"
+            required>
+
+            <!-- BUTTON -->
+
+            <button type="submit">
+
+                ➕ Add Analytics
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- ANALYTICS TOOLS -->
+
+    <div class="analytics-grid">
+
+        <div class="mini-card">
+
+            <h4>Daily Tracking</h4>
+
+            <p>
+
+                Track every day's recovery,
+                growth and analytics automatically.
+
+            </p>
+
+        </div>
+
+        <div class="mini-card">
+
+            <h4>Weekly Comparison</h4>
+
+            <p>
+
+                Compare current week with previous week performance.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- EXTRA INFO -->
+
+    <div class="table-box">
+
+        <h2>Admin Features</h2>
+
+        <table>
+
+            <tr>
+
+                <th>Feature</th>
+                <th>Status</th>
+
+            </tr>
+
+            <tr>
+
+                <td>Daily Analytics</td>
+                <td>✅ Enabled</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Weekly Reports</td>
+                <td>✅ Enabled</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Monthly Reports</td>
+                <td>✅ Enabled</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Yearly Reports</td>
+                <td>✅ Enabled</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Private Dashboard</td>
+                <td>🔒 Protected</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Database System</td>
+                <td>🟢 Connected</td>
+
+            </tr>
+
+            <tr>
+
+                <td>Charts & Graphs</td>
+                <td>📈 Active</td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- GUIDE -->
+
+    <div class="chart-box">
+
+        <h2>How To Use</h2>
 
         <p>
 
@@ -114,11 +226,15 @@ href="{{ url_for('static', filename='style.css') }}">
 
             • Recovery amount enter karo <br><br>
 
-            • Add Analytics press karo <br><br>
+            • Add Analytics button press karo <br><br>
 
             • Dashboard automatically update hojayega <br><br>
 
-            • Weekly, Monthly, Yearly analytics auto calculate hongi
+            • Weekly, Monthly, Yearly analytics auto calculate hongi <br><br>
+
+            • Graphs automatically generate hongi <br><br>
+
+            • Data securely database me save hoga
 
         </p>
 
