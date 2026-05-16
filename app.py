@@ -302,6 +302,27 @@ def admin():
 # =========================
 @app.route("/add-user", methods=["POST"])
 def add_user():
+    # =========================
+# DELETE RECOVERY
+# =========================
+@app.route("/delete-recovery/<int:id>")
+def delete_recovery(id):
+
+    if "user" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+
+    c.execute(
+        "DELETE FROM analytics WHERE id=?",
+        (id,)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/admin")
 
     if "user" not in session:
         return redirect("/login")
