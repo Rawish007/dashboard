@@ -116,6 +116,41 @@ body{
     font-weight:700;
 }
 
+/* FILTER */
+
+.filter-box{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:25px;
+    display:flex;
+    gap:15px;
+    align-items:center;
+    flex-wrap:wrap;
+    box-shadow:0 4px 18px rgba(0,0,0,0.04);
+}
+
+.filter-box input,
+.filter-box button{
+    padding:12px;
+    border-radius:12px;
+    border:1px solid #e5e7eb;
+    font-size:14px;
+}
+
+.filter-box button{
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.filter-box button:hover{
+    background:#1d4ed8;
+}
+
 /* CARDS */
 
 .cards{
@@ -341,6 +376,21 @@ tr:hover{
         </div>
 
     </div>
+
+    <!-- FILTER -->
+
+    <form method="GET" class="filter-box">
+
+        <input type="date" name="start_date">
+
+        <input type="date" name="end_date">
+
+        <button type="submit">
+            <i class="fa-solid fa-filter"></i>
+            Apply Filter
+        </button>
+
+    </form>
 
     <!-- CARDS -->
 
