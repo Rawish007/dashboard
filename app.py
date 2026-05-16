@@ -131,7 +131,8 @@ def dashboard():
     best_day = 0
 
     labels = []
-    amounts = []
+    amounts = [] 
+    
 filter_days = request.args.get("filter")
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
@@ -154,6 +155,7 @@ filter_days = request.args.get("filter")
     # =====================
 
     for row in data:
+        
 date = datetime.strptime(row[1], "%Y-%m-%d").date()
 
 if filter_days:
@@ -161,6 +163,7 @@ if filter_days:
 
     if date < limit_date:
         continue
+        
         try:
 
             amount = int(row[2])
