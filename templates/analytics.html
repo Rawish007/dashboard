@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Analytics</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<h2>Analytics Page</h2>
+
+<canvas id="chart"></canvas>
+
+<script>
+
+const labels = {{ labels|tojson }};
+const amounts = {{ amounts|tojson }};
+
+new Chart(document.getElementById("chart"), {
+    type: "line",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Recovery Trend",
+            data: amounts,
+            borderColor: "#2563eb",
+            tension: 0.4
+        }]
+    }
+});
+
+</script>
+
+</body>
+</html>
