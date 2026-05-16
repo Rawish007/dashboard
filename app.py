@@ -1,27 +1,3 @@
-from flask import Flask, render_template, request, redirect
-import sqlite3
-
-app = Flask(__name__)
-
-# DATABASE CREATE
-def init_db():
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
-
-    c.execute("""
-    CREATE TABLE IF NOT EXISTS analytics (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        day TEXT,
-        amount INTEGER
-    )
-    """)
-
-    conn.commit()
-    conn.close()
-
-init_db()
-
-# DASHBOARD
 @app.route("/")
 def dashboard():
 
@@ -33,6 +9,15 @@ def dashboard():
 
     total = sum([row[2] for row in data])
 
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    today_total = sum(
+        row[2] for row in data
+        if row[1] == today
+    )
+
+    total_entries = len(data)
+
     labels = [row[1] for row in data]
     amounts = [row[2] for row in data]
 
@@ -40,34 +25,12 @@ def dashboard():
 
     return render_template(
         "dashboard.html",
+
         total=total,
+        today_total=today_total,
+        total_entries=total_entries,
+
         labels=labels,
-        amounts=amounts
+        amounts=amounts,
+        data=data[::-1]
     )
-
-# ADMIN PANEL
-@app.route("/admin", methods=["GET", "POST"])
-def admin():
-
-    if request.method == "POST":
-
-        day = request.form["day"]
-        amount = request.form["amount"]
-
-        conn = sqlite3.connect("database.db")
-        c = conn.cursor()
-
-        c.execute(
-            "INSERT INTO analytics (day, amount) VALUES (?, ?)",
-            (day, amount)
-        )
-
-        conn.commit()
-        conn.close()
-
-        return redirect("/")
-
-    return render_template("admin.html")
-
-if __name__ == "__main__":
-    app.run(debug=True)
