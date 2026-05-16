@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Dashboard</title>
+<title>UMEED Analytics</title>
 
 <link rel="stylesheet"
 href="{{ url_for('static', filename='style.css') }}">
@@ -14,34 +14,161 @@ href="{{ url_for('static', filename='style.css') }}">
 
 <body>
 
+<!-- SIDEBAR -->
+
 <div class="sidebar">
 
     <h2>UMEED</h2>
 
-    <a href="/">Dashboard</a>
-    <a href="/admin">Admin</a>
+    <a href="/">📊 Dashboard</a>
+    <a href="/admin">⚙️ Admin Panel</a>
 
 </div>
 
+<!-- MAIN -->
+
 <div class="main">
 
-    <h1>Analytics Dashboard</h1>
+    <!-- TOP -->
 
-    <div class="card">
+    <div class="topbar">
 
-        <h3>Total Recovery</h3>
+        <h1>Analytics Dashboard</h1>
 
-        <p>Rs {{ total }}</p>
+        <div class="profile"></div>
 
     </div>
 
+    <!-- CARDS -->
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Recovery</h3>
+            <p>Rs {{ total }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Today</h3>
+            <p>Rs {{ today_total }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Yesterday</h3>
+            <p>Rs {{ yesterday_total }}</p>
+        </div>
+
+        <div class="card">
+            <h3>This Week</h3>
+            <p>Rs {{ this_week }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Last Week</h3>
+            <p>Rs {{ last_week }}</p>
+        </div>
+
+        <div class="card">
+            <h3>This Month</h3>
+            <p>Rs {{ this_month }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Last Month</h3>
+            <p>Rs {{ last_month }}</p>
+        </div>
+
+        <div class="card">
+            <h3>This Year</h3>
+            <p>Rs {{ this_year }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Best Day</h3>
+            <p>Rs {{ best_day }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Worst Day</h3>
+            <p>Rs {{ worst_day }}</p>
+        </div>
+
+    </div>
+
+    <!-- GRAPH -->
+
     <div class="chart-box">
+
+        <h2>Recovery Analytics</h2>
 
         <canvas id="myChart"></canvas>
 
     </div>
 
+    <!-- EXTRA ANALYTICS -->
+
+    <div class="analytics-grid">
+
+        <div class="mini-card">
+            <h4>Weekly Performance</h4>
+
+            <p>
+                {% if this_week > last_week %}
+                    📈 Better Than Last Week
+                {% else %}
+                    📉 Lower Than Last Week
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="mini-card">
+            <h4>Monthly Performance</h4>
+
+            <p>
+                {% if this_month > last_month %}
+                    🚀 Growth This Month
+                {% else %}
+                    ⚠️ Lower Than Last Month
+                {% endif %}
+            </p>
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-box">
+
+        <h2>Recent Analytics</h2>
+
+        <table>
+
+            <tr>
+
+                <th>Date</th>
+                <th>Amount</th>
+
+            </tr>
+
+            {% for row in data %}
+
+            <tr>
+
+                <td>{{ row[1] }}</td>
+
+                <td>Rs {{ row[2] }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
 </div>
+
+<!-- CHART -->
 
 <script>
 
@@ -57,14 +184,37 @@ new Chart(ctx, {
 
         datasets: [{
 
-            label: 'Recovery',
+            label: 'Recovery Analytics',
 
             data: {{ amounts|tojson }},
 
             borderColor: '#2563eb',
-            tension: 0.4
+
+            backgroundColor:'rgba(37,99,235,0.1)',
+
+            fill:true,
+
+            tension:0.4,
+
+            pointRadius:5,
+
+            pointBackgroundColor:'#2563eb'
 
         }]
+    },
+
+    options:{
+
+        responsive:true,
+
+        plugins:{
+
+            legend:{
+                display:true
+            }
+
+        }
+
     }
 
 });
