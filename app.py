@@ -10,9 +10,11 @@ app.secret_key = "umeedsecret"
 # DATABASE INIT
 # =========================
 def init_db():
+
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
+    # ANALYTICS TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS analytics(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,6 +23,7 @@ def init_db():
     )
     """)
 
+    # USERS TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,13 +32,13 @@ def init_db():
     )
     """)
 
-    # AUTO ADMIN
+    # DEFAULT ADMIN
     c.execute("SELECT COUNT(*) FROM users")
     count = c.fetchone()[0]
 
     if count == 0:
         c.execute(
-            "INSERT INTO users(username, password) VALUES(?,?)",
+            "INSERT INTO users(username,password) VALUES(?,?)",
             ("rawishtahir", "RAWiSH786rawi@")
         )
 
@@ -53,6 +56,7 @@ init_db()
 def login():
 
     if request.method == "POST":
+
         username = request.form["username"]
         password = request.form["password"]
 
@@ -65,13 +69,18 @@ def login():
         )
 
         user = c.fetchone()
+
         conn.close()
 
         if user:
             session["user"] = username
             return redirect("/")
+
         else:
-            return render_template("login.html", error="Invalid login")
+            return render_template(
+                "login.html",
+                error="Invalid Login"
+            )
 
     return render_template("login.html")
 
@@ -81,12 +90,14 @@ def login():
 # =========================
 @app.route("/logout")
 def logout():
+
     session.clear()
+
     return redirect("/login")
 
 
 # =========================
-# DASHBOARD (FULL FIXED + STATS)
+# DASHBOARD
 # =========================
 @app.route("/")
 def dashboard():
@@ -98,14 +109,26 @@ def dashboard():
     c = conn.cursor()
 
     c.execute("SELECT * FROM analytics ORDER BY id ASC")
+
     data = c.fetchall()
+
     conn.close()
+
+    # =====================
+    # DEFAULT VALUES
+    # =====================
 
     total = 0
     today_total = 0
     yesterday_total = 0
+
     this_week = 0
     last_week = 0
+
+    this_month = 0
+    last_month = 0
+
+    best_day = 0
 
     labels = []
     amounts = []
@@ -114,37 +137,109 @@ def dashboard():
     yesterday = today - timedelta(days=1)
 
     current_week = today.isocalendar()[1]
+    current_year = today.year
+
+    current_month = today.month
+
+    # LAST MONTH LOGIC
+    if current_month == 1:
+        previous_month = 12
+        previous_month_year = current_year - 1
+    else:
+        previous_month = current_month - 1
+        previous_month_year = current_year
+
+    # =====================
+    # LOOP DATA
+    # =====================
 
     for row in data:
-        amount = int(row[2])
-        date = datetime.strptime(row[1], "%Y-%m-%d").date()
 
-        total += amount
-        labels.append(row[1])
-        amounts.append(amount)
+        try:
 
-        if date == today:
-            today_total += amount
+            amount = int(row[2])
 
-        if date == yesterday:
-            yesterday_total += amount
+            date = datetime.strptime(
+                row[1],
+                "%Y-%m-%d"
+            ).date()
 
-        if date.isocalendar()[1] == current_week:
-            this_week += amount
+            # TOTAL
+            total += amount
 
-        if date.isocalendar()[1] == current_week - 1:
-            last_week += amount
+            # CHART
+            labels.append(row[1])
+            amounts.append(amount)
+
+            # BEST DAY
+            if amount > best_day:
+                best_day = amount
+
+            # TODAY
+            if date == today:
+                today_total += amount
+
+            # YESTERDAY
+            if date == yesterday:
+                yesterday_total += amount
+
+            # THIS WEEK
+            if (
+                date.isocalendar()[1] == current_week
+                and date.year == current_year
+            ):
+                this_week += amount
+
+            # LAST WEEK
+            if (
+                date.isocalendar()[1] == current_week - 1
+                and date.year == current_year
+            ):
+                last_week += amount
+
+            # THIS MONTH
+            if (
+                date.month == current_month
+                and date.year == current_year
+            ):
+                this_month += amount
+
+            # LAST MONTH
+            if (
+                date.month == previous_month
+                and date.year == previous_month_year
+            ):
+                last_month += amount
+
+        except:
+            pass
 
     return render_template(
+
         "dashboard.html",
+
         total=total,
+
         today_total=today_total,
+
         yesterday_total=yesterday_total,
+
         this_week=this_week,
+
         last_week=last_week,
+
+        this_month=this_month,
+
+        last_month=last_month,
+
+        best_day=best_day,
+
         labels=labels,
+
         amounts=amounts,
+
         data=data
+
     )
 
 
@@ -160,22 +255,30 @@ def admin():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
+    # ADD DATA
     if request.method == "POST":
+
         day = request.form["day"]
         amount = request.form["amount"]
 
         c.execute(
-            "INSERT INTO analytics(day, amount) VALUES(?,?)",
+            "INSERT INTO analytics(day,amount) VALUES(?,?)",
             (day, amount)
         )
+
         conn.commit()
 
+    # USERS
     c.execute("SELECT * FROM users ORDER BY id DESC")
+
     users = c.fetchall()
 
     conn.close()
 
-    return render_template("admin.html", users=users)
+    return render_template(
+        "admin.html",
+        users=users
+    )
 
 
 # =========================
@@ -194,7 +297,7 @@ def add_user():
     c = conn.cursor()
 
     c.execute(
-        "INSERT INTO users(username, password) VALUES(?,?)",
+        "INSERT INTO users(username,password) VALUES(?,?)",
         (username, password)
     )
 
@@ -216,7 +319,11 @@ def delete_user(id):
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute("DELETE FROM users WHERE id=?", (id,))
+    c.execute(
+        "DELETE FROM users WHERE id=?",
+        (id,)
+    )
+
     conn.commit()
     conn.close()
 
@@ -224,7 +331,8 @@ def delete_user(id):
 
 
 # =========================
-# RUN
+# RUN APP
 # =========================
 if __name__ == "__main__":
+
     app.run(debug=True)
