@@ -469,13 +469,10 @@ tr:hover{
                 <th>Action</th>
             </tr>
 
-            {% for u in users %}
-
-            {% if u[1] != 'rawishtahir' %}
-
+{% for u in users if u[1] != 'rawishtahir' %}
             <tr>
 
-                <td>{{ u[0] }}</td>
+                <td>{{ loop.index }}</td>
 
                 <td>{{ u[1] }}</td>
 
