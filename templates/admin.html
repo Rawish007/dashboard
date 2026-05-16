@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Admin</title>
+<title>Admin Panel</title>
 
 <link rel="stylesheet"
 href="{{ url_for('static', filename='style.css') }}">
@@ -12,29 +12,117 @@ href="{{ url_for('static', filename='style.css') }}">
 
 <body>
 
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <h2>UMEED</h2>
+
+    <a href="/">📊 Dashboard</a>
+    <a href="/admin">⚙️ Admin Panel</a>
+
+</div>
+
+<!-- MAIN -->
+
 <div class="main">
 
-<h1>Admin Panel</h1>
+    <!-- TOPBAR -->
 
-<form method="POST">
+    <div class="topbar">
 
-    <input
-    type="text"
-    name="day"
-    placeholder="Monday">
+        <h1>Admin Panel</h1>
 
-    <input
-    type="number"
-    name="amount"
-    placeholder="Amount">
+        <div class="profile"></div>
 
-    <button type="submit">
+    </div>
 
-        Add Data
+    <!-- FORM SECTION -->
 
-    </button>
+    <form method="POST">
 
-</form>
+        <h2>Add Analytics Data</h2>
+
+        <!-- DATE -->
+
+        <label>Date</label>
+
+        <input
+        type="date"
+        name="day"
+        required>
+
+        <!-- AMOUNT -->
+
+        <label>Recovery Amount</label>
+
+        <input
+        type="number"
+        name="amount"
+        placeholder="Enter Amount"
+        required>
+
+        <!-- SUBMIT -->
+
+        <button type="submit">
+
+            ➕ Add Analytics
+
+        </button>
+
+    </form>
+
+    <!-- QUICK INFO -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Daily Analytics</h3>
+
+            <p>Track Daily Recovery</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Weekly Reports</h3>
+
+            <p>Compare Weekly Growth</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Monthly Reports</h3>
+
+            <p>Monitor Monthly Performance</p>
+
+        </div>
+
+    </div>
+
+    <!-- GUIDE BOX -->
+
+    <div class="chart-box">
+
+        <h2>Admin Instructions</h2>
+
+        <p>
+
+            • Date select karo <br><br>
+
+            • Recovery amount enter karo <br><br>
+
+            • Add Analytics press karo <br><br>
+
+            • Dashboard automatically update hojayega <br><br>
+
+            • Weekly, Monthly, Yearly analytics auto calculate hongi
+
+        </p>
+
+    </div>
 
 </div>
 
