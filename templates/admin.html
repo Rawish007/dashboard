@@ -8,7 +8,6 @@
 <link rel="stylesheet"
 href="{{ url_for('static', filename='style.css') }}">
 
-<!-- ICONS -->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -30,7 +29,6 @@ body{
 }
 
 /* SIDEBAR */
-
 .sidebar{
     width:230px;
     height:100vh;
@@ -46,8 +44,6 @@ body{
     margin-bottom:25px;
 }
 
-/* MENU */
-
 .menu a{
     display:flex;
     align-items:center;
@@ -58,7 +54,6 @@ body{
     color:#475569;
     border-radius:10px;
     font-size:14px;
-    transition:0.2s;
 }
 
 .menu a:hover{
@@ -67,14 +62,12 @@ body{
 }
 
 /* MAIN */
-
 .main{
     flex:1;
     padding:25px;
 }
 
 /* HEADER */
-
 .header{
     display:flex;
     justify-content:space-between;
@@ -96,33 +89,31 @@ body{
     font-size:12px;
 }
 
-/* BOX */
+/* TOP GRID (NEW) */
+.top-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
 
+/* BOX */
 .box{
     background:white;
     padding:18px;
-    margin-top:18px;
     border-radius:14px;
     border:1px solid #e2e8f0;
 }
 
 /* INPUT */
-
 input, select{
     width:100%;
     padding:12px;
     margin:8px 0;
     border:1px solid #e2e8f0;
     border-radius:10px;
-    outline:none;
-}
-
-input:focus, select:focus{
-    border-color:#2563eb;
 }
 
 /* BUTTON */
-
 button{
     padding:12px;
     background:#2563eb;
@@ -131,6 +122,7 @@ button{
     border-radius:10px;
     cursor:pointer;
     font-weight:600;
+    width:100%;
 }
 
 button:hover{
@@ -138,7 +130,6 @@ button:hover{
 }
 
 /* TABLE */
-
 table{
     width:100%;
     border-collapse:collapse;
@@ -148,7 +139,8 @@ table{
 th{
     text-align:left;
     font-size:13px;
-    color:#64748b;
+    color:#fff;   /* FIXED WHITE TEXT */
+    background:#2563eb;
     padding:10px;
 }
 
@@ -156,16 +148,15 @@ td{
     padding:12px 10px;
     border-top:1px solid #f1f5f9;
     font-size:14px;
+    color:#0f172a;
 }
 
 /* ROLE */
-
 .role-admin{color:#ef4444;font-weight:600;}
 .role-editor{color:#f59e0b;font-weight:600;}
 .role-viewer{color:#3b82f6;font-weight:600;}
 
 /* DELETE */
-
 .delete{
     color:#ef4444;
     text-decoration:none;
@@ -183,7 +174,6 @@ td{
 <body>
 
 <!-- SIDEBAR -->
-
 <div class="sidebar">
 
     <div class="logo">UMEED</div>
@@ -191,9 +181,7 @@ td{
     <div class="menu">
 
         <a href="/"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-
         <a href="/admin"><i class="fa-solid fa-gear"></i> Admin Panel</a>
-
         <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 
     </div>
@@ -201,63 +189,61 @@ td{
 </div>
 
 <!-- MAIN -->
-
 <div class="main">
 
     <!-- HEADER -->
-
     <div class="header">
 
         <h1>Admin Panel</h1>
 
-        <div class="badge">
-            Secure System
+        <div class="badge">Secure System</div>
+
+    </div>
+
+    <!-- TOP GRID -->
+    <div class="top-grid">
+
+        <!-- LEFT: ANALYTICS -->
+        <div class="box">
+
+            <h2>Add Recovery</h2>
+
+            <form method="POST">
+
+                <input type="date" name="day" required>
+                <input type="number" name="amount" placeholder="Amount" required>
+
+                <button type="submit">Add</button>
+
+            </form>
+
+        </div>
+
+        <!-- RIGHT: CREATE USER -->
+        <div class="box">
+
+            <h2>Create User</h2>
+
+            <form action="/add-user" method="POST">
+
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+
+                <select name="role" required>
+                    <option value="viewer">Viewer</option>
+                    <option value="editor">Editor</option>
+                    <option value="admin">Admin</option>
+                </select>
+
+                <button type="submit">Create</button>
+
+            </form>
+
         </div>
 
     </div>
 
-    <!-- ANALYTICS -->
-
-    <div class="box">
-
-        <h2>Add Recovery</h2>
-
-        <form method="POST">
-
-            <input type="date" name="day" required>
-            <input type="number" name="amount" placeholder="Amount" required>
-
-            <button type="submit">Add</button>
-
-        </form>
-
-    </div>
-
-    <!-- CREATE USER -->
-
-    <div class="box">
-
-        <h2>Create User</h2>
-
-        <form action="/add-user" method="POST">
-
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-
-            <select name="role" required>
-                <option value="viewer">Viewer</option>
-                <option value="editor">Editor</option>
-                <option value="admin">Admin</option>
-            </select>
-
-            <button type="submit">Create</button>
-
-        </form>
-
-    </div>
-
-    <!-- USERS -->
-
+    <!-- USERS TABLE -->
     <div class="box">
 
         <h2>Users</h2>
