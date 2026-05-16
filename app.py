@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 import sqlite3
-from datetime import datetime, timedelta
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "umeedsecret"
@@ -22,7 +22,7 @@ def init_db():
     )
     """)
 
-    # users table (UPDATED)
+    # users table
     c.execute("""
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,13 +31,11 @@ def init_db():
     )
     """)
 
-    # default admin (ONLY ONCE)
+    # default admin
     c.execute("SELECT * FROM users WHERE username=?", ("rawish",))
     if not c.fetchone():
-        c.execute(
-            "INSERT INTO users(username, password) VALUES(?,?)",
-            ("rawish", "12345")
-        )
+        c.execute("INSERT INTO users(username, password) VALUES(?,?)",
+                  ("rawish", "12345"))
 
     conn.commit()
     conn.close()
@@ -46,13 +44,14 @@ init_db()
 
 
 # =========================
-# LOGIN (FIXED)
+# LOGIN
 # =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
-    if request.method == "POST":
+    error = None
 
+    if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
 
@@ -69,9 +68,9 @@ def login():
             session["user"] = user[1]
             return redirect("/")
         else:
-            return "Invalid username or password"
+            error = "Invalid username or password"
 
-    return render_template("login.html")
+    return render_template("login.html", error=error)
 
 
 # =========================
@@ -95,27 +94,21 @@ def dashboard():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute("SELECT * FROM analytics")
+    c.execute("SELECT * FROM analytics ORDER BY id DESC")
     data = c.fetchall()
+
     conn.close()
 
-    total = 0
-    labels = []
-    amounts = []
-
-    today_total = 0
+    total = sum(int(row[2]) for row in data)
     today = datetime.now().date()
 
-    for row in data:
-        amount = int(row[2])
-        date = datetime.strptime(row[1], "%Y-%m-%d").date()
+    today_total = sum(
+        int(row[2]) for row in data
+        if datetime.strptime(row[1], "%Y-%m-%d").date() == today
+    )
 
-        total += amount
-        labels.append(row[1])
-        amounts.append(amount)
-
-        if date == today:
-            today_total += amount
+    labels = [row[1] for row in data]
+    amounts = [int(row[2]) for row in data]
 
     return render_template(
         "dashboard.html",
@@ -123,12 +116,12 @@ def dashboard():
         today_total=today_total,
         labels=labels,
         amounts=amounts,
-        data=data[::-1]
+        data=data
     )
 
 
 # =========================
-# ADMIN PANEL (USERS + RECOVERY)
+# ADMIN PANEL
 # =========================
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
@@ -139,7 +132,6 @@ def admin():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    # ADD RECOVERY
     if request.method == "POST":
         day = request.form["day"]
         amount = request.form["amount"]
@@ -148,7 +140,6 @@ def admin():
                   (day, amount))
         conn.commit()
 
-    # GET USERS
     c.execute("SELECT * FROM users")
     users = c.fetchall()
 
@@ -172,10 +163,13 @@ def add_user():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute("INSERT INTO users(username, password) VALUES(?,?)",
-              (username, password))
+    try:
+        c.execute("INSERT INTO users(username, password) VALUES(?,?)",
+                  (username, password))
+        conn.commit()
+    except:
+        pass
 
-    conn.commit()
     conn.close()
 
     return redirect("/admin")
@@ -187,11 +181,13 @@ def add_user():
 @app.route("/delete-user/<int:id>")
 def delete_user(id):
 
+    if "user" not in session:
+        return redirect("/login")
+
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
     c.execute("DELETE FROM users WHERE id=?", (id,))
-
     conn.commit()
     conn.close()
 
@@ -199,7 +195,7 @@ def delete_user(id):
 
 
 # =========================
-# CHANGE PASSWORD (ADMIN CONTROL)
+# CHANGE PASSWORD
 # =========================
 @app.route("/change-password", methods=["POST"])
 def change_password():
@@ -222,15 +218,14 @@ def change_password():
         c.execute("UPDATE users SET password=? WHERE username=?",
                   (new, session["user"]))
         conn.commit()
-        conn.close()
-        return redirect("/admin")
-    else:
-        conn.close()
-        return "Old password wrong"
+
+    conn.close()
+
+    return redirect("/admin")
 
 
 # =========================
-# RUN APP
+# RUN
 # =========================
 if __name__ == "__main__":
     app.run(debug=True)
