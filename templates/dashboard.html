@@ -1,143 +1,551 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-<title>UMEED Analytics</title>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>UMEED Analytics</title>
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-body{
+
+*{
     margin:0;
-    font-family:Inter,sans-serif;
-    display:flex;
-    background:#f5f6f8;
+    padding:0;
+    box-sizing:border-box;
 }
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#f5f6f8;
+    color:#111;
+    display:flex;
+}
+
+/* SIDEBAR */
 
 .sidebar{
-    width:240px;
+    width:250px;
     height:100vh;
     background:#fff;
-    border-right:1px solid #ddd;
-    padding:20px;
+    border-right:1px solid #e5e7eb;
+    padding:24px;
+    position:fixed;
+    left:0;
+    top:0;
 }
 
-.sidebar h2{
-    font-size:22px;
-    margin-bottom:20px;
+.logo{
+    font-size:24px;
+    font-weight:800;
+    margin-bottom:35px;
+    color:#111;
 }
 
-.sidebar a{
-    display:block;
-    padding:10px;
-    margin:6px 0;
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    margin-bottom:10px;
+    border-radius:12px;
     text-decoration:none;
-    color:#333;
-    border-radius:8px;
+    color:#111;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
 }
 
-.sidebar a:hover{
-    background:#f1f1f1;
+.menu a:hover{
+    background:#f3f4f6;
 }
+
+.menu i{
+    font-size:16px;
+}
+
+/* MAIN */
 
 .main{
-    flex:1;
-    padding:25px;
+    margin-left:250px;
+    width:100%;
+    padding:30px;
 }
+
+/* HEADER */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.topbar h1{
+    font-size:28px;
+    font-weight:800;
+}
+
+.badge{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    padding:10px 16px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+}
+
+/* CARDS */
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:15px;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
 }
 
 .card{
     background:#fff;
-    padding:15px;
+    border-radius:18px;
+    padding:22px;
+    border:1px solid #e5e7eb;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.card-top i{
+    width:42px;
+    height:42px;
+    background:#f3f4f6;
     border-radius:12px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
 }
 
 .card h3{
-    margin:0;
     font-size:14px;
-    color:#555;
+    color:#666;
+    font-weight:600;
 }
 
 .card p{
-    font-size:20px;
-    font-weight:bold;
-    margin-top:8px;
+    font-size:28px;
+    font-weight:800;
+    margin-top:10px;
 }
 
+/* CHART */
+
 .chart-box{
-    margin-top:20px;
     background:#fff;
-    padding:20px;
-    border-radius:12px;
+    border:1px solid #e5e7eb;
+    border-radius:18px;
+    padding:25px;
+    margin-top:25px;
 }
+
+.chart-box h2{
+    font-size:20px;
+    margin-bottom:20px;
+}
+
+/* PERFORMANCE */
+
+.performance{
+    margin-top:25px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:18px;
+}
+
+.performance-card{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:18px;
+    padding:22px;
+}
+
+.performance-card h3{
+    margin-bottom:15px;
+    font-size:17px;
+}
+
+.status{
+    padding:12px;
+    border-radius:12px;
+    background:#f3f4f6;
+    font-weight:600;
+}
+
+/* TABLE */
+
+.table-box{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:18px;
+    padding:25px;
+    margin-top:25px;
+}
+
+.table-box h2{
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    background:#f3f4f6;
+    padding:14px;
+    font-size:13px;
+}
+
+td{
+    padding:16px 14px;
+    border-bottom:1px solid #eee;
+    font-size:14px;
+}
+
+.amount{
+    font-weight:700;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    body{
+        flex-direction:column;
+    }
+
+}
+
 </style>
 
 </head>
 
 <body>
 
+<!-- SIDEBAR -->
+
 <div class="sidebar">
-    <h2><i class="fa-solid fa-building-columns"></i> UMEED</h2>
-    <a href="/"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
-    <a href="/admin"><i class="fa-solid fa-gear"></i> Admin Panel</a>
-    <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+
+    <div class="logo">
+        <i class="fa-solid fa-shield-halved"></i>
+        UMEED
+    </div>
+
+    <div class="menu">
+
+        <a href="/">
+            <i class="fa-solid fa-chart-line"></i>
+            Dashboard
+        </a>
+
+        <a href="/admin">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            Admin Panel
+        </a>
+
+        <a href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
+
+    </div>
+
 </div>
+
+<!-- MAIN -->
 
 <div class="main">
 
-    <h2><i class="fa-solid fa-chart-simple"></i> Analytics Dashboard</h2>
+    <!-- TOPBAR -->
 
-    <!-- CARDS -->
-    <div class="cards">
+    <div class="topbar">
 
-        <div class="card"><h3>Total Recovery</h3><p>Rs {{ total }}</p></div>
-        <div class="card"><h3>Today</h3><p>Rs {{ today_total }}</p></div>
-        <div class="card"><h3>Yesterday</h3><p>Rs {{ yesterday_total }}</p></div>
-        <div class="card"><h3>This Week</h3><p>Rs {{ this_week }}</p></div>
-        <div class="card"><h3>Last Week</h3><p>Rs {{ last_week }}</p></div>
+        <h1>
+            <i class="fa-solid fa-chart-simple"></i>
+            Analytics Dashboard
+        </h1>
+
+        <div class="badge">
+            <i class="fa-solid fa-lock"></i>
+            Secure Analytics
+        </div>
 
     </div>
 
-    <!-- BAR CHART (YOUR ADDED VERSION FIXED) -->
+    <!-- CARDS -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-top">
+                <h3>Total Recovery</h3>
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+
+            <p>Rs {{ total }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-top">
+                <h3>Today's Recovery</h3>
+                <i class="fa-solid fa-sack-dollar"></i>
+            </div>
+
+            <p>Rs {{ today_total }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-top">
+                <h3>Yesterday</h3>
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+
+            <p>Rs {{ yesterday_total }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-top">
+                <h3>This Week</h3>
+                <i class="fa-solid fa-chart-column"></i>
+            </div>
+
+            <p>Rs {{ this_week }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-top">
+                <h3>Last Week</h3>
+                <i class="fa-solid fa-calendar-week"></i>
+            </div>
+
+            <p>Rs {{ last_week }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-top">
+                <h3>This Month</h3>
+                <i class="fa-solid fa-calendar-days"></i>
+            </div>
+
+            <p>Rs {{ this_month }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-top">
+                <h3>Last Month</h3>
+                <i class="fa-solid fa-calendar-minus"></i>
+            </div>
+
+            <p>Rs {{ last_month }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-top">
+                <h3>Best Recovery</h3>
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+
+            <p>Rs {{ best_day }}</p>
+
+        </div>
+
+    </div>
+
+    <!-- CHART -->
+
     <div class="chart-box">
-        <h2>📊 Recovery Chart</h2>
+
+        <h2>
+            <i class="fa-solid fa-chart-bar"></i>
+            Recovery Analytics
+        </h2>
+
         <canvas id="myChart"></canvas>
+
+    </div>
+
+    <!-- PERFORMANCE -->
+
+    <div class="performance">
+
+        <div class="performance-card">
+
+            <h3>
+                <i class="fa-solid fa-arrow-trend-up"></i>
+                Weekly Performance
+            </h3>
+
+            <div class="status">
+
+                {% if this_week > last_week %}
+                    📈 Better than last week
+                {% elif this_week == last_week %}
+                    ➖ Same as last week
+                {% else %}
+                    📉 Lower than last week
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="performance-card">
+
+            <h3>
+                <i class="fa-solid fa-chart-pie"></i>
+                Monthly Performance
+            </h3>
+
+            <div class="status">
+
+                {% if this_month > last_month %}
+                    🚀 Growth this month
+                {% elif this_month == last_month %}
+                    ➖ Same as last month
+                {% else %}
+                    ⚠️ Lower than last month
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-box">
+
+        <h2>
+            <i class="fa-solid fa-table"></i>
+            Recent Recovery Data
+        </h2>
+
+        <table>
+
+            <tr>
+                <th>Date</th>
+                <th>Recovery Amount</th>
+            </tr>
+
+            {% for row in data %}
+
+            <tr>
+
+                <td>{{ row[1] }}</td>
+
+                <td class="amount">
+                    Rs {{ row[2] }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
     </div>
 
 </div>
 
+<!-- CHART -->
+
 <script>
+
 const ctx = document.getElementById('myChart');
 
 new Chart(ctx, {
+
     type: 'bar',
+
     data: {
+
         labels: {{ labels|tojson }},
+
         datasets: [{
+
             label: 'Daily Recovery',
+
             data: {{ amounts|tojson }},
+
             backgroundColor: '#111',
-            borderRadius: 6
+
+            borderRadius: 8
+
         }]
     },
+
     options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
+
+        responsive:true,
+
+        plugins:{
+            legend:{
+                display:true
+            }
+        },
+
+        scales:{
+            y:{
+                beginAtZero:true
             }
         }
+
     }
+
 });
+
 </script>
 
 </body>
