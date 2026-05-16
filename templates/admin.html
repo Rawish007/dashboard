@@ -3,7 +3,7 @@
 
 <head>
 
-<title>UMEED Panel</title>
+<title>UMEED Admin Panel</title>
 
 <link rel="stylesheet"
 href="{{ url_for('static', filename='style.css') }}">
@@ -23,43 +23,43 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 body{
     font-family:'Inter',sans-serif;
-    background:#f1f5f9;
+    background:#f5f6f8;
     display:flex;
-    color:#0f172a;
+    color:#111;
 }
 
 /* SIDEBAR */
 .sidebar{
-    width:240px;
+    width:250px;
     height:100vh;
-    background:#ffffff;
-    border-right:1px solid #e2e8f0;
+    background:#fff;
+    border-right:1px solid #e5e7eb;
     padding:22px;
 }
 
 .logo{
     font-size:22px;
     font-weight:800;
-    color:#2563eb;
+    color:#111;
     margin-bottom:30px;
 }
 
 .menu a{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:12px;
     padding:12px;
     margin:8px 0;
     text-decoration:none;
-    color:#475569;
+    color:#444;
     border-radius:10px;
     font-size:14px;
     transition:0.2s;
 }
 
 .menu a:hover{
-    background:#eef2ff;
-    color:#1d4ed8;
+    background:#f3f4f6;
+    color:#000;
 }
 
 /* MAIN */
@@ -79,38 +79,36 @@ body{
 .header h1{
     font-size:22px;
     font-weight:700;
+    color:#111;
 }
 
 .badge{
-    background:#dbeafe;
-    color:#1d4ed8;
+    background:#f3f4f6;
+    color:#111;
     padding:6px 14px;
     border-radius:999px;
     font-size:12px;
     font-weight:600;
+    border:1px solid #e5e7eb;
 }
 
-/* GRID */
-.top-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-    margin-bottom:25px;
-}
-
-/* CARD */
+/* CARDS */
 .box{
-    background:white;
+    background:#fff;
     padding:22px;
-    border-radius:16px;
-    border:1px solid #e2e8f0;
-    box-shadow:0 8px 20px rgba(0,0,0,0.04);
+    border-radius:14px;
+    border:1px solid #e5e7eb;
+    margin-bottom:20px;
 }
 
 .box h2{
-    font-size:16px;
-    margin-bottom:14px;
+    font-size:15px;
     font-weight:700;
+    margin-bottom:14px;
+    color:#111;
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 /* INPUT */
@@ -118,23 +116,22 @@ input, select{
     width:100%;
     padding:12px;
     margin:8px 0;
-    border:1px solid #e2e8f0;
+    border:1px solid #e5e7eb;
     border-radius:10px;
     outline:none;
     font-size:14px;
-    background:#fff;
 }
 
 input:focus, select:focus{
-    border-color:#2563eb;
+    border-color:#111;
 }
 
 /* BUTTON */
 button{
     width:100%;
     padding:12px;
-    background:#2563eb;
-    color:white;
+    background:#111;
+    color:#fff;
     border:none;
     border-radius:10px;
     cursor:pointer;
@@ -143,7 +140,7 @@ button{
 }
 
 button:hover{
-    background:#1d4ed8;
+    background:#000;
 }
 
 /* TABLE */
@@ -151,50 +148,38 @@ table{
     width:100%;
     border-collapse:collapse;
     margin-top:10px;
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
 }
 
 th{
     text-align:left;
     font-size:13px;
-    color:white;
-    background:#2563eb;
+    color:#111;
+    background:#f3f4f6;
     padding:12px;
+    border-bottom:1px solid #e5e7eb;
 }
 
 td{
     padding:14px 12px;
-    border-bottom:1px solid #f1f5f9;
+    border-bottom:1px solid #eee;
     font-size:14px;
-    color:#0f172a;
+    color:#111;
 }
 
 /* ROLE */
-.role-admin{color:#ef4444;font-weight:600;}
-.role-editor{color:#f59e0b;font-weight:600;}
-.role-viewer{color:#3b82f6;font-weight:600;}
+.role-admin{color:#000;font-weight:700;}
+.role-editor{color:#333;font-weight:600;}
+.role-viewer{color:#555;font-weight:500;}
 
 /* DELETE */
 .delete{
-    color:#ef4444;
-    text-decoration:none;
+    color:#111;
     font-weight:600;
+    text-decoration:none;
 }
 
 .delete:hover{
     text-decoration:underline;
-}
-
-/* SMALL RESPONSIVE */
-@media(max-width:900px){
-    .top-grid{
-        grid-template-columns:1fr;
-    }
-    .sidebar{
-        display:none;
-    }
 }
 
 </style>
@@ -203,59 +188,70 @@ td{
 
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
 
     <div class="logo">UMEED</div>
 
     <div class="menu">
 
-        <a href="/"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-        <a href="/admin"><i class="fa-solid fa-gear"></i> Admin Panel</a>
+        <a href="/"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+
+        <a href="/admin"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Panel</a>
+
         <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 
     </div>
 
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
     <div class="header">
-        <h1>Admin Panel</h1>
-        <div class="badge">Secure System</div>
+        <h1><i class="fa-solid fa-shield-halved"></i> Admin Panel</h1>
+        <div class="badge"><i class="fa-solid fa-lock"></i> Secure System</div>
     </div>
 
-    <div class="top-grid">
-
-        <div class="box">
-            <h2>Add Recovery</h2>
-            <form method="POST">
-                <input type="date" name="day" required>
-                <input type="number" name="amount" placeholder="Amount" required>
-                <button>Add Recovery</button>
-            </form>
-        </div>
-
-        <div class="box">
-            <h2>Create User</h2>
-            <form action="/add-user" method="POST">
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-
-                <select name="role" required>
-                    <option value="viewer">Viewer</option>
-                    <option value="editor">Editor</option>
-                    <option value="admin">Admin</option>
-                </select>
-
-                <button>Create User</button>
-            </form>
-        </div>
-
-    </div>
-
+    <!-- RECOVERY -->
     <div class="box">
 
-        <h2>Users</h2>
+        <h2><i class="fa-solid fa-sack-dollar"></i> Add Recovery</h2>
+
+        <form method="POST">
+            <input type="date" name="day" required>
+            <input type="number" name="amount" placeholder="Enter Amount" required>
+            <button><i class="fa-solid fa-plus"></i> Add Recovery</button>
+        </form>
+
+    </div>
+
+    <!-- CREATE USER -->
+    <div class="box">
+
+        <h2><i class="fa-solid fa-user-plus"></i> Create User</h2>
+
+        <form action="/add-user" method="POST">
+
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+
+            <select name="role" required>
+                <option value="viewer">👁 Viewer</option>
+                <option value="editor">✏ Editor</option>
+                <option value="admin">⚡ Admin</option>
+            </select>
+
+            <button><i class="fa-solid fa-user-check"></i> Create User</button>
+
+        </form>
+
+    </div>
+
+    <!-- USERS -->
+    <div class="box">
+
+        <h2><i class="fa-solid fa-users"></i> Users</h2>
 
         <table>
 
@@ -286,7 +282,9 @@ td{
                 </td>
 
                 <td>
-                    <a class="delete" href="/delete-user/{{ u[0] }}">Delete</a>
+                    <a class="delete" href="/delete-user/{{ u[0] }}">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </a>
                 </td>
 
             </tr>
