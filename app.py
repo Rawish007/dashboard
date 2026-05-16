@@ -346,6 +346,28 @@ def delete_user(id):
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
+    # USER CHECK
+    c.execute(
+        "SELECT username FROM users WHERE id=?",
+        (id,)
+    )
+
+    user = c.fetchone()
+
+    # MAIN ADMIN PROTECTION
+    if user and user[0] == "rawishtahir":
+
+        conn.close()
+
+        return """
+        <h2 style='font-family:sans-serif;
+        color:red;
+        padding:40px;'>
+        Main Admin Cannot Be Deleted 🔒
+        </h2>
+        """
+
+    # DELETE USER
     c.execute(
         "DELETE FROM users WHERE id=?",
         (id,)
