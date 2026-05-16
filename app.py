@@ -10,11 +10,9 @@ app.secret_key = "umeedsecret"
 # DATABASE INIT
 # =========================
 def init_db():
-
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    # ANALYTICS TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS analytics(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,7 +21,6 @@ def init_db():
     )
     """)
 
-    # USERS TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,11 +29,8 @@ def init_db():
     )
     """)
 
-    # DEFAULT ADMIN
     c.execute("SELECT COUNT(*) FROM users")
-    count = c.fetchone()[0]
-
-    if count == 0:
+    if c.fetchone()[0] == 0:
         c.execute(
             "INSERT INTO users(username,password) VALUES(?,?)",
             ("rawishtahir", "RAWiSH786rawi@")
@@ -54,7 +48,6 @@ init_db()
 # =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
-
     if request.method == "POST":
 
         username = request.form["username"]
@@ -69,18 +62,13 @@ def login():
         )
 
         user = c.fetchone()
-
         conn.close()
 
         if user:
             session["user"] = username
             return redirect("/")
-
         else:
-            return render_template(
-                "login.html",
-                error="Invalid Login"
-            )
+            return render_template("login.html", error="Invalid Login")
 
     return render_template("login.html")
 
@@ -90,9 +78,7 @@ def login():
 # =========================
 @app.route("/logout")
 def logout():
-
     session.clear()
-
     return redirect("/login")
 
 
@@ -101,61 +87,37 @@ def logout():
 # =========================
 @app.route("/")
 def dashboard():
-
     if "user" not in session:
         return redirect("/login")
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
-
     c.execute("SELECT * FROM analytics ORDER BY id DESC")
     data = c.fetchall()
-
     conn.close()
 
-    total = 0
-    today_total = 0
-    yesterday_total = 0
-
-    this_week = 0
-    last_week = 0
-
-    this_month = 0
-    last_month = 0
-
+    total = today_total = yesterday_total = 0
+    this_week = last_week = 0
+    this_month = last_month = 0
     best_day = 0
 
     labels = []
     amounts = []
-
-    filter_days = request.args.get("filter")
 
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
 
     current_week = today.isocalendar()[1]
     current_year = today.year
-
     current_month = today.month
 
-    if current_month == 1:
-        previous_month = 12
-        previous_month_year = current_year - 1
-    else:
-        previous_month = current_month - 1
-        previous_month_year = current_year
+    prev_month = 12 if current_month == 1 else current_month - 1
+    prev_month_year = current_year - 1 if current_month == 1 else current_year
 
     for row in data:
-
         try:
             amount = int(row[2])
-
             date = datetime.strptime(row[1], "%Y-%m-%d").date()
-
-            if filter_days:
-                limit_date = today - timedelta(days=int(filter_days))
-                if date < limit_date:
-                    continue
 
             total += amount
             labels.append(row[1])
@@ -173,13 +135,13 @@ def dashboard():
             if date.isocalendar()[1] == current_week and date.year == current_year:
                 this_week += amount
 
-            if date.isocalendar()[1] == current_week - 1 and date.year == current_year:
+            if date.isocalendar()[1] == current_week - 1:
                 last_week += amount
 
-            if date.month == current_month and date.year == current_year:
+            if date.month == current_month:
                 this_month += amount
 
-            if date.month == previous_month and date.year == previous_month_year:
+            if date.month == prev_month and date.year == prev_month_year:
                 last_month += amount
 
         except:
@@ -202,64 +164,23 @@ def dashboard():
 
 
 # =========================
-# ANALYTICS (FIXED HERE 👇)
+# ANALYTICS (FIXED - SINGLE ROUTE ONLY)
 # =========================
 @app.route("/analytics")
 def analytics():
-
     if "user" not in session:
         return redirect("/login")
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
-
-    c.execute("SELECT * FROM analytics ORDER BY id DESC")
-    data = c.fetchall()
-
-    conn.close()
-
-    labels = []
-    amounts = []
-
-    for row in data:
-        labels.append(row[1])
-        amounts.append(row[2])
-
-    return render_template(
-        "analytics.html",
-        labels=labels,
-        amounts=amounts,
-        data=data
-    )
-
-@app.route("/analytics")
-def analytics():
-
-    if "user" not in session:
-        return redirect("/login")
-
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
-
     c.execute("SELECT * FROM analytics ORDER BY id DESC")
     data = c.fetchall()
     conn.close()
 
-    # ---------------------------
-    # BASIC CALCULATION
-    # ---------------------------
-    today_val = 0
-    yesterday_val = 0
-    total_val = 0
-
-    week_now = 0
-    week_last = 0
-
-    month_now = 0
-    month_last = 0
-
-    year_now = 0
-    year_last = 0
+    today_val = yesterday_val = total_val = 0
+    week_now = week_last = 0
+    month_now = month_last = 0
+    year_now = year_last = 0
 
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
@@ -269,123 +190,91 @@ def analytics():
     current_month = today.month
 
     for row in data:
-
         try:
             amount = int(row[2])
             date = datetime.strptime(row[1], "%Y-%m-%d").date()
 
             total_val += amount
 
-            # TODAY / YESTERDAY
             if date == today:
                 today_val += amount
+
             if date == yesterday:
                 yesterday_val += amount
 
-            # WEEK
             if date.isocalendar()[1] == current_week:
                 week_now += amount
+
             if date.isocalendar()[1] == current_week - 1:
                 week_last += amount
 
-            # MONTH
             if date.month == current_month:
                 month_now += amount
-            if date.month == (current_month - 1):
+
+            if date.month == current_month - 1:
                 month_last += amount
 
-            # YEAR
             if date.year == current_year:
                 year_now += amount
+
             if date.year == current_year - 1:
                 year_last += amount
 
         except:
             pass
 
-    # dummy graphs (safe)
-    daily_labels = [r[1] for r in data[:10]]
-    daily_values = [r[2] for r in data[:10]]
-
-    week_labels = daily_labels
-    week_values = daily_values
-
-    month_labels = daily_labels
-    month_values = daily_values
-
-    year_labels = daily_labels
-    year_values = daily_values
+    labels = [r[1] for r in data[:10]]
+    values = [r[2] for r in data[:10]]
 
     return render_template(
         "analytics.html",
-
         today_val=today_val,
         yesterday_val=yesterday_val,
         total_val=total_val,
-
         week_now=week_now,
         week_last=week_last,
-
         month_now=month_now,
         month_last=month_last,
-
         year_now=year_now,
         year_last=year_last,
-
-        daily_labels=daily_labels,
-        daily_values=daily_values,
-
-        week_labels=week_labels,
-        week_values=week_values,
-
-        month_labels=month_labels,
-        month_values=month_values,
-
-        year_labels=year_labels,
-        year_values=year_values
+        daily_labels=labels,
+        daily_values=values,
+        week_labels=labels,
+        week_values=values,
+        month_labels=labels,
+        month_values=values,
+        year_labels=labels,
+        year_values=values
     )
 
 
 # =========================
-# ADMIN PANEL
+# ADMIN
 # =========================
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
-
     if "user" not in session:
         return redirect("/login")
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    # ADD RECOVERY
     if request.method == "POST":
-
-        day = request.form["day"]
-        amount = request.form["amount"]
-
         c.execute(
             "INSERT INTO analytics(day,amount) VALUES(?,?)",
-            (day, amount)
+            (request.form["day"], request.form["amount"])
         )
-
         conn.commit()
 
-    # RECOVERY DATA
     c.execute("SELECT * FROM analytics ORDER BY id DESC")
     data = c.fetchall()
 
-    # USERS
     c.execute("SELECT * FROM users ORDER BY id DESC")
     users = c.fetchall()
 
     conn.close()
 
-    return render_template(
-        "admin.html",
-        users=users,
-        data=data
-    )
+    return render_template("admin.html", data=data, users=users)
 
 
 # =========================
@@ -393,19 +282,15 @@ def admin():
 # =========================
 @app.route("/add-user", methods=["POST"])
 def add_user():
-
     if "user" not in session:
         return redirect("/login")
-
-    username = request.form["username"]
-    password = request.form["password"]
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
     c.execute(
         "INSERT INTO users(username,password) VALUES(?,?)",
-        (username, password)
+        (request.form["username"], request.form["password"])
     )
 
     conn.commit()
@@ -419,17 +304,13 @@ def add_user():
 # =========================
 @app.route("/delete-recovery/<int:id>")
 def delete_recovery(id):
-
     if "user" not in session:
         return redirect("/login")
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute(
-        "DELETE FROM analytics WHERE id=?",
-        (id,)
-    )
+    c.execute("DELETE FROM analytics WHERE id=?", (id,))
 
     conn.commit()
     conn.close()
@@ -438,44 +319,24 @@ def delete_recovery(id):
 
 
 # =========================
-# DELETE USER
+# DELETE USER (PROTECTED ADMIN)
 # =========================
 @app.route("/delete-user/<int:id>")
 def delete_user(id):
-
     if "user" not in session:
         return redirect("/login")
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    # USER CHECK
-    c.execute(
-        "SELECT username FROM users WHERE id=?",
-        (id,)
-    )
-
+    c.execute("SELECT username FROM users WHERE id=?", (id,))
     user = c.fetchone()
 
-    # MAIN ADMIN PROTECTION
     if user and user[0] == "rawishtahir":
-
         conn.close()
+        return "<h2 style='color:red'>Admin Protected</h2>"
 
-        return """
-        <h2 style='font-family:sans-serif;
-        color:red;
-        padding:40px;'>
-        Main Admin Cannot Be Deleted 🔒
-        </h2>
-        """
-
-    # DELETE USER
-    c.execute(
-        "DELETE FROM users WHERE id=?",
-        (id,)
-    )
-
+    c.execute("DELETE FROM users WHERE id=?", (id,))
     conn.commit()
     conn.close()
 
@@ -483,8 +344,7 @@ def delete_user(id):
 
 
 # =========================
-# RUN APP
+# RUN
 # =========================
 if __name__ == "__main__":
-
     app.run(debug=True)
