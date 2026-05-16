@@ -1,79 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>UMEED ADMIN</title>
 
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         body{
             margin:0;
-            font-family:'Inter',sans-serif;
-            display:flex;
+            font-family:Arial;
             background:#f5f6f8;
+            display:flex;
         }
 
         .sidebar{
-            width:260px;
+            width:240px;
             height:100vh;
-            background:white;
-            border-right:1px solid #e5e7eb;
+            background:#fff;
+            border-right:1px solid #ddd;
             padding:20px;
             position:fixed;
         }
 
-        .menu a{
+        .sidebar a{
             display:block;
             padding:12px;
-            margin-bottom:10px;
             text-decoration:none;
             color:#111;
+            margin-bottom:10px;
             border-radius:10px;
         }
 
-        .menu a:hover{
+        .sidebar a:hover{
             background:#eef2ff;
         }
 
         .main{
             margin-left:260px;
-            padding:20px;
             width:100%;
+            padding:20px;
+        }
+
+        .box, .table-box{
+            background:#fff;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:12px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th,td{
+            padding:12px;
+            border-bottom:1px solid #ddd;
+        }
+
+        button{
+            padding:10px 14px;
+            background:#2563eb;
+            color:white;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+        }
+
+        .delete-btn{
+            background:#dc2626;
         }
     </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR (ONE TIME FIX) -->
+<!-- SIDEBAR -->
 <div class="sidebar">
 
     <h2>UMEED</h2>
 
-    <div class="menu">
-
-        <a href="/">Dashboard</a>
-
-        <a href="/analytics">Analytics</a>
-
-        <a href="/admin">Admin Panel</a>
-
-        <a href="/logout">Logout</a>
-
-    </div>
+    <a href="/">Dashboard</a>
+    <a href="/admin">Admin Panel</a>
+    <a href="/analytics">Analytics</a>
+    <a href="/logout">Logout</a>
 
 </div>
 
-<!-- MAIN CONTENT AREA -->
+<!-- MAIN CONTENT -->
 <div class="main">
 
     {% block content %}
-
     {% endblock %}
 
 </div>
