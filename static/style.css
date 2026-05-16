@@ -1,36 +1,44 @@
+/* BODY */
+
 body{
     margin:0;
+    padding:0;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background:#f5f7fb;
-    color:#1e293b;
+    background:#f6f8fc;
+    color:#0f172a;
 }
 
 /* SIDEBAR */
 
 .sidebar{
+    position:fixed;
+    left:0;
+    top:0;
     width:240px;
     height:100vh;
     background:white;
-    position:fixed;
-    padding:25px;
-    box-shadow:0 0 15px rgba(0,0,0,0.08);
+    border-right:1px solid #e2e8f0;
+    padding:20px;
+    overflow:auto;
 }
 
 .sidebar h2{
     color:#2563eb;
-    font-size:28px;
+    font-size:30px;
     margin-bottom:40px;
     font-weight:700;
 }
 
 .sidebar a{
-    display:block;
+    display:flex;
+    align-items:center;
+    gap:10px;
     text-decoration:none;
     color:#334155;
-    font-size:18px;
-    padding:12px;
-    border-radius:10px;
-    margin-top:10px;
+    padding:14px;
+    border-radius:12px;
+    margin-bottom:10px;
+    font-size:17px;
     transition:0.3s;
 }
 
@@ -42,30 +50,45 @@ body{
 /* MAIN */
 
 .main{
-    margin-left:290px;
-    padding:35px;
+    margin-left:270px;
+    padding:30px;
 }
 
-.main h1{
-    font-size:36px;
+/* TOPBAR */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     margin-bottom:30px;
-    color:#0f172a;
+}
+
+.topbar h1{
+    font-size:34px;
+    margin:0;
     font-weight:700;
+}
+
+.profile{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#2563eb;
 }
 
 /* CARDS */
 
 .cards{
-    display:flex;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
     gap:25px;
-    flex-wrap:wrap;
+    margin-bottom:30px;
 }
 
 .card{
     background:white;
     padding:25px;
-    border-radius:18px;
-    width:280px;
+    border-radius:20px;
     box-shadow:0 5px 20px rgba(0,0,0,0.06);
     transition:0.3s;
 }
@@ -75,57 +98,105 @@ body{
 }
 
 .card h3{
+    margin:0;
     color:#64748b;
-    font-size:18px;
-    margin-bottom:10px;
+    font-size:17px;
+    font-weight:600;
 }
 
 .card p{
+    margin-top:15px;
     font-size:34px;
     color:#2563eb;
-    font-weight:bold;
+    font-weight:700;
 }
 
-/* CHART */
+/* CHART BOX */
 
 .chart-box{
     background:white;
-    margin-top:35px;
     padding:25px;
-    border-radius:18px;
+    border-radius:20px;
     box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    margin-top:25px;
+}
+
+.chart-box h2{
+    margin-top:0;
+    margin-bottom:20px;
+    font-size:24px;
+}
+
+/* TABLE */
+
+.table-box{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.06);
+    margin-top:30px;
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#2563eb;
+    color:white;
+    padding:16px;
+    text-align:left;
+    font-size:15px;
+}
+
+td{
+    padding:16px;
+    border-bottom:1px solid #e2e8f0;
+    font-size:15px;
+}
+
+tr:hover{
+    background:#f8fafc;
 }
 
 /* FORM */
 
 form{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    width:400px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.06);
     display:flex;
     flex-direction:column;
-    width:350px;
-    gap:18px;
+    gap:20px;
 }
 
 input{
-    padding:15px;
-    border:1px solid #dbeafe;
+    padding:16px;
+    border:1px solid #cbd5e1;
     border-radius:12px;
     font-size:16px;
     outline:none;
+    transition:0.3s;
 }
 
 input:focus{
     border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,0.1);
 }
 
 /* BUTTON */
 
 button{
-    padding:15px;
+    padding:16px;
     border:none;
     border-radius:12px;
     background:#2563eb;
     color:white;
-    font-size:18px;
+    font-size:17px;
     font-weight:600;
     cursor:pointer;
     transition:0.3s;
@@ -133,4 +204,62 @@ button{
 
 button:hover{
     background:#1d4ed8;
+}
+
+/* ANALYTICS GRID */
+
+.analytics-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:25px;
+    margin-top:25px;
+}
+
+/* MINI CARDS */
+
+.mini-card{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.06);
+}
+
+.mini-card h4{
+    margin:0;
+    color:#64748b;
+}
+
+.mini-card p{
+    font-size:28px;
+    margin-top:10px;
+    color:#2563eb;
+    font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .analytics-grid{
+        grid-template-columns:1fr;
+    }
+
+    form{
+        width:100%;
+    }
+
 }
