@@ -108,15 +108,10 @@ def dashboard():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute("SELECT * FROM analytics ORDER BY id ASC")
-
+    c.execute("SELECT * FROM analytics ORDER BY id DESC")
     data = c.fetchall()
 
     conn.close()
-
-    # =====================
-    # DEFAULT VALUES
-    # =====================
 
     total = 0
     today_total = 0
@@ -133,10 +128,7 @@ def dashboard():
     labels = []
     amounts = []
 
-    # =====================
     # FILTER
-    # =====================
-
     filter_days = request.args.get("filter")
 
     today = datetime.now().date()
@@ -155,10 +147,7 @@ def dashboard():
         previous_month = current_month - 1
         previous_month_year = current_year
 
-    # =====================
-    # LOOP DATA
-    # =====================
-
+    # LOOP
     for row in data:
 
         try:
@@ -235,23 +224,18 @@ def dashboard():
         "dashboard.html",
 
         total=total,
-
         today_total=today_total,
-
         yesterday_total=yesterday_total,
 
         this_week=this_week,
-
         last_week=last_week,
 
         this_month=this_month,
-
         last_month=last_month,
 
         best_day=best_day,
 
         labels=labels,
-
         amounts=amounts,
 
         data=data
@@ -271,7 +255,7 @@ def admin():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    # ADD DATA
+    # ADD RECOVERY
     if request.method == "POST":
 
         day = request.form["day"]
@@ -284,16 +268,20 @@ def admin():
 
         conn.commit()
 
+    # RECOVERY DATA
+    c.execute("SELECT * FROM analytics ORDER BY id DESC")
+    data = c.fetchall()
+
     # USERS
     c.execute("SELECT * FROM users ORDER BY id DESC")
-
     users = c.fetchall()
 
     conn.close()
 
     return render_template(
         "admin.html",
-        users=users
+        users=users,
+        data=data
     )
 
 
@@ -302,7 +290,28 @@ def admin():
 # =========================
 @app.route("/add-user", methods=["POST"])
 def add_user():
-    # =========================
+
+    if "user" not in session:
+        return redirect("/login")
+
+    username = request.form["username"]
+    password = request.form["password"]
+
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+
+    c.execute(
+        "INSERT INTO users(username,password) VALUES(?,?)",
+        (username, password)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/admin")
+
+
+# =========================
 # DELETE RECOVERY
 # =========================
 @app.route("/delete-recovery/<int:id>")
@@ -317,25 +326,6 @@ def delete_recovery(id):
     c.execute(
         "DELETE FROM analytics WHERE id=?",
         (id,)
-    )
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/admin")
-
-    if "user" not in session:
-        return redirect("/login")
-
-    username = request.form["username"]
-    password = request.form["password"]
-
-    conn = sqlite3.connect("database.db")
-    c = conn.cursor()
-
-    c.execute(
-        "INSERT INTO users(username,password) VALUES(?,?)",
-        (username, password)
     )
 
     conn.commit()
