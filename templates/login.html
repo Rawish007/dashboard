@@ -16,68 +16,50 @@ body{
     margin:0;
     padding:0;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background:linear-gradient(135deg,#2563eb,#1e3a8a);
-    height:100vh;
+    background:#f8fafc;
     display:flex;
     justify-content:center;
     align-items:center;
-    overflow:hidden;
+    height:100vh;
+    color:#0f172a;
 }
 
-/* BACKGROUND CIRCLES */
+/* LOGIN CONTAINER */
 
-.circle1{
-    position:absolute;
-    width:300px;
-    height:300px;
-    background:rgba(255,255,255,0.08);
-    border-radius:50%;
-    top:-100px;
-    left:-100px;
-}
-
-.circle2{
-    position:absolute;
-    width:400px;
-    height:400px;
-    background:rgba(255,255,255,0.06);
-    border-radius:50%;
-    bottom:-150px;
-    right:-100px;
+.login-container{
+    width:100%;
+    max-width:430px;
+    padding:20px;
 }
 
 /* LOGIN BOX */
 
 .login-box{
-    width:420px;
-    background:rgba(255,255,255,0.12);
-    backdrop-filter:blur(15px);
-    padding:40px;
-    border-radius:30px;
-    box-shadow:0 10px 40px rgba(0,0,0,0.3);
-    color:white;
-    position:relative;
-    z-index:10;
+    background:white;
+    padding:45px;
+    border-radius:24px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.08);
+    border:1px solid #e2e8f0;
 }
 
 /* LOGO */
 
 .logo{
-    text-align:center;
-    margin-bottom:30px;
+    margin-bottom:35px;
 }
 
 .logo h1{
     margin:0;
-    font-size:42px;
+    font-size:38px;
     font-weight:800;
-    letter-spacing:2px;
+    color:#2563eb;
+    letter-spacing:1px;
 }
 
 .logo p{
-    margin-top:10px;
-    font-size:16px;
-    opacity:0.9;
+    margin-top:8px;
+    color:#64748b;
+    font-size:15px;
 }
 
 /* FORM */
@@ -85,32 +67,36 @@ body{
 form{
     display:flex;
     flex-direction:column;
-    gap:20px;
+    gap:22px;
 }
 
-.input-box{
+/* INPUT GROUP */
+
+.input-group{
     display:flex;
     flex-direction:column;
 }
 
-.input-box label{
+.input-group label{
     margin-bottom:8px;
-    font-size:15px;
+    font-size:14px;
     font-weight:600;
+    color:#334155;
 }
 
-.input-box input{
+.input-group input{
     padding:16px;
-    border:none;
+    border:1px solid #cbd5e1;
     border-radius:14px;
     font-size:16px;
     outline:none;
-    background:rgba(255,255,255,0.2);
-    color:white;
+    transition:0.3s;
+    background:#fff;
 }
 
-.input-box input::placeholder{
-    color:#e2e8f0;
+.input-group input:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,0.08);
 }
 
 /* BUTTON */
@@ -120,41 +106,35 @@ button{
     padding:16px;
     border:none;
     border-radius:14px;
-    background:white;
-    color:#2563eb;
-    font-size:18px;
+    background:#2563eb;
+    color:white;
+    font-size:17px;
     font-weight:700;
     cursor:pointer;
     transition:0.3s;
 }
 
 button:hover{
-    transform:scale(1.03);
+    background:#1d4ed8;
 }
 
 /* FOOTER */
 
 .footer{
+    margin-top:30px;
     text-align:center;
-    margin-top:25px;
+    color:#94a3b8;
     font-size:14px;
-    opacity:0.8;
 }
 
-/* ICON AREA */
+/* TOP LINE */
 
-.icon{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    background:white;
-    color:#2563eb;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:40px;
-    margin:0 auto 25px auto;
-    font-weight:bold;
+.top-line{
+    width:70px;
+    height:5px;
+    background:#2563eb;
+    border-radius:20px;
+    margin-bottom:25px;
 }
 
 /* MOBILE */
@@ -162,8 +142,11 @@ button:hover{
 @media(max-width:500px){
 
     .login-box{
-        width:90%;
         padding:30px;
+    }
+
+    .logo h1{
+        font-size:30px;
     }
 
 }
@@ -174,78 +157,75 @@ button:hover{
 
 <body>
 
-<!-- BACKGROUND -->
+<div class="login-container">
 
-<div class="circle1"></div>
-<div class="circle2"></div>
+    <div class="login-box">
 
-<!-- LOGIN BOX -->
+        <div class="top-line"></div>
 
-<div class="login-box">
+        <!-- LOGO -->
 
-    <!-- ICON -->
+        <div class="logo">
 
-    <div class="icon">
+            <h1>UMEED</h1>
 
-        🔒
+            <p>
 
-    </div>
+                Secure Analytics Dashboard Access
 
-    <!-- LOGO -->
-
-    <div class="logo">
-
-        <h1>UMEED</h1>
-
-        <p>
-
-            Private Analytics Dashboard
-
-        </p>
-
-    </div>
-
-    <!-- FORM -->
-
-    <form method="POST">
-
-        <div class="input-box">
-
-            <label>Username</label>
-
-            <input
-            type="text"
-            name="username"
-            placeholder="Enter Username"
-            required>
+            </p>
 
         </div>
 
-        <div class="input-box">
+        <!-- LOGIN FORM -->
 
-            <label>Password</label>
+        <form method="POST">
 
-            <input
-            type="password"
-            name="password"
-            placeholder="Enter Password"
-            required>
+            <!-- USERNAME -->
+
+            <div class="input-group">
+
+                <label>Username</label>
+
+                <input
+                type="text"
+                name="username"
+                placeholder="Enter your username"
+                required>
+
+            </div>
+
+            <!-- PASSWORD -->
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required>
+
+            </div>
+
+            <!-- BUTTON -->
+
+            <button type="submit">
+
+                Login Dashboard
+
+            </button>
+
+        </form>
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            Private • Secure • Business Analytics
 
         </div>
-
-        <button type="submit">
-
-            Login Dashboard
-
-        </button>
-
-    </form>
-
-    <!-- FOOTER -->
-
-    <div class="footer">
-
-        Secure • Private • Analytics System
 
     </div>
 
