@@ -131,9 +131,14 @@ def dashboard():
     best_day = 0
 
     labels = []
-    amounts = [] 
-    
-filter_days = request.args.get("filter")
+    amounts = []
+
+    # =====================
+    # FILTER
+    # =====================
+
+    filter_days = request.args.get("filter")
+
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
 
@@ -142,7 +147,7 @@ filter_days = request.args.get("filter")
 
     current_month = today.month
 
-    # LAST MONTH LOGIC
+    # LAST MONTH
     if current_month == 1:
         previous_month = 12
         previous_month_year = current_year - 1
@@ -155,15 +160,7 @@ filter_days = request.args.get("filter")
     # =====================
 
     for row in data:
-        
-date = datetime.strptime(row[1], "%Y-%m-%d").date()
 
-if filter_days:
-    limit_date = today - timedelta(days=int(filter_days))
-
-    if date < limit_date:
-        continue
-        
         try:
 
             amount = int(row[2])
@@ -172,6 +169,16 @@ if filter_days:
                 row[1],
                 "%Y-%m-%d"
             ).date()
+
+            # FILTER LOGIC
+            if filter_days:
+
+                limit_date = today - timedelta(
+                    days=int(filter_days)
+                )
+
+                if date < limit_date:
+                    continue
 
             # TOTAL
             total += amount
