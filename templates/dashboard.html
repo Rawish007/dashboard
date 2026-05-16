@@ -22,6 +22,7 @@ href="{{ url_for('static', filename='style.css') }}">
 
     <a href="/">📊 Dashboard</a>
     <a href="/admin">⚙️ Admin Panel</a>
+    <a href="/logout">🚪 Logout</a>
 
 </div>
 
@@ -29,7 +30,7 @@ href="{{ url_for('static', filename='style.css') }}">
 
 <div class="main">
 
-    <!-- TOP -->
+    <!-- TOPBAR -->
 
     <div class="topbar">
 
@@ -39,7 +40,7 @@ href="{{ url_for('static', filename='style.css') }}">
 
     </div>
 
-    <!-- CARDS -->
+    <!-- MAIN CARDS -->
 
     <div class="cards">
 
@@ -49,12 +50,12 @@ href="{{ url_for('static', filename='style.css') }}">
         </div>
 
         <div class="card">
-            <h3>Today</h3>
+            <h3>Today Recovery</h3>
             <p>Rs {{ today_total }}</p>
         </div>
 
         <div class="card">
-            <h3>Yesterday</h3>
+            <h3>Yesterday Recovery</h3>
             <p>Rs {{ yesterday_total }}</p>
         </div>
 
@@ -95,7 +96,7 @@ href="{{ url_for('static', filename='style.css') }}">
 
     </div>
 
-    <!-- GRAPH -->
+    <!-- MAIN GRAPH -->
 
     <div class="chart-box">
 
@@ -105,32 +106,112 @@ href="{{ url_for('static', filename='style.css') }}">
 
     </div>
 
-    <!-- EXTRA ANALYTICS -->
+    <!-- PERFORMANCE SECTION -->
 
     <div class="analytics-grid">
 
         <div class="mini-card">
+
             <h4>Weekly Performance</h4>
 
             <p>
+
                 {% if this_week > last_week %}
+
                     📈 Better Than Last Week
+
+                {% elif this_week == last_week %}
+
+                    ➖ Same As Last Week
+
                 {% else %}
+
                     📉 Lower Than Last Week
+
                 {% endif %}
+
             </p>
+
         </div>
 
         <div class="mini-card">
+
             <h4>Monthly Performance</h4>
 
             <p>
+
                 {% if this_month > last_month %}
+
                     🚀 Growth This Month
+
+                {% elif this_month == last_month %}
+
+                    ➖ Same As Last Month
+
                 {% else %}
+
                     ⚠️ Lower Than Last Month
+
                 {% endif %}
+
             </p>
+
+        </div>
+
+    </div>
+
+    <!-- QUICK ANALYTICS -->
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Average Daily Recovery</h3>
+
+            <p>
+
+                Rs
+
+                {% if data|length > 0 %}
+
+                    {{ (total // data|length) }}
+
+                {% else %}
+
+                    0
+
+                {% endif %}
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Total Entries</h3>
+
+            <p>{{ data|length }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Recovery Status</h3>
+
+            <p>
+
+                {% if this_month > last_month %}
+
+                    📈 Growing
+
+                {% else %}
+
+                    📉 Slow
+
+                {% endif %}
+
+            </p>
+
         </div>
 
     </div>
@@ -211,6 +292,14 @@ new Chart(ctx, {
 
             legend:{
                 display:true
+            }
+
+        },
+
+        scales:{
+
+            y:{
+                beginAtZero:true
             }
 
         }
