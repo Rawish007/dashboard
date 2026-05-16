@@ -128,7 +128,6 @@ def dashboard():
     labels = []
     amounts = []
 
-    # FILTER
     filter_days = request.args.get("filter")
 
     today = datetime.now().date()
@@ -139,7 +138,6 @@ def dashboard():
 
     current_month = today.month
 
-    # LAST MONTH
     if current_month == 1:
         previous_month = 12
         previous_month_year = current_year - 1
@@ -147,101 +145,66 @@ def dashboard():
         previous_month = current_month - 1
         previous_month_year = current_year
 
-    # LOOP
     for row in data:
 
         try:
-
             amount = int(row[2])
 
-            date = datetime.strptime(
-                row[1],
-                "%Y-%m-%d"
-            ).date()
+            date = datetime.strptime(row[1], "%Y-%m-%d").date()
 
-            # FILTER LOGIC
             if filter_days:
-
-                limit_date = today - timedelta(
-                    days=int(filter_days)
-                )
-
+                limit_date = today - timedelta(days=int(filter_days))
                 if date < limit_date:
                     continue
 
-            # TOTAL
             total += amount
-
-            # CHART
             labels.append(row[1])
             amounts.append(amount)
 
-            # BEST DAY
             if amount > best_day:
                 best_day = amount
 
-            # TODAY
             if date == today:
                 today_total += amount
 
-            # YESTERDAY
             if date == yesterday:
                 yesterday_total += amount
 
-            # THIS WEEK
-            if (
-                date.isocalendar()[1] == current_week
-                and date.year == current_year
-            ):
+            if date.isocalendar()[1] == current_week and date.year == current_year:
                 this_week += amount
 
-            # LAST WEEK
-            if (
-                date.isocalendar()[1] == current_week - 1
-                and date.year == current_year
-            ):
+            if date.isocalendar()[1] == current_week - 1 and date.year == current_year:
                 last_week += amount
 
-            # THIS MONTH
-            if (
-                date.month == current_month
-                and date.year == current_year
-            ):
+            if date.month == current_month and date.year == current_year:
                 this_month += amount
 
-            # LAST MONTH
-            if (
-                date.month == previous_month
-                and date.year == previous_month_year
-            ):
+            if date.month == previous_month and date.year == previous_month_year:
                 last_month += amount
 
         except:
             pass
 
     return render_template(
-
         "dashboard.html",
-
         total=total,
         today_total=today_total,
         yesterday_total=yesterday_total,
-
         this_week=this_week,
         last_week=last_week,
-
         this_month=this_month,
         last_month=last_month,
-
         best_day=best_day,
-
         labels=labels,
         amounts=amounts,
-
         data=data
-
     )
-    @app.route("/analytics")
+
+
+# =========================
+# ANALYTICS (FIXED HERE 👇)
+# =========================
+@app.route("/analytics")
 def analytics():
 
     if "user" not in session:
@@ -268,6 +231,7 @@ def analytics():
         amounts=amounts,
         data=data
     )
+
 
 
 # =========================
