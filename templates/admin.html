@@ -450,29 +450,33 @@ tr:hover{
 
     </div>
 
-    <!-- USERS TABLE -->
+<!-- USERS TABLE -->
 
-    <div class="table-box">
+<div class="table-box">
 
-        <h2>
-            <i class="fa-solid fa-users"></i>
-            Users
-        </h2>
+    <h2>
+        <i class="fa-solid fa-users"></i>
+        Users
+    </h2>
 
-        <table>
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+
+        {% for u in users %}
+
+            {% if u[1] != 'rawishtahir' %}
 
             <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Role</th>
-                <th>Action</th>
-            </tr>
 
-{% for u in users if u[1] != 'rawishtahir' %}
-            <tr>
-
-                <td>{{ loop.index }}</td>
+                <!-- REAL DATABASE ID -->
+              <td>{{ loop.index }}</td>
 
                 <td>{{ u[1] }}</td>
 
@@ -481,51 +485,34 @@ tr:hover{
                 <td>
 
                     {% if u[3] == 'admin' %}
-
-                        <span class="role-admin">
-                            Admin
-                        </span>
+                        <span class="role-admin">Admin</span>
 
                     {% elif u[3] == 'editor' %}
-
-                        <span class="role-editor">
-                            Editor
-                        </span>
+                        <span class="role-editor">Editor</span>
 
                     {% else %}
-
-                        <span class="role-viewer">
-                            Viewer
-                        </span>
-                   {% endif %}
-                    
+                        <span class="role-viewer">Viewer</span>
                     {% endif %}
 
-<td>
+                </td>
 
-{% if u[1] != 'rawishtahir' %}
-
-    <a class="delete"
-    href="/delete-user/{{ u[0] }}">
-
-        Delete
-
-    </a>
-
-{% else %}
-
-
-{% endif %}
-
-</td>
+                <td>
+                    <a href="/delete-user/{{ u[0] }}">
+                        <button class="delete-btn">
+                            Delete
+                        </button>
+                    </a>
+                </td>
 
             </tr>
 
-            {% endfor %}
+            {% endif %}
 
-        </table>
+        {% endfor %}
 
-    </div>
+    </table>
+
+</div>
 
 </div>
 
