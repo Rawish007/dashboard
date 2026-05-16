@@ -1,13 +1,13 @@
 from flask import Flask, render_template, request, redirect, session
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.secret_key = "umeedsecret"
 
 
 # =========================
-# DATABASE INIT (FIXED + SAFE)
+# DATABASE INIT
 # =========================
 def init_db():
     conn = sqlite3.connect("database.db")
@@ -29,7 +29,7 @@ def init_db():
     )
     """)
 
-    # 🔥 AUTO ADMIN RESTORE (IMPORTANT FIX)
+    # AUTO ADMIN
     c.execute("SELECT COUNT(*) FROM users")
     count = c.fetchone()[0]
 
@@ -68,7 +68,7 @@ def login():
         conn.close()
 
         if user:
-            session["user"] = user[1]
+            session["user"] = username
             return redirect("/")
         else:
             return render_template("login.html", error="Invalid login")
@@ -86,7 +86,7 @@ def logout():
 
 
 # =========================
-# DASHBOARD (FIXED SAFE)
+# DASHBOARD (FULL FIXED + STATS)
 # =========================
 @app.route("/")
 def dashboard():
@@ -97,16 +97,23 @@ def dashboard():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute("SELECT * FROM analytics ORDER BY id DESC")
+    c.execute("SELECT * FROM analytics ORDER BY id ASC")
     data = c.fetchall()
     conn.close()
 
     total = 0
     today_total = 0
+    yesterday_total = 0
+    this_week = 0
+    last_week = 0
+
     labels = []
     amounts = []
 
     today = datetime.now().date()
+    yesterday = today - timedelta(days=1)
+
+    current_week = today.isocalendar()[1]
 
     for row in data:
         amount = int(row[2])
@@ -119,10 +126,22 @@ def dashboard():
         if date == today:
             today_total += amount
 
+        if date == yesterday:
+            yesterday_total += amount
+
+        if date.isocalendar()[1] == current_week:
+            this_week += amount
+
+        if date.isocalendar()[1] == current_week - 1:
+            last_week += amount
+
     return render_template(
         "dashboard.html",
         total=total,
         today_total=today_total,
+        yesterday_total=yesterday_total,
+        this_week=this_week,
+        last_week=last_week,
         labels=labels,
         amounts=amounts,
         data=data
