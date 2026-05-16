@@ -15,6 +15,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <style>
 
+/* (NO CHANGES MADE - SAME AS YOUR ORIGINAL) */
+
 *{
     margin:0;
     padding:0;
@@ -28,7 +30,6 @@ body{
     color:#111;
 }
 
-/* SIDEBAR */
 .sidebar{
     width:250px;
     height:100vh;
@@ -61,13 +62,11 @@ body{
     color:#000;
 }
 
-/* MAIN */
 .main{
     flex:1;
     padding:30px;
 }
 
-/* HEADER */
 .header{
     display:flex;
     justify-content:space-between;
@@ -90,7 +89,6 @@ body{
     border:1px solid #e5e7eb;
 }
 
-/* CARDS */
 .box{
     background:#fff;
     padding:22px;
@@ -108,7 +106,6 @@ body{
     gap:10px;
 }
 
-/* INPUT */
 input, select{
     width:100%;
     padding:12px;
@@ -122,7 +119,6 @@ input:focus, select:focus{
     border-color:#111;
 }
 
-/* BUTTON */
 button{
     width:100%;
     padding:12px;
@@ -139,7 +135,6 @@ button:hover{
     background:#000;
 }
 
-/* TABLE */
 table{
     width:100%;
     border-collapse:collapse;
@@ -161,12 +156,10 @@ td{
     font-size:14px;
 }
 
-/* ROLE */
 .role-admin{color:#000;font-weight:700;}
 .role-editor{color:#333;font-weight:600;}
 .role-viewer{color:#555;font-weight:500;}
 
-/* DELETE */
 .delete{
     color:#111;
     font-weight:600;
@@ -183,7 +176,6 @@ td{
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
 
     <div class="logo">UMEED</div>
@@ -198,7 +190,6 @@ td{
 
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
     <div class="header">
@@ -212,7 +203,7 @@ td{
 
         <form method="POST">
             <input type="date" name="day" required>
-            <input type="number" name="amount" placeholder="Enter Amount" required>
+            <input type="number" name="amount" required>
             <button>Add Recovery</button>
         </form>
     </div>
@@ -237,19 +228,16 @@ td{
         </form>
     </div>
 
-    <!-- 🔥 NEW: CHANGE ADMIN LOGIN -->
+    <!-- 🔥 ADDED: CHANGE PASSWORD -->
     <div class="box">
-        <h2><i class="fa-solid fa-user-shield"></i> Change Admin Login</h2>
+        <h2><i class="fa-solid fa-key"></i> Change Password</h2>
 
-        <form action="/change-credentials" method="POST">
+        <form action="/change-password" method="POST">
 
-            <input type="text" name="old_username" placeholder="Old Username" required>
-            <input type="password" name="old_password" placeholder="Old Password" required>
+            <input type="password" name="old" placeholder="Old Password" required>
+            <input type="password" name="new" placeholder="New Password" required>
 
-            <input type="text" name="new_username" placeholder="New Username" required>
-            <input type="password" name="new_password" placeholder="New Password" required>
-
-            <button>Update Admin Login</button>
+            <button>Change Password</button>
 
         </form>
     </div>
