@@ -3,58 +3,67 @@
 
 <head>
 
-<title>UMEED Admin Dashboard</title>
+<title>UMEED Admin Panel</title>
 
 <link rel="stylesheet"
 href="{{ url_for('static', filename='style.css') }}">
+
+<!-- ICONS -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 /* RESET */
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
 
-/* BODY */
-
 body{
     font-family:'Inter',sans-serif;
-    background:#f1f5f9;
+    background:#f8fafc;
     display:flex;
 }
 
 /* SIDEBAR */
 
 .sidebar{
-    width:240px;
+    width:230px;
     height:100vh;
-    background:#0f172a;
-    color:white;
-    padding:25px;
+    background:white;
+    border-right:1px solid #e2e8f0;
+    padding:20px;
 }
 
-.sidebar h2{
-    color:#38bdf8;
-    margin-bottom:30px;
+.logo{
+    font-size:20px;
+    font-weight:800;
+    color:#2563eb;
+    margin-bottom:25px;
 }
 
-.sidebar a{
-    display:block;
-    color:#cbd5e1;
+/* MENU */
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    margin:6px 0;
     text-decoration:none;
-    margin:14px 0;
+    color:#475569;
+    border-radius:10px;
     font-size:14px;
-    transition:0.3s;
+    transition:0.2s;
 }
 
-.sidebar a:hover{
-    color:white;
-    padding-left:5px;
+.menu a:hover{
+    background:#f1f5f9;
+    color:#0f172a;
 }
 
 /* MAIN */
@@ -74,55 +83,27 @@ body{
 }
 
 .header h1{
-    font-size:22px;
+    font-size:20px;
     color:#0f172a;
+    font-weight:700;
 }
 
 .badge{
-    background:#dbeafe;
-    color:#2563eb;
+    background:#e0f2fe;
+    color:#0369a1;
     padding:6px 12px;
     border-radius:999px;
     font-size:12px;
-    font-weight:600;
-}
-
-/* CARDS */
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.card{
-    background:white;
-    padding:18px;
-    border-radius:14px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.05);
-}
-
-.card h3{
-    font-size:14px;
-    color:#64748b;
-}
-
-.card p{
-    font-size:18px;
-    font-weight:700;
-    margin-top:8px;
-    color:#0f172a;
 }
 
 /* BOX */
 
 .box{
     background:white;
-    padding:20px;
-    margin-top:20px;
+    padding:18px;
+    margin-top:18px;
     border-radius:14px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+    border:1px solid #e2e8f0;
 }
 
 /* INPUT */
@@ -143,14 +124,13 @@ input:focus, select:focus{
 /* BUTTON */
 
 button{
-    padding:12px 16px;
+    padding:12px;
     background:#2563eb;
     color:white;
     border:none;
-    cursor:pointer;
     border-radius:10px;
+    cursor:pointer;
     font-weight:600;
-    transition:0.3s;
 }
 
 button:hover{
@@ -165,35 +145,24 @@ table{
     margin-top:10px;
 }
 
-table th{
+th{
     text-align:left;
     font-size:13px;
     color:#64748b;
     padding:10px;
 }
 
-table td{
+td{
     padding:12px 10px;
     border-top:1px solid #f1f5f9;
     font-size:14px;
 }
 
-/* ROLES */
+/* ROLE */
 
-.role-admin{
-    color:#ef4444;
-    font-weight:700;
-}
-
-.role-editor{
-    color:#f59e0b;
-    font-weight:700;
-}
-
-.role-viewer{
-    color:#3b82f6;
-    font-weight:700;
-}
+.role-admin{color:#ef4444;font-weight:600;}
+.role-editor{color:#f59e0b;font-weight:600;}
+.role-viewer{color:#3b82f6;font-weight:600;}
 
 /* DELETE */
 
@@ -217,11 +186,17 @@ table td{
 
 <div class="sidebar">
 
-    <h2>UMEED</h2>
+    <div class="logo">UMEED</div>
 
-    <a href="/">📊 Dashboard</a>
-    <a href="/admin">⚙️ Admin Panel</a>
-    <a href="/logout">🚪 Logout</a>
+    <div class="menu">
+
+        <a href="/"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+
+        <a href="/admin"><i class="fa-solid fa-gear"></i> Admin Panel</a>
+
+        <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+
+    </div>
 
 </div>
 
@@ -233,36 +208,10 @@ table td{
 
     <div class="header">
 
-        <h1>Admin Dashboard</h1>
+        <h1>Admin Panel</h1>
 
         <div class="badge">
-            Secure System • Active
-        </div>
-
-    </div>
-
-    <!-- CARDS -->
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>Total Users</h3>
-            <p>{{ users|length }}</p>
-        </div>
-
-        <div class="card">
-            <h3>System Status</h3>
-            <p>Online</p>
-        </div>
-
-        <div class="card">
-            <h3>Analytics</h3>
-            <p>Live</p>
-        </div>
-
-        <div class="card">
-            <h3>Security</h3>
-            <p>Protected</p>
+            Secure System
         </div>
 
     </div>
@@ -271,14 +220,14 @@ table td{
 
     <div class="box">
 
-        <h2>Add Recovery Analytics</h2>
+        <h2>Add Recovery</h2>
 
         <form method="POST">
 
             <input type="date" name="day" required>
-            <input type="number" name="amount" placeholder="Enter Amount" required>
+            <input type="number" name="amount" placeholder="Amount" required>
 
-            <button type="submit">Add Analytics</button>
+            <button type="submit">Add</button>
 
         </form>
 
@@ -288,7 +237,7 @@ table td{
 
     <div class="box">
 
-        <h2>Create New User</h2>
+        <h2>Create User</h2>
 
         <form action="/add-user" method="POST">
 
@@ -296,31 +245,29 @@ table td{
             <input type="password" name="password" placeholder="Password" required>
 
             <select name="role" required>
-
                 <option value="viewer">Viewer</option>
                 <option value="editor">Editor</option>
                 <option value="admin">Admin</option>
-
             </select>
 
-            <button type="submit">Create User</button>
+            <button type="submit">Create</button>
 
         </form>
 
     </div>
 
-    <!-- USERS TABLE -->
+    <!-- USERS -->
 
     <div class="box">
 
-        <h2>Users Management</h2>
+        <h2>Users</h2>
 
         <table>
 
             <tr>
                 <th>ID</th>
-                <th>Username</th>
-                <th>Password</th>
+                <th>User</th>
+                <th>Pass</th>
                 <th>Role</th>
                 <th>Action</th>
             </tr>
