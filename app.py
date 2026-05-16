@@ -3,16 +3,17 @@ import sqlite3
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-
-# SECRET KEY
 app.secret_key = "umeedsecret"
 
 
+# =========================
 # DATABASE INIT
+# =========================
 def init_db():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
+    # analytics table
     c.execute("""
     CREATE TABLE IF NOT EXISTS analytics(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,13 +22,32 @@ def init_db():
     )
     """)
 
+    # users table (NEW)
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        password TEXT
+    )
+    """)
+
+    # create default admin ONLY ONCE
+    c.execute("SELECT * FROM users WHERE username=?", ("rawish",))
+    admin = c.fetchone()
+
+    if not admin:
+        c.execute("INSERT INTO users(username, password) VALUES(?,?)",
+                  ("rawish", "12345"))
+
     conn.commit()
     conn.close()
 
 init_db()
 
 
+# =========================
 # LOGIN
+# =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
 
@@ -36,39 +56,67 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        if username == "rawish" and password == "12345":
+        conn = sqlite3.connect("database.db")
+        c = conn.cursor()
 
+        c.execute("SELECT * FROM users WHERE username=? AND password=?",
+                  (username, password))
+
+        user = c.fetchone()
+        conn.close()
+
+        if user:
             session["user"] = username
-
             return redirect("/")
+        else:
+            return "Invalid login"
 
     return render_template("login.html")
 
 
+# =========================
 # LOGOUT
+# =========================
 @app.route("/logout")
 def logout():
-
     session.pop("user", None)
-
     return redirect("/login")
 
 
-# FORGOT PASSWORD (NEW ADDED)
-@app.route("/forgot-password", methods=["GET", "POST"])
-def forgot_password():
+# =========================
+# CHANGE PASSWORD
+# =========================
+@app.route("/change-password", methods=["POST"])
+def change_password():
 
-    if request.method == "POST":
+    if "user" not in session:
+        return redirect("/login")
 
-        email = request.form["email"]
+    old = request.form["old"]
+    new = request.form["new"]
 
-        # demo response (later SMTP/OTP add hoga)
-        return f"Reset link sent to {email}"
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
 
-    return render_template("forgot-password.html")
+    c.execute("SELECT * FROM users WHERE username=? AND password=?",
+              (session["user"], old))
+
+    user = c.fetchone()
+
+    if user:
+        c.execute("UPDATE users SET password=? WHERE username=?",
+                  (new, session["user"]))
+        conn.commit()
+        conn.close()
+        return "Password updated successfully"
+    else:
+        conn.close()
+        return "Old password wrong"
 
 
+# =========================
 # DASHBOARD
+# =========================
 @app.route("/")
 def dashboard():
 
@@ -80,7 +128,6 @@ def dashboard():
 
     c.execute("SELECT * FROM analytics")
     data = c.fetchall()
-
     conn.close()
 
     total = 0
@@ -115,7 +162,6 @@ def dashboard():
         date = datetime.strptime(row[1], "%Y-%m-%d").date()
 
         total += amount
-
         labels.append(row[1])
         amounts.append(amount)
 
@@ -164,7 +210,9 @@ def dashboard():
     )
 
 
+# =========================
 # ADMIN PANEL
+# =========================
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
 
@@ -179,10 +227,8 @@ def admin():
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
 
-        c.execute(
-            "INSERT INTO analytics(day, amount) VALUES(?, ?)",
-            (day, amount)
-        )
+        c.execute("INSERT INTO analytics(day, amount) VALUES(?, ?)",
+                  (day, amount))
 
         conn.commit()
         conn.close()
@@ -192,5 +238,8 @@ def admin():
     return render_template("admin.html")
 
 
+# =========================
+# RUN APP
+# =========================
 if __name__ == "__main__":
     app.run(debug=True)
