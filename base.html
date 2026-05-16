@@ -1,1 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <title>UMEED ADMIN</title>
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body{
+            margin:0;
+            font-family:'Inter',sans-serif;
+            display:flex;
+            background:#f5f6f8;
+        }
+
+        .sidebar{
+            width:260px;
+            height:100vh;
+            background:white;
+            border-right:1px solid #e5e7eb;
+            padding:20px;
+            position:fixed;
+        }
+
+        .menu a{
+            display:block;
+            padding:12px;
+            margin-bottom:10px;
+            text-decoration:none;
+            color:#111;
+            border-radius:10px;
+        }
+
+        .menu a:hover{
+            background:#eef2ff;
+        }
+
+        .main{
+            margin-left:260px;
+            padding:20px;
+            width:100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR (ONE TIME FIX) -->
+<div class="sidebar">
+
+    <h2>UMEED</h2>
+
+    <div class="menu">
+
+        <a href="/">Dashboard</a>
+
+        <a href="/analytics">Analytics</a>
+
+        <a href="/admin">Admin Panel</a>
+
+        <a href="/logout">Logout</a>
+
+    </div>
+
+</div>
+
+<!-- MAIN CONTENT AREA -->
+<div class="main">
+
+    {% block content %}
+
+    {% endblock %}
+
+</div>
+
+</body>
+</html>
