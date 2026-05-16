@@ -132,7 +132,7 @@ def dashboard():
 
     labels = []
     amounts = []
-
+filter_days = request.args.get("filter")
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
 
@@ -154,7 +154,13 @@ def dashboard():
     # =====================
 
     for row in data:
+date = datetime.strptime(row[1], "%Y-%m-%d").date()
 
+if filter_days:
+    limit_date = today - timedelta(days=int(filter_days))
+
+    if date < limit_date:
+        continue
         try:
 
             amount = int(row[2])
