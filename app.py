@@ -8,20 +8,23 @@ app = Flask(__name__)
 app.secret_key = "umeedsecret"
 
 
-# DATABASE
-conn = sqlite3.connect("database.db")
-c = conn.cursor()
+# DATABASE INIT
+def init_db():
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
 
-c.execute("""
-CREATE TABLE IF NOT EXISTS analytics(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    day TEXT,
-    amount INTEGER
-)
-""")
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS analytics(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        day TEXT,
+        amount INTEGER
+    )
+    """)
 
-conn.commit()
-conn.close()
+    conn.commit()
+    conn.close()
+
+init_db()
 
 
 # LOGIN
@@ -33,7 +36,6 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        # CHANGE THESE
         if username == "rawish" and password == "12345":
 
             session["user"] = username
@@ -52,11 +54,24 @@ def logout():
     return redirect("/login")
 
 
+# FORGOT PASSWORD (NEW ADDED)
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+
+    if request.method == "POST":
+
+        email = request.form["email"]
+
+        # demo response (later SMTP/OTP add hoga)
+        return f"Reset link sent to {email}"
+
+    return render_template("forgot-password.html")
+
+
 # DASHBOARD
 @app.route("/")
 def dashboard():
 
-    # PROTECTION
     if "user" not in session:
         return redirect("/login")
 
@@ -69,20 +84,19 @@ def dashboard():
     conn.close()
 
     total = 0
-
     labels = []
     amounts = []
 
     today_total = 0
     yesterday_total = 0
-
     this_week = 0
     last_week = 0
-
     this_month = 0
     last_month = 0
-
     this_year = 0
+
+    best_day = 0
+    worst_day = 999999999
 
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
@@ -95,12 +109,9 @@ def dashboard():
 
     current_year = today.year
 
-    best_day = 0
-    worst_day = 999999999
-
     for row in data:
 
-        amount = row[2]
+        amount = int(row[2])
         date = datetime.strptime(row[1], "%Y-%m-%d").date()
 
         total += amount
@@ -108,67 +119,48 @@ def dashboard():
         labels.append(row[1])
         amounts.append(amount)
 
-        # TODAY
         if date == today:
             today_total += amount
 
-        # YESTERDAY
         if date == yesterday:
             yesterday_total += amount
 
-        # THIS WEEK
         if date.isocalendar()[1] == current_week:
             this_week += amount
 
-        # LAST WEEK
         if date.isocalendar()[1] == last_week_number:
             last_week += amount
 
-        # THIS MONTH
         if date.month == current_month:
             this_month += amount
 
-        # LAST MONTH
         if date.month == last_month_number:
             last_month += amount
 
-        # THIS YEAR
         if date.year == current_year:
             this_year += amount
 
-        # BEST DAY
         if amount > best_day:
             best_day = amount
 
-        # WORST DAY
         if amount < worst_day:
             worst_day = amount
 
     return render_template(
-
         "dashboard.html",
-
         total=total,
-
         today_total=today_total,
         yesterday_total=yesterday_total,
-
         this_week=this_week,
         last_week=last_week,
-
         this_month=this_month,
         last_month=last_month,
-
         this_year=this_year,
-
         best_day=best_day,
         worst_day=worst_day,
-
         labels=labels,
         amounts=amounts,
-
         data=data[::-1]
-
     )
 
 
@@ -176,7 +168,6 @@ def dashboard():
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
 
-    # PROTECTION
     if "user" not in session:
         return redirect("/login")
 
