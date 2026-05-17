@@ -245,29 +245,25 @@ def analytics():
     conn.close()
 
     today = datetime.now().date()
-    yesterday = today - timedelta(days=1)
-
     current_week = today.isocalendar()[1]
     current_year = today.year
     current_month = today.month
 
-    today_val = yesterday_val = total_val = 0
+    # ===== Recovery data (SAFE) =====
+    labels = []
+    amounts = []
+
     week_now = week_last = 0
     month_now = month_last = 0
     year_now = year_last = 0
-    distribution_total = 0
 
     for row in data:
         try:
             amount = int(row[2])
             date = datetime.strptime(row[1], "%Y-%m-%d").date()
 
-            total_val += amount
-
-            if date == today:
-                today_val += amount
-            if date == yesterday:
-                yesterday_val += amount
+            labels.append(row[1])
+            amounts.append(amount)
 
             if date.isocalendar()[1] == current_week:
                 week_now += amount
@@ -287,18 +283,27 @@ def analytics():
         except:
             pass
 
+    # ===== Distribution FIX (MAIN ISSUE) =====
+    dist_labels = []
+    dist_amounts = []
+
     for d in dist:
         try:
-            distribution_total += int(d[2])
+            amount = int(d[2])
+            dist_labels.append(d[1])
+            dist_amounts.append(amount)
         except:
             pass
 
     return render_template(
         "analytics.html",
-        today_val=today_val,
-        yesterday_val=yesterday_val,
-        total_val=total_val,
-        distribution_total=distribution_total,
+
+        labels=labels,
+        amounts=amounts,
+
+        dist_labels=dist_labels,
+        dist_amounts=dist_amounts,
+
         week_now=week_now,
         week_last=week_last,
         month_now=month_now,
