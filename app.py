@@ -14,7 +14,6 @@ def init_db():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    # RECOVERY TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS analytics(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,7 +22,6 @@ def init_db():
     )
     """)
 
-    # DISTRIBUTION TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS distribution(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,7 +30,6 @@ def init_db():
     )
     """)
 
-    # USERS TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,7 +38,6 @@ def init_db():
     )
     """)
 
-    # DEFAULT ADMIN
     c.execute("SELECT COUNT(*) FROM users")
 
     if c.fetchone()[0] == 0:
@@ -64,7 +60,6 @@ init_db()
 def login():
 
     if request.method == "POST":
-
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
 
@@ -114,9 +109,6 @@ def dashboard():
 
     conn.close()
 
-    # =========================
-    # DATE SETUP
-    # =========================
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
 
@@ -219,7 +211,6 @@ def dashboard():
     return render_template(
         "dashboard.html",
 
-        # Recovery
         total=total,
         today_total=today_total,
         yesterday_total=yesterday_total,
@@ -229,7 +220,6 @@ def dashboard():
         last_month=last_month,
         best_day=best_day,
 
-        # Distribution
         distribution_total=distribution_total,
         distribution_today=distribution_today,
         distribution_yesterday=distribution_yesterday,
@@ -239,7 +229,6 @@ def dashboard():
         distribution_last_month=distribution_last_month,
         best_distribution=best_distribution,
 
-        # Charts
         labels=labels,
         amounts=amounts,
 
@@ -373,10 +362,12 @@ def admin():
 
     conn.close()
 
-    return render_template("admin.html",
-                           data=data,
-                           distributions=distributions,
-                           users=users)
+    return render_template(
+        "admin.html",
+        data=data,
+        distributions=distributions,
+        users=users
+    )
 
 
 # =========================
@@ -426,7 +417,7 @@ def add_distribution():
 
 
 # =========================
-# DELETE
+# DELETE FUNCTIONS
 # =========================
 @app.route("/delete-recovery/<int:id>")
 def delete_recovery(id):
