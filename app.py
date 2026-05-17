@@ -370,10 +370,11 @@ def admin():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    if request.method == "POST":
+    # ADD RECOVERY
+if request.method == "POST":
 
-    day = request.form.get("day")
-    amount = request.form.get("amount")
+    day = request.form["day"]
+    amount = request.form["amount"]
 
     c.execute(
         "INSERT INTO analytics(day,amount) VALUES(?,?)",
