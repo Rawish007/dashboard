@@ -23,7 +23,7 @@ def init_db():
     )
     """)
 
-    # ✅ DISTRIBUTION TABLE ADDED
+    # DISTRIBUTION TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS distribution(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -247,14 +247,21 @@ def analytics():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
+    # RECOVERY
     c.execute("SELECT * FROM analytics ORDER BY id DESC")
     data = c.fetchall()
+
+    # DISTRIBUTION
+    c.execute("SELECT * FROM distribution ORDER BY id DESC")
+    distribution_data = c.fetchall()
 
     conn.close()
 
     today_val = 0
     yesterday_val = 0
     total_val = 0
+
+    distribution_total = 0
 
     week_now = 0
     week_last = 0
@@ -312,8 +319,19 @@ def analytics():
         except:
             pass
 
+    # DISTRIBUTION TOTAL
+    for d in distribution_data:
+
+        try:
+            distribution_total += int(d[2])
+        except:
+            pass
+
     labels = [r[1] for r in data[:10]]
     values = [r[2] for r in data[:10]]
+
+    distribution_labels = [r[1] for r in distribution_data[:10]]
+    distribution_values = [r[2] for r in distribution_data[:10]]
 
     return render_template(
 
@@ -322,6 +340,8 @@ def analytics():
         today_val=today_val,
         yesterday_val=yesterday_val,
         total_val=total_val,
+
+        distribution_total=distribution_total,
 
         week_now=week_now,
         week_last=week_last,
@@ -334,6 +354,9 @@ def analytics():
 
         daily_labels=labels,
         daily_values=values,
+
+        distribution_labels=distribution_labels,
+        distribution_values=distribution_values,
 
         week_labels=labels,
         week_values=values,
@@ -388,6 +411,58 @@ def admin():
         users=users,
         distributions=distributions
     )
+
+
+# =========================
+# ADD USER
+# =========================
+@app.route("/add-user", methods=["POST"])
+def add_user():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+
+    c.execute(
+        "INSERT INTO users(username,password) VALUES(?,?)",
+        (
+            request.form["username"],
+            request.form["password"]
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/admin")
+
+
+# =========================
+# ADD DISTRIBUTION
+# =========================
+@app.route("/add-distribution", methods=["POST"])
+def add_distribution():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+
+    c.execute(
+        "INSERT INTO distribution(day,amount) VALUES(?,?)",
+        (
+            request.form["day"],
+            request.form["amount"]
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/admin")
 
 
 # =========================
@@ -455,7 +530,7 @@ def delete_user(id):
 
     user = c.fetchone()
 
-    # ADMIN HIDE / PROTECT
+    # ADMIN PROTECTION
     if user and user[0] == "rawishtahir":
 
         conn.close()
