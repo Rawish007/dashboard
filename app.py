@@ -249,7 +249,9 @@ def analytics():
     current_year = today.year
     current_month = today.month
 
-    # ===== Recovery data (SAFE) =====
+    # =========================
+    # RECOVERY DATA
+    # =========================
     labels = []
     amounts = []
 
@@ -265,16 +267,19 @@ def analytics():
             labels.append(row[1])
             amounts.append(amount)
 
+            # WEEK
             if date.isocalendar()[1] == current_week:
                 week_now += amount
             if date.isocalendar()[1] == current_week - 1:
                 week_last += amount
 
+            # MONTH
             if date.month == current_month:
                 month_now += amount
             if date.month == current_month - 1:
                 month_last += amount
 
+            # YEAR
             if date.year == current_year:
                 year_now += amount
             if date.year == current_year - 1:
@@ -283,15 +288,45 @@ def analytics():
         except:
             pass
 
-    # ===== Distribution FIX (MAIN ISSUE) =====
+    # =========================
+    # DISTRIBUTION DATA
+    # =========================
     dist_labels = []
     dist_amounts = []
+
+    distribution_this_week = 0
+    distribution_last_week = 0
+    distribution_this_month = 0
+    distribution_last_month = 0
+    distribution_this_year = 0
+    distribution_last_year = 0
 
     for d in dist:
         try:
             amount = int(d[2])
+            date = datetime.strptime(d[1], "%Y-%m-%d").date()
+
             dist_labels.append(d[1])
             dist_amounts.append(amount)
+
+            # WEEK
+            if date.isocalendar()[1] == current_week:
+                distribution_this_week += amount
+            if date.isocalendar()[1] == current_week - 1:
+                distribution_last_week += amount
+
+            # MONTH
+            if date.month == current_month:
+                distribution_this_month += amount
+            if date.month == current_month - 1:
+                distribution_last_month += amount
+
+            # YEAR
+            if date.year == current_year:
+                distribution_this_year += amount
+            if date.year == current_year - 1:
+                distribution_last_year += amount
+
         except:
             pass
 
@@ -306,10 +341,21 @@ def analytics():
 
         week_now=week_now,
         week_last=week_last,
+
         month_now=month_now,
         month_last=month_last,
+
         year_now=year_now,
-        year_last=year_last
+        year_last=year_last,
+
+        distribution_this_week=distribution_this_week,
+        distribution_last_week=distribution_last_week,
+
+        distribution_this_month=distribution_this_month,
+        distribution_last_month=distribution_last_month,
+
+        distribution_this_year=distribution_this_year,
+        distribution_last_year=distribution_last_year
     )
 
 
