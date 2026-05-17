@@ -1,347 +1,183 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block title %}Dashboard — UMEED{% endblock %}
 
-<head>
+{% block content %}
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>UMEED Dashboard</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-/* SAME ADMIN RESET */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Inter',sans-serif;
-}
-
-body{
-    background:#f5f6f8;
-    display:flex;
-    color:#111827;
-}
-
-/* SIDEBAR */
-.sidebar{
-    width:260px;
-    height:100vh;
-    background:#ffffff;
-    border-right:1px solid #e5e7eb;
-    padding:24px;
-    position:fixed;
-}
-
-/* LOGO FIX */
-.logo{
-    font-size:22px;
-    font-weight:900;
-    margin-bottom:35px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.logo i{
-    font-size:20px;
-    width:40px;
-    height:40px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#f3f4f6;
-    border-radius:10px;
-    color:#2563eb;
-}
-
-.menu a{
-    display:flex;
-    gap:12px;
-    padding:14px;
-    margin-bottom:12px;
-    border-radius:14px;
-    text-decoration:none;
-    color:#111827;
-    font-weight:600;
-}
-
-.menu a:hover{
-    background:#eff6ff;
-    color:#2563eb;
-}
-
-/* MAIN */
-.main{
-    margin-left:260px;
-    width:100%;
-    padding:30px;
-}
-
-/* TOPBAR */
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
-}
-
-.topbar h1{
-    font-size:32px;
-    font-weight:800;
-}
-
-.badge{
-    background:#fff;
-    border:1px solid #e5e7eb;
-    padding:12px 18px;
-    border-radius:999px;
-    font-size:13px;
-    font-weight:700;
-}
-
-/* BOX */
-.box{
-    background:#fff;
-    border:1px solid #e5e7eb;
-    border-radius:20px;
-    padding:25px;
-    margin-bottom:25px;
-    box-shadow:0 4px 18px rgba(0,0,0,0.04);
-}
-
-.box h2{
-    font-size:20px;
-    margin-bottom:20px;
-    display:flex;
-    gap:10px;
-}
-
-/* CARDS */
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-    gap:15px;
-}
-
-.card{
-    background:#fff;
-    padding:18px;
-    border-radius:16px;
-    border:1px solid #e5e7eb;
-    box-shadow:0 4px 12px rgba(0,0,0,0.04);
-}
-
-.card h3{
-    font-size:12px;
-    color:#6b7280;
-    font-weight:700;
-}
-
-.card p{
-    font-size:22px;
-    font-weight:900;
-    margin-top:6px;
-}
-
-.recovery{ border-left:4px solid #2563eb; }
-.distribution{ border-left:4px solid #ef4444; }
-.analytics{ border-left:4px solid #22c55e; }
-
-/* CHART */
-.chart-box{
-    background:#fff;
-    border:1px solid #e5e7eb;
-    border-radius:20px;
-    padding:25px;
-    margin-bottom:25px;
-}
-
-/* MOBILE */
-@media(max-width:900px){
-    body{ flex-direction:column; }
-
-    .sidebar{
-        width:100%;
-        height:auto;
-        position:relative;
-    }
-
-    .main{
-        margin-left:0;
-        padding:15px;
-    }
-}
-
-</style>
-
-</head>
-
-<body>
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-
-    <div class="logo">
-        <i class="fa-solid fa-shield-halved"></i>
-        UMEED
-    </div>
-
-    <div class="menu">
-
-        <a href="/">
-            <i class="fa-solid fa-gauge"></i>
-            Dashboard
-        </a>
-
-        <a href="/analytics">
-            <i class="fa-solid fa-chart-line"></i>
-            Analytics
-        </a>
-
-        <a href="/admin">
-            <i class="fa-solid fa-screwdriver-wrench"></i>
-            Admin Panel
-        </a>
-
-        <a href="/logout">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            Logout
-        </a>
-
-    </div>
-
-</div>
-
-<!-- MAIN -->
-<div class="main">
-
-<!-- TOP -->
+<!-- ================= TOP BAR ================= -->
 <div class="topbar">
-    <h1><i class="fa-solid fa-chart-line"></i> Dashboard</h1>
-    <div class="badge">Secure Analytics System</div>
-</div>
+    <h1>
+        <i class="fa-solid fa-chart-line"></i>
+        Dashboard
+    </h1>
 
-<!-- ================= RECOVERY ================= -->
-<div class="box">
-    <h2><i class="fa-solid fa-coins"></i> Recovery Overview</h2>
-
-    <div class="cards">
-
-        <div class="card recovery"><h3>Total</h3><p>Rs {{ total or 0 }}</p></div>
-        <div class="card recovery"><h3>Today</h3><p>Rs {{ today_total or 0 }}</p></div>
-        <div class="card recovery"><h3>Yesterday</h3><p>Rs {{ yesterday_total or 0 }}</p></div>
-        <div class="card recovery"><h3>This Week</h3><p>Rs {{ this_week or 0 }}</p></div>
-        <div class="card recovery"><h3>Last Week</h3><p>Rs {{ last_week or 0 }}</p></div>
-        <div class="card recovery"><h3>This Month</h3><p>Rs {{ this_month or 0 }}</p></div>
-        <div class="card recovery"><h3>Last Month</h3><p>Rs {{ last_month or 0 }}</p></div>
-        <div class="card recovery"><h3>Best Day</h3><p>Rs {{ best_day or 0 }}</p></div>
-
+    <div class="badge">
+        <i class="fa-solid fa-lock"></i>
+        Secure Analytics
     </div>
 </div>
 
-<!-- ================= DISTRIBUTION ================= -->
-<div class="box">
-    <h2><i class="fa-solid fa-truck"></i> Distribution Overview</h2>
+<!-- ================= FILTER ================= -->
+<form method="GET" class="filter-box">
 
-    <div class="cards">
+    <input type="date" name="start_date">
+    <input type="date" name="end_date">
 
-        <div class="card distribution"><h3>Total</h3><p>Rs {{ distribution_total or 0 }}</p></div>
-        <div class="card distribution"><h3>Today</h3><p>Rs {{ distribution_today or 0 }}</p></div>
-        <div class="card distribution"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday or 0 }}</p></div>
-        <div class="card distribution"><h3>This Week</h3><p>Rs {{ distribution_this_week or 0 }}</p></div>
-        <div class="card distribution"><h3>Last Week</h3><p>Rs {{ distribution_last_week or 0 }}</p></div>
-        <div class="card distribution"><h3>This Month</h3><p>Rs {{ distribution_this_month or 0 }}</p></div>
-        <div class="card distribution"><h3>Last Month</h3><p>Rs {{ distribution_last_month or 0 }}</p></div>
-        <div class="card distribution"><h3>Best</h3><p>Rs {{ best_distribution or 0 }}</p></div>
+    <button type="submit">
+        <i class="fa-solid fa-filter"></i>
+        Apply Filter
+    </button>
 
+</form>
+
+<!-- ================= CARDS ================= -->
+<div class="cards">
+
+    <div class="card">
+        <h3>Total Recovery</h3>
+        <p>Rs {{ total or 0 }}</p>
     </div>
+
+    <div class="card">
+        <h3>Today</h3>
+        <p>Rs {{ today_total or 0 }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Yesterday</h3>
+        <p>Rs {{ yesterday_total or 0 }}</p>
+    </div>
+
+    <div class="card">
+        <h3>This Week</h3>
+        <p>Rs {{ this_week or 0 }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Last Week</h3>
+        <p>Rs {{ last_week or 0 }}</p>
+    </div>
+
+    <div class="card">
+        <h3>This Month</h3>
+        <p>Rs {{ this_month or 0 }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Last Month</h3>
+        <p>Rs {{ last_month or 0 }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Best Day</h3>
+        <p>Rs {{ best_day or 0 }}</p>
+    </div>
+
 </div>
 
-<!-- ================= NEW ANALYTICS PANEL ================= -->
-<div class="box">
-    <h2><i class="fa-solid fa-chart-pie"></i> Analytics Overview</h2>
-
-    <div class="cards">
-
-        <div class="card analytics">
-            <h3>Weekly Growth</h3>
-            <p>{{ (this_week or 0) - (last_week or 0) }}</p>
-        </div>
-
-        <div class="card analytics">
-            <h3>Monthly Growth</h3>
-            <p>{{ (this_month or 0) - (last_month or 0) }}</p>
-        </div>
-
-        <div class="card analytics">
-            <h3>Recovery Total</h3>
-            <p>{{ total or 0 }}</p>
-        </div>
-
-        <div class="card analytics">
-            <h3>Distribution Total</h3>
-            <p>{{ distribution_total or 0 }}</p>
-        </div>
-
-    </div>
-</div>
-
-<!-- ================= CHARTS ================= -->
+<!-- ================= CHART ================= -->
 <div class="chart-box">
-    <h2>Recovery Chart</h2>
-    <canvas id="recoveryChart"></canvas>
+
+    <h2>
+        <i class="fa-solid fa-chart-bar"></i>
+        Recovery Analytics Chart
+    </h2>
+
+    <canvas id="myChart"></canvas>
+
 </div>
 
-<div class="chart-box">
-    <h2>Distribution Chart</h2>
-    <canvas id="distributionChart"></canvas>
-</div>
+<!-- ================= PERFORMANCE ================= -->
+<div class="performance">
+
+    <div class="performance-card">
+        <h3>Weekly Performance</h3>
+
+        <div class="status">
+
+            {% if this_week > last_week %}
+                📈 Better than last week
+            {% elif this_week == last_week %}
+                ➖ Same as last week
+            {% else %}
+                📉 Lower than last week
+            {% endif %}
+
+        </div>
+    </div>
+
+    <div class="performance-card">
+        <h3>Monthly Performance</h3>
+
+        <div class="status">
+
+            {% if this_month > last_month %}
+                🚀 Growth this month
+            {% elif this_month == last_month %}
+                ➖ Same as last month
+            {% else %}
+                ⚠️ Down this month
+            {% endif %}
+
+        </div>
+    </div>
 
 </div>
+
+<!-- ================= TABLE ================= -->
+<div class="table-box">
+
+    <h2>Recent Recovery</h2>
+
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Amount</th>
+        </tr>
+
+        {% for row in data %}
+        <tr>
+            <td>{{ row[1] }}</td>
+            <td class="amount">Rs {{ row[2] }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+<!-- ================= CHART SCRIPT ================= -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
-/* FIXED VARIABLES */
-const rLabels = {{ labels|default([])|tojson }};
-const rData = {{ amounts|default([])|tojson }};
+const labels = {{ labels|tojson }};
+const amounts = {{ amounts|tojson }};
 
-const dLabels = {{ dist_labels|default([])|tojson }};
-const dData = {{ dist_amounts|default([])|tojson }};
+new Chart(document.getElementById("myChart"), {
 
-/* RECOVERY */
-new Chart(document.getElementById('recoveryChart'), {
-    type:'bar',
-    data:{
-        labels:rLabels,
-        datasets:[{
-            label:'Recovery',
-            data:rData,
-            backgroundColor:'#2563eb'
+    type: "bar",
+
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Recovery",
+            data: amounts,
+            backgroundColor: "#2563eb",
+            borderRadius: 10
         }]
-    }
-});
+    },
 
-/* DISTRIBUTION */
-new Chart(document.getElementById('distributionChart'), {
-    type:'bar',
-    data:{
-        labels:dLabels,
-        datasets:[{
-            label:'Distribution',
-            data:dData,
-            backgroundColor:'#ef4444'
-        }]
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
     }
+
 });
 
 </script>
 
-</body>
-</html>
+{% endblock %}
