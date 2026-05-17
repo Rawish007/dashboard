@@ -14,6 +14,7 @@ def init_db():
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
+    # RECOVERY TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS analytics(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,6 +23,7 @@ def init_db():
     )
     """)
 
+    # DISTRIBUTION TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS distribution(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,6 +32,7 @@ def init_db():
     )
     """)
 
+    # USERS TABLE
     c.execute("""
     CREATE TABLE IF NOT EXISTS users(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,6 +41,7 @@ def init_db():
     )
     """)
 
+    # DEFAULT ADMIN
     c.execute("SELECT COUNT(*) FROM users")
 
     if c.fetchone()[0] == 0:
@@ -110,6 +114,9 @@ def dashboard():
 
     conn.close()
 
+    # =========================
+    # DATE SETUP
+    # =========================
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
 
@@ -119,6 +126,7 @@ def dashboard():
 
     prev_month = 12 if current_month == 1 else current_month - 1
     prev_month_year = current_year - 1 if current_month == 1 else current_year
+
 
     # =========================
     # RECOVERY STATS
@@ -163,13 +171,17 @@ def dashboard():
         except:
             pass
 
+
     # =========================
-    # DISTRIBUTION STATS (FULL FIX ADDED)
+    # DISTRIBUTION STATS
     # =========================
     distribution_total = distribution_today = distribution_yesterday = 0
     distribution_this_week = distribution_last_week = 0
     distribution_this_month = distribution_last_month = 0
     best_distribution = 0
+
+    dist_labels = []
+    dist_amounts = []
 
     for d in distributions:
         try:
@@ -178,6 +190,9 @@ def dashboard():
 
             distribution_total += amount
             best_distribution = max(best_distribution, amount)
+
+            dist_labels.append(d[1])
+            dist_amounts.append(amount)
 
             if date == today:
                 distribution_today += amount
@@ -200,9 +215,11 @@ def dashboard():
         except:
             pass
 
+
     return render_template(
         "dashboard.html",
 
+        # Recovery
         total=total,
         today_total=today_total,
         yesterday_total=yesterday_total,
@@ -212,6 +229,7 @@ def dashboard():
         last_month=last_month,
         best_day=best_day,
 
+        # Distribution
         distribution_total=distribution_total,
         distribution_today=distribution_today,
         distribution_yesterday=distribution_yesterday,
@@ -221,8 +239,12 @@ def dashboard():
         distribution_last_month=distribution_last_month,
         best_distribution=best_distribution,
 
+        # Charts
         labels=labels,
         amounts=amounts,
+
+        dist_labels=dist_labels,
+        dist_amounts=dist_amounts,
 
         data=data,
         distributions=distributions
@@ -230,7 +252,7 @@ def dashboard():
 
 
 # =========================
-# ANALYTICS (UNCHANGED BUT SAFE)
+# ANALYTICS
 # =========================
 @app.route("/analytics")
 def analytics():
@@ -249,18 +271,18 @@ def analytics():
 
     conn.close()
 
-    today_val = yesterday_val = total_val = 0
-    week_now = week_last = 0
-    month_now = month_last = 0
-    year_now = year_last = 0
-    distribution_total = 0
-
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
 
     current_week = today.isocalendar()[1]
     current_year = today.year
     current_month = today.month
+
+    today_val = yesterday_val = total_val = 0
+    week_now = week_last = 0
+    month_now = month_last = 0
+    year_now = year_last = 0
+    distribution_total = 0
 
     for row in data:
         try:
@@ -302,12 +324,6 @@ def analytics():
         except:
             pass
 
-    labels = [r[1] for r in data[:10]]
-    values = [r[2] for r in data[:10]]
-
-    dist_labels = [r[1] for r in dist[:10]]
-    dist_values = [r[2] for r in dist[:10]]
-
     return render_template(
         "analytics.html",
 
@@ -324,11 +340,8 @@ def analytics():
         year_now=year_now,
         year_last=year_last,
 
-        daily_labels=labels,
-        daily_values=values,
-
-        distribution_labels=dist_labels,
-        distribution_values=dist_values
+        data=data,
+        dist=dist
     )
 
 
@@ -360,12 +373,10 @@ def admin():
 
     conn.close()
 
-    return render_template(
-        "admin.html",
-        data=data,
-        distributions=distributions,
-        users=users
-    )
+    return render_template("admin.html",
+                           data=data,
+                           distributions=distributions,
+                           users=users)
 
 
 # =========================
@@ -415,7 +426,7 @@ def add_distribution():
 
 
 # =========================
-# DELETE FUNCTIONS
+# DELETE
 # =========================
 @app.route("/delete-recovery/<int:id>")
 def delete_recovery(id):
