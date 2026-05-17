@@ -1,135 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 
-<title>Analytics Studio Pro</title>
-
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>UMEED Analytics Pro</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 
+/* RESET */
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:'Inter',sans-serif;
 }
 
 body{
-    font-family:Arial;
-    background:#f6f8fc;
-    padding:20px;
+    background:#f5f6f8;
+    display:flex;
 }
 
-/* TITLE */
-
-.title{
-    font-size:32px;
-    font-weight:bold;
-    margin-bottom:20px;
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:#fff;
+    border-right:1px solid #e5e7eb;
+    padding:24px;
+    position:fixed;
 }
 
-/* TOP STATS */
-
-.top-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:20px;
+.logo{
+    font-size:26px;
+    font-weight:900;
+    margin-bottom:30px;
 }
 
-.card{
-    background:white;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 2px 12px rgba(0,0,0,0.08);
+.logo i{
+    color:#2563eb;
 }
 
-.card h3{
-    color:#666;
-    font-size:14px;
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
     margin-bottom:10px;
+    border-radius:12px;
+    text-decoration:none;
+    color:#111827;
+    font-weight:600;
 }
 
-.card p{
+.menu a:hover{
+    background:#eff6ff;
+    color:#2563eb;
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    padding:25px;
+    width:100%;
+}
+
+/* TOP */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.topbar h1{
     font-size:28px;
-    font-weight:bold;
+    font-weight:900;
 }
 
-/* MAIN GRID */
+.badge{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    padding:10px 16px;
+    border-radius:999px;
+    font-weight:700;
+}
 
+/* GRID */
 .grid{
     display:grid;
-    grid-template-columns:1.5fr 1fr;
-    gap:20px;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
 }
 
 /* BOX */
-
 .box{
-    background:white;
+    background:#fff;
     padding:20px;
     border-radius:16px;
-    box-shadow:0 2px 12px rgba(0,0,0,0.08);
-    margin-bottom:20px;
+    border:1px solid #e5e7eb;
+    box-shadow:0 4px 14px rgba(0,0,0,0.05);
 }
 
 .box h2{
     margin-bottom:15px;
-    font-size:20px;
-}
-
-canvas{
-    width:100% !important;
-    max-height:350px;
+    font-size:18px;
 }
 
 /* COMPARE */
-
 .compare{
-    margin-bottom:15px;
-    line-height:30px;
-    font-size:15px;
+    font-size:14px;
+    margin-bottom:10px;
+    line-height:24px;
 }
 
 .diff{
     color:green;
-    font-weight:bold;
+    font-weight:800;
 }
 
 /* MOBILE */
-
 @media(max-width:900px){
+
+    body{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    .main{
+        margin-left:0;
+    }
 
     .grid{
         grid-template-columns:1fr;
     }
-
-    .top-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
 }
 
-@media(max-width:500px){
-
-    body{
-        padding:12px;
-    }
-
-    .top-grid{
-        grid-template-columns:1fr;
-    }
-
-    .title{
-        font-size:24px;
-    }
-
-    .card p{
-        font-size:22px;
-    }
-
+canvas{
+    width:100% !important;
+    max-height:300px;
 }
 
 </style>
@@ -138,297 +161,190 @@ canvas{
 
 <body>
 
-<h1 class="title">
-📊 Analytics Studio Pro
-</h1>
+<!-- SIDEBAR -->
+<div class="sidebar">
 
-<!-- TOP STATS -->
-
-<div class="top-grid">
-
-    <div class="card">
-        <h3>Today</h3>
-        <p>{{ today_val }}</p>
+    <div class="logo">
+        <i class="fa-solid fa-shield-halved"></i> UMEED
     </div>
 
-    <div class="card">
-        <h3>Yesterday</h3>
-        <p>{{ yesterday_val }}</p>
-    </div>
-
-    <div class="card">
-        <h3>Total</h3>
-        <p>{{ total_val }}</p>
-    </div>
-
-    <div class="card">
-        <h3>Growth</h3>
-        <p class="diff">
-            {{ today_val - yesterday_val }}
-        </p>
+    <div class="menu">
+        <a href="/"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="/analytics"><i class="fa-solid fa-chart-simple"></i> Analytics</a>
+        <a href="/admin"><i class="fa-solid fa-gear"></i> Admin</a>
+        <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
     </div>
 
 </div>
 
-<!-- MAIN GRID -->
+<!-- MAIN -->
+<div class="main">
 
-<div class="grid">
-
-<!-- LEFT SIDE -->
-
-<div>
-
-    <div class="box">
-
-        <h2>📈 Daily Trend</h2>
-
-        <canvas id="daily"></canvas>
-
+    <div class="topbar">
+        <h1>📊 Analytics Pro</h1>
+        <div class="badge">Live Insights</div>
     </div>
 
-    <div class="box">
+    <div class="grid">
 
-        <h2>📊 Weekly Trend</h2>
-
-        <canvas id="weekly"></canvas>
-
-    </div>
-
-    <div class="box">
-
-        <h2>📅 Monthly Trend</h2>
-
-        <canvas id="monthly"></canvas>
-
-    </div>
-
-    <div class="box">
-
-        <h2>📆 Yearly Trend</h2>
-
-        <canvas id="yearly"></canvas>
-
-    </div>
-
-</div>
-
-<!-- RIGHT SIDE -->
-
-<div>
-
-    <div class="box">
-
-        <h2>⚖ Weekly Compare</h2>
-
-        <div class="compare">
-
-            This Week:
-            <b>{{ week_now }}</b>
-
-            <br>
-
-            Last Week:
-            <b>{{ week_last }}</b>
-
-            <br>
-
-            Difference:
-            <span class="diff">
-                {{ week_now - week_last }}
-            </span>
-
+        <!-- RECOVERY DAILY -->
+        <div class="box">
+            <h2>📈 Recovery Trend</h2>
+            <canvas id="recovery"></canvas>
         </div>
 
-        <canvas id="wcompare"></canvas>
-
-    </div>
-
-    <div class="box">
-
-        <h2>⚖ Monthly Compare</h2>
-
-        <div class="compare">
-
-            This Month:
-            <b>{{ month_now }}</b>
-
-            <br>
-
-            Last Month:
-            <b>{{ month_last }}</b>
-
-            <br>
-
-            Difference:
-            <span class="diff">
-                {{ month_now - month_last }}
-            </span>
-
+        <!-- DISTRIBUTION DAILY -->
+        <div class="box">
+            <h2>📉 Distribution Trend</h2>
+            <canvas id="distribution"></canvas>
         </div>
 
-        <canvas id="mcompare"></canvas>
+        <!-- WEEKLY COMPARE -->
+        <div class="box">
 
-    </div>
+            <h2>⚖ Weekly Comparison (Recovery)</h2>
 
-    <div class="box">
+            <div class="compare">
+                This Week: <b>{{ week_now }}</b><br>
+                Last Week: <b>{{ week_last }}</b><br>
+                Difference:
+                <span class="diff">{{ week_now - week_last }}</span>
+            </div>
 
-        <h2>⚖ Yearly Compare</h2>
-
-        <div class="compare">
-
-            This Year:
-            <b>{{ year_now }}</b>
-
-            <br>
-
-            Last Year:
-            <b>{{ year_last }}</b>
-
-            <br>
-
-            Difference:
-            <span class="diff">
-                {{ year_now - year_last }}
-            </span>
-
+            <canvas id="weekRec"></canvas>
         </div>
 
-        <canvas id="ycompare"></canvas>
+        <!-- WEEKLY DISTRIBUTION -->
+        <div class="box">
+
+            <h2>⚖ Weekly Comparison (Distribution)</h2>
+
+            <div class="compare">
+                This Week: <b>{{ distribution_this_week }}</b><br>
+                Last Week: <b>{{ distribution_last_week }}</b><br>
+                Difference:
+                <span class="diff">{{ distribution_this_week - distribution_last_week }}</span>
+            </div>
+
+            <canvas id="weekDist"></canvas>
+        </div>
+
+        <!-- MONTHLY RECOVERY -->
+        <div class="box">
+
+            <h2>📊 Monthly Recovery Compare</h2>
+
+            <div class="compare">
+                This Month: <b>{{ month_now }}</b><br>
+                Last Month: <b>{{ month_last }}</b><br>
+                Difference:
+                <span class="diff">{{ month_now - month_last }}</span>
+            </div>
+
+            <canvas id="monthRec"></canvas>
+        </div>
+
+        <!-- MONTHLY DISTRIBUTION -->
+        <div class="box">
+
+            <h2>📊 Monthly Distribution Compare</h2>
+
+            <div class="compare">
+                This Month: <b>{{ distribution_this_month }}</b><br>
+                Last Month: <b>{{ distribution_last_month }}</b><br>
+                Difference:
+                <span class="diff">{{ distribution_this_month - distribution_last_month }}</span>
+            </div>
+
+            <canvas id="monthDist"></canvas>
+        </div>
 
     </div>
-
-</div>
 
 </div>
 
 <script>
 
-// DAILY
-
-new Chart(document.getElementById("daily"),{
-
+/* RECOVERY */
+new Chart(document.getElementById("recovery"),{
     type:"line",
-
     data:{
         labels: {{ daily_labels|tojson }},
         datasets:[{
-            label:"Daily",
+            label:"Recovery",
             data: {{ daily_values|tojson }},
             borderColor:"#2563eb",
-            backgroundColor:"rgba(37,99,235,0.1)",
             fill:true,
             tension:0.4
         }]
     }
-
 });
 
-// WEEKLY
-
-new Chart(document.getElementById("weekly"),{
-
+/* DISTRIBUTION */
+new Chart(document.getElementById("distribution"),{
     type:"line",
-
     data:{
-        labels: {{ week_labels|tojson }},
+        labels: {{ distribution_labels|tojson }},
         datasets:[{
-            label:"Weekly",
-            data: {{ week_values|tojson }},
-            borderColor:"#22c55e",
-            backgroundColor:"rgba(34,197,94,0.1)",
-            fill:true,
-            tension:0.4
-        }]
-    }
-
-});
-
-// MONTHLY
-
-new Chart(document.getElementById("monthly"),{
-
-    type:"bar",
-
-    data:{
-        labels: {{ month_labels|tojson }},
-        datasets:[{
-            label:"Monthly",
-            data: {{ month_values|tojson }},
-            backgroundColor:"#f59e0b"
-        }]
-    }
-
-});
-
-// YEARLY
-
-new Chart(document.getElementById("yearly"),{
-
-    type:"line",
-
-    data:{
-        labels: {{ year_labels|tojson }},
-        datasets:[{
-            label:"Yearly",
-            data: {{ year_values|tojson }},
+            label:"Distribution",
+            data: {{ distribution_values|tojson }},
             borderColor:"#ef4444",
-            backgroundColor:"rgba(239,68,68,0.1)",
             fill:true,
             tension:0.4
         }]
     }
-
 });
 
-// WEEK COMPARE
-
-new Chart(document.getElementById("wcompare"),{
-
+/* WEEK RECOVERY */
+new Chart(document.getElementById("weekRec"),{
     type:"bar",
-
     data:{
         labels:["This","Last"],
         datasets:[{
-            label:"Week",
-            data:[{{ week_now }},{{ week_last }}],
+            label:"Recovery Week",
+            data:[{{ week_now }}, {{ week_last }}],
             backgroundColor:["#2563eb","#94a3b8"]
         }]
     }
-
 });
 
-// MONTH COMPARE
-
-new Chart(document.getElementById("mcompare"),{
-
+/* WEEK DISTRIBUTION */
+new Chart(document.getElementById("weekDist"),{
     type:"bar",
-
     data:{
         labels:["This","Last"],
         datasets:[{
-            label:"Month",
-            data:[{{ month_now }},{{ month_last }}],
-            backgroundColor:["#22c55e","#94a3b8"]
-        }]
-    }
-
-});
-
-// YEAR COMPARE
-
-new Chart(document.getElementById("ycompare"),{
-
-    type:"bar",
-
-    data:{
-        labels:["This","Last"],
-        datasets:[{
-            label:"Year",
-            data:[{{ year_now }},{{ year_last }}],
+            label:"Distribution Week",
+            data:[{{ distribution_this_week }}, {{ distribution_last_week }}],
             backgroundColor:["#ef4444","#94a3b8"]
         }]
     }
+});
 
+/* MONTH RECOVERY */
+new Chart(document.getElementById("monthRec"),{
+    type:"bar",
+    data:{
+        labels:["This","Last"],
+        datasets:[{
+            label:"Recovery Month",
+            data:[{{ month_now }}, {{ month_last }}],
+            backgroundColor:["#22c55e","#94a3b8"]
+        }]
+    }
+});
+
+/* MONTH DISTRIBUTION */
+new Chart(document.getElementById("monthDist"),{
+    type:"bar",
+    data:{
+        labels:["This","Last"],
+        datasets:[{
+            label:"Distribution Month",
+            data:[{{ distribution_this_month }}, {{ distribution_last_month }}],
+            backgroundColor:["#f59e0b","#94a3b8"]
+        }]
+    }
 });
 
 </script>
