@@ -389,6 +389,31 @@ def admin():
         distributions=distributions
     )
 
+# =========================
+# ADD DISTRIBUTION
+# =========================
+@app.route("/add-distribution", methods=["POST"])
+def add_distribution():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    day = request.form["day"]
+    amount = request.form["amount"]
+
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+
+    c.execute(
+        "INSERT INTO distribution(day,amount) VALUES(?,?)",
+        (day, amount)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/admin")
+    
 
 # =========================
 # ADD USER
