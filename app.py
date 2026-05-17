@@ -338,36 +338,45 @@
 ‎# ADMIN
 ‎# =========================
 ‎@app.route("/admin", methods=["GET", "POST"])
-‎def admin():
-‎
-‎    if "user" not in session:
-‎        return redirect("/login")
-‎
-‎    conn = sqlite3.connect("database.db")
-‎    c = conn.cursor()
-‎
-‎    if request.method == "POST":
-‎        c.execute("INSERT INTO analytics(day,amount) VALUES(?,?)",
-‎                  (request.form["day"], request.form["amount"]))
-‎        conn.commit()
-‎
-‎    c.execute("SELECT * FROM analytics ORDER BY id DESC")
-‎    data = c.fetchall()
-‎
-‎    c.execute("SELECT * FROM distribution ORDER BY id DESC")
-‎    distributions = c.fetchall()
-‎
-‎    c.execute("SELECT * FROM users ORDER BY id DESC")
-‎    users = c.fetchall()
-‎
-‎    conn.close()
-‎
-‎    return render_template(
-‎        "admin.html",
-‎        data=data,
-‎        distributions=distributions,
-‎        users=users
-‎    )
+@app.route("/admin", methods=["GET", "POST"])
+def admin():
+
+    conn = sqlite3.connect("database.db")
+    c = conn.cursor()
+
+    # ADD RECOVERY
+    if request.method == "POST":
+
+        day = request.form.get("day")
+        amount = request.form.get("amount")
+
+        c.execute(
+            "INSERT INTO analytics(day, amount) VALUES(?, ?)",
+            (day, amount)
+        )
+
+        conn.commit()
+
+        return redirect("/admin")
+
+    # FETCH DATA
+    c.execute("SELECT * FROM analytics ORDER BY id DESC")
+    data = c.fetchall()
+
+    c.execute("SELECT * FROM distributions ORDER BY id DESC")
+    distributions = c.fetchall()
+
+    c.execute("SELECT * FROM users")
+    users = c.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "admin.html",
+        data=data,
+        distributions=distributions,
+        users=users
+    )
 ‎
 ‎
 ‎# =========================
