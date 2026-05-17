@@ -1,77 +1,301 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GROW</title>
+
+<title>Analytics Studio Pro</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body{font-family:Arial;background:#f6f8fc;padding:20px}
-.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:20px}
-.box{background:white;padding:20px;border-radius:12px;margin-bottom:20px}
-.card{background:white;padding:15px;border-radius:12px}
-.top-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.diff{color:green;font-weight:bold}
-canvas{margin-top:10px}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial;
+    background:#f6f8fc;
+    padding:20px;
+}
+
+/* TITLE */
+
+.title{
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+/* TOP STATS */
+
+.top-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+
+.card h3{
+    color:#666;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.card p{
+    font-size:28px;
+    font-weight:bold;
+}
+
+/* MAIN GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+}
+
+/* BOX */
+
+.box{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom:20px;
+}
+
+.box h2{
+    margin-bottom:15px;
+    font-size:20px;
+}
+
+canvas{
+    width:100% !important;
+    max-height:350px;
+}
+
+/* COMPARE */
+
+.compare{
+    margin-bottom:15px;
+    line-height:30px;
+    font-size:15px;
+}
+
+.diff{
+    color:green;
+    font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .top-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:500px){
+
+    body{
+        padding:12px;
+    }
+
+    .top-grid{
+        grid-template-columns:1fr;
+    }
+
+    .title{
+        font-size:24px;
+    }
+
+    .card p{
+        font-size:22px;
+    }
+
+}
+
 </style>
+
 </head>
 
 <body>
 
-<h1>Research</h1>
+<h1 class="title">
+📊 Analytics Studio Pro
+</h1>
+
+<!-- TOP STATS -->
 
 <div class="top-grid">
-<div class="card">Today <h3>{{ today_val }}</h3></div>
-<div class="card">Yesterday <h3>{{ yesterday_val }}</h3></div>
-<div class="card">Total <h3>{{ total_val }}</h3></div>
+
+    <div class="card">
+        <h3>Today</h3>
+        <p>{{ today_val }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Yesterday</h3>
+        <p>{{ yesterday_val }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Total</h3>
+        <p>{{ total_val }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Growth</h3>
+        <p class="diff">
+            {{ today_val - yesterday_val }}
+        </p>
+    </div>
+
 </div>
+
+<!-- MAIN GRID -->
 
 <div class="grid">
 
-<!-- LEFT -->
+<!-- LEFT SIDE -->
+
 <div>
 
-<div class="box">
-<h3>Daily</h3>
-<canvas id="daily"></canvas>
+    <div class="box">
+
+        <h2>📈 Daily Trend</h2>
+
+        <canvas id="daily"></canvas>
+
+    </div>
+
+    <div class="box">
+
+        <h2>📊 Weekly Trend</h2>
+
+        <canvas id="weekly"></canvas>
+
+    </div>
+
+    <div class="box">
+
+        <h2>📅 Monthly Trend</h2>
+
+        <canvas id="monthly"></canvas>
+
+    </div>
+
+    <div class="box">
+
+        <h2>📆 Yearly Trend</h2>
+
+        <canvas id="yearly"></canvas>
+
+    </div>
+
 </div>
 
-<div class="box">
-<h3>Weekly</h3>
-<canvas id="weekly"></canvas>
-</div>
+<!-- RIGHT SIDE -->
 
-<div class="box">
-<h3>Monthly</h3>
-<canvas id="monthly"></canvas>
-</div>
-
-<div class="box">
-<h3>Yearly</h3>
-<canvas id="yearly"></canvas>
-</div>
-
-</div>
-
-<!-- RIGHT -->
 <div>
 
-<div class="box">
-<h3>Week Compare</h3>
-<p>{{ week_now }} vs {{ week_last }}</p>
-<canvas id="wcompare"></canvas>
-</div>
+    <div class="box">
 
-<div class="box">
-<h3>Month Compare</h3>
-<p>{{ month_now }} vs {{ month_last }}</p>
-<canvas id="mcompare"></canvas>
-</div>
+        <h2>⚖ Weekly Compare</h2>
 
-<div class="box">
-<h3>Year Compare</h3>
-<p>{{ year_now }} vs {{ year_last }}</p>
-<canvas id="ycompare"></canvas>
-</div>
+        <div class="compare">
+
+            This Week:
+            <b>{{ week_now }}</b>
+
+            <br>
+
+            Last Week:
+            <b>{{ week_last }}</b>
+
+            <br>
+
+            Difference:
+            <span class="diff">
+                {{ week_now - week_last }}
+            </span>
+
+        </div>
+
+        <canvas id="wcompare"></canvas>
+
+    </div>
+
+    <div class="box">
+
+        <h2>⚖ Monthly Compare</h2>
+
+        <div class="compare">
+
+            This Month:
+            <b>{{ month_now }}</b>
+
+            <br>
+
+            Last Month:
+            <b>{{ month_last }}</b>
+
+            <br>
+
+            Difference:
+            <span class="diff">
+                {{ month_now - month_last }}
+            </span>
+
+        </div>
+
+        <canvas id="mcompare"></canvas>
+
+    </div>
+
+    <div class="box">
+
+        <h2>⚖ Yearly Compare</h2>
+
+        <div class="compare">
+
+            This Year:
+            <b>{{ year_now }}</b>
+
+            <br>
+
+            Last Year:
+            <b>{{ year_last }}</b>
+
+            <br>
+
+            Difference:
+            <span class="diff">
+                {{ year_now - year_last }}
+            </span>
+
+        </div>
+
+        <canvas id="ycompare"></canvas>
+
+    </div>
 
 </div>
 
@@ -80,55 +304,131 @@ canvas{margin-top:10px}
 <script>
 
 // DAILY
+
 new Chart(document.getElementById("daily"),{
-type:"line",
-data:{
-labels:{{ daily_labels|tojson }},
-datasets:[{data:{{ daily_values|tojson }},borderColor:"blue"}]
-}
+
+    type:"line",
+
+    data:{
+        labels: {{ daily_labels|tojson }},
+        datasets:[{
+            label:"Daily",
+            data: {{ daily_values|tojson }},
+            borderColor:"#2563eb",
+            backgroundColor:"rgba(37,99,235,0.1)",
+            fill:true,
+            tension:0.4
+        }]
+    }
+
 });
 
 // WEEKLY
+
 new Chart(document.getElementById("weekly"),{
-type:"line",
-data:{
-labels:{{ week_labels|tojson }},
-datasets:[{data:{{ week_values|tojson }},borderColor:"green"}]
-}
+
+    type:"line",
+
+    data:{
+        labels: {{ week_labels|tojson }},
+        datasets:[{
+            label:"Weekly",
+            data: {{ week_values|tojson }},
+            borderColor:"#22c55e",
+            backgroundColor:"rgba(34,197,94,0.1)",
+            fill:true,
+            tension:0.4
+        }]
+    }
+
 });
 
 // MONTHLY
+
 new Chart(document.getElementById("monthly"),{
-type:"bar",
-data:{
-labels:{{ month_labels|tojson }},
-datasets:[{data:{{ month_values|tojson }},backgroundColor:"orange"}]
-}
+
+    type:"bar",
+
+    data:{
+        labels: {{ month_labels|tojson }},
+        datasets:[{
+            label:"Monthly",
+            data: {{ month_values|tojson }},
+            backgroundColor:"#f59e0b"
+        }]
+    }
+
 });
 
 // YEARLY
+
 new Chart(document.getElementById("yearly"),{
-type:"line",
-data:{
-labels:{{ year_labels|tojson }},
-datasets:[{data:{{ year_values|tojson }},borderColor:"red"}]
-}
+
+    type:"line",
+
+    data:{
+        labels: {{ year_labels|tojson }},
+        datasets:[{
+            label:"Yearly",
+            data: {{ year_values|tojson }},
+            borderColor:"#ef4444",
+            backgroundColor:"rgba(239,68,68,0.1)",
+            fill:true,
+            tension:0.4
+        }]
+    }
+
 });
 
-// COMPARE
+// WEEK COMPARE
+
 new Chart(document.getElementById("wcompare"),{
-type:"bar",
-data:{labels:["This","Last"],datasets:[{data:[{{ week_now }},{{ week_last }}]}]}
+
+    type:"bar",
+
+    data:{
+        labels:["This","Last"],
+        datasets:[{
+            label:"Week",
+            data:[{{ week_now }},{{ week_last }}],
+            backgroundColor:["#2563eb","#94a3b8"]
+        }]
+    }
+
 });
+
+// MONTH COMPARE
 
 new Chart(document.getElementById("mcompare"),{
-type:"bar",
-data:{labels:["This","Last"],datasets:[{data:[{{ month_now }},{{ month_last }}]}]}
+
+    type:"bar",
+
+    data:{
+        labels:["This","Last"],
+        datasets:[{
+            label:"Month",
+            data:[{{ month_now }},{{ month_last }}],
+            backgroundColor:["#22c55e","#94a3b8"]
+        }]
+    }
+
 });
 
+// YEAR COMPARE
+
 new Chart(document.getElementById("ycompare"),{
-type:"bar",
-data:{labels:["This","Last"],datasets:[{data:[{{ year_now }},{{ year_last }}]}]}
+
+    type:"bar",
+
+    data:{
+        labels:["This","Last"],
+        datasets:[{
+            label:"Year",
+            data:[{{ year_now }},{{ year_last }}],
+            backgroundColor:["#ef4444","#94a3b8"]
+        }]
+    }
+
 });
 
 </script>
