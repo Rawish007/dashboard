@@ -1,552 +1,322 @@
-  
-<!DOCTYPE html>  
-<html lang="en">  
-  
-<head>  
-  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  
-<title>UMEED ADMIN</title>  
-  
-<link rel="stylesheet"  
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">  
-  
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">  
-  
-<style>  
-  
-*{  
-    margin:0;  
-    padding:0;  
-    box-sizing:border-box;  
-}  
-  
-body{  
-    font-family:'Inter',sans-serif;  
-    background:#f5f6f8;  
-    color:#111827;  
-    display:flex;  
-}  
-  
-/* SIDEBAR */  
-  
-.sidebar{  
-    width:260px;  
-    height:100vh;  
-    background:#ffffff;  
-    border-right:1px solid #e5e7eb;  
-    padding:24px;  
-    position:fixed;  
-    left:0;  
-    top:0;  
-}  
-  
-.logo{  
-    font-size:28px;  
-    font-weight:800;  
-    margin-bottom:40px;  
-    color:#111827;  
-}  
-  
-.logo i{  
-    color:#2563eb;  
-    margin-right:8px;  
-}  
-  
-.menu a{  
-    display:flex;  
-    align-items:center;  
-    gap:12px;  
-    padding:14px;  
-    margin-bottom:12px;  
-    border-radius:14px;  
-    text-decoration:none;  
-    color:#111827;  
-    font-size:15px;  
-    font-weight:600;  
-    transition:0.3s;  
-}  
-  
-.menu a:hover{  
-    background:#eff6ff;  
-    color:#2563eb;  
-}  
-  
-.menu i{  
-    width:40px;  
-    height:40px;  
-    background:#f3f4f6;  
-    border-radius:12px;  
-    display:flex;  
-    align-items:center;  
-    justify-content:center;  
-    font-size:16px;  
-}  
-  
-/* MAIN */  
-  
-.main{  
-    margin-left:260px;  
-    width:100%;  
-    padding:30px;  
-}  
-  
-/* TOPBAR */  
-  
-.topbar{  
-    display:flex;  
-    justify-content:space-between;  
-    align-items:center;  
-    margin-bottom:30px;  
-}  
-  
-.topbar h1{  
-    font-size:32px;  
-    font-weight:800;  
-}  
-  
-.badge{  
-    background:#fff;  
-    border:1px solid #e5e7eb;  
-    padding:12px 18px;  
-    border-radius:999px;  
-    font-size:13px;  
-    font-weight:700;  
-}  
-  
-/* BOX */  
-  
-.box{  
-    background:#fff;  
-    border:1px solid #e5e7eb;  
-    border-radius:20px;  
-    padding:25px;  
-    margin-bottom:25px;  
-    box-shadow:0 4px 18px rgba(0,0,0,0.04);  
-}  
-  
-.box h2{  
-    font-size:20px;  
-    margin-bottom:20px;  
-    display:flex;  
-    align-items:center;  
-    gap:10px;  
-}  
-  
-/* FORM */  
-  
-form{  
-    display:flex;  
-    flex-direction:column;  
-    gap:15px;  
-}  
-  
-input, select{  
-    width:100%;  
-    padding:14px;  
-    border:1px solid #d1d5db;  
-    border-radius:12px;  
-    font-size:15px;  
-    outline:none;  
-    transition:0.3s;  
-}  
-  
-input:focus,  
-select:focus{  
-    border-color:#2563eb;  
-    box-shadow:0 0 0 4px rgba(37,99,235,0.1);  
-}  
-  
-button{  
-    padding:14px;  
-    border:none;  
-    border-radius:12px;  
-    background:#2563eb;  
-    color:#fff;  
-    font-size:15px;  
-    font-weight:700;  
-    cursor:pointer;  
-    transition:0.3s;  
-}  
-  
-button:hover{  
-    background:#1d4ed8;  
-}  
-  
-/* TABLE */  
-  
-.table-box{  
-    background:#fff;  
-    border:1px solid #e5e7eb;  
-    border-radius:20px;  
-    padding:25px;  
-    box-shadow:0 4px 18px rgba(0,0,0,0.04);  
-    overflow:auto;  
-    margin-bottom:25px;  
-}  
-  
-.table-box h2{  
-    margin-bottom:20px;  
-    font-size:22px;  
-}  
-  
-table{  
-    width:100%;  
-    border-collapse:collapse;  
-}  
-  
-th{  
-    text-align:left;  
-    background:#f3f4f6;  
-    padding:16px;  
-    font-size:14px;  
-    color:#111827;  
-}  
-  
-td{  
-    padding:18px 16px;  
-    border-bottom:1px solid #eee;  
-    font-size:14px;  
-}  
-  
-tr:hover{  
-    background:#fafafa;  
-}  
-  
-.role-admin{  
-    color:#2563eb;  
-    font-weight:800;  
-}  
-  
-.role-editor{  
-    color:#111827;  
-    font-weight:700;  
-}  
-  
-.role-viewer{  
-    color:#6b7280;  
-    font-weight:700;  
-}  
-  
-.delete{  
-    text-decoration:none;  
-    color:#dc2626;  
-    font-weight:700;  
-}  
-  
-.delete:hover{  
-    text-decoration:underline;  
-}  
-  
-.delete-btn{  
-    background:#dc2626;  
-    color:#fff;  
-    border:none;  
-    padding:10px 16px;  
-    border-radius:10px;  
-    cursor:pointer;  
-    font-weight:700;  
-}  
-  
-.delete-btn:hover{  
-    background:#b91c1c;  
-}  
-  
-/* MOBILE */  
-  
-@media(max-width:900px){  
-  
-    body{  
-        flex-direction:column;  
-    }  
-  
-    .sidebar{  
-        width:100%;  
-        height:auto;  
-        position:relative;  
-    }  
-  
-    .main{  
-        margin-left:0;  
-        padding:20px;  
-    }  
-  
-    .topbar{  
-        flex-direction:column;  
-        align-items:flex-start;  
-        gap:15px;  
-    }  
-  
-}  
-  
-</style>  
-  
-</head>  
-  
-<body>  
-  
-<!-- SIDEBAR -->  
-  
-<div class="sidebar">  
-  
-    <div class="logo">  
-        <i class="fa-solid fa-shield-halved"></i>  
-        UMEED  
-    </div>  
-  
-<div class="menu">  
-  
-    <a href="/">  
-        <i class="fa-solid fa-chart-line"></i>  
-        Dashboard  
-    </a>  
-  
-        <!-- ✅ FIX: ADD THIS IN ADMIN ALSO -->  
-    <a href="/analytics">  
-        <i class="fa-solid fa-chart-line"></i>  
-        Analytics  
-    </a>  
-  
-<a href="/admin">  
-        <i class="fa-solid fa-screwdriver-wrench"></i>  
-        Admin Panel  
-</a>  
-  
-    <a href="/logout">  
-        <i class="fa-solid fa-right-from-bracket"></i>  
-        Logout  
-    </a>  
-  
-</div>  
-  
-</div>  
-  
-<!-- MAIN -->  
-  
-<div class="main">  
-  
-    <!-- TOPBAR -->  
-  
-    <div class="topbar">  
-  
-        <h1>  
-            <i class="fa-solid fa-shield-halved"></i>  
-            Admin Panel  
-        </h1>  
-  
-        <div class="badge">  
-            <i class="fa-solid fa-lock"></i>  
-            Secure System  
-        </div>  
-  
-    </div>  
-  
-    <!-- ADD RECOVERY -->  
-  
-    <div class="box">  
-  
-        <h2>  
-            <i class="fa-solid fa-sack-dollar"></i>  
-            Add Recovery  
-        </h2>  
-  
-        <form method="POST">  
-  
-            <input type="date" name="day" required>  
-  
-            <input type="number"  
-            name="amount"  
-            placeholder="Enter Amount"  
-            required>  
-  
-            <button type="submit">  
-                Add Recovery  
-            </button>  
-  
-        </form>  
-  
-    </div>  
+<!DOCTYPE html>
+<html lang="en">
 
-<!-- ADD DISTRIBUTION -->
-<div class="box">
+<head>
 
-    <h2>
-        <i class="fa-solid fa-box"></i>
-        Add Distribution
-    </h2>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <form action="/add-distribution" method="POST">
+<title>UMEED Admin Panel</title>
 
-        <input type="date" name="day" required>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-        <input type="number"
-        name="amount"
-        placeholder="Enter Distribution Amount"
-        required>
+<style>
 
-        <button type="submit">
-            Add Distribution
-        </button>
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
 
-    </form>
+body{
+    display:flex;
+    background:#f5f6f8;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:#fff;
+    border-right:1px solid #e5e7eb;
+    padding:24px;
+    position:fixed;
+}
+
+.logo{
+    font-size:26px;
+    font-weight:900;
+    margin-bottom:30px;
+}
+
+.logo i{
+    color:#2563eb;
+}
+
+.menu a{
+    display:flex;
+    gap:12px;
+    padding:14px;
+    margin-bottom:10px;
+    text-decoration:none;
+    color:#111827;
+    font-weight:600;
+    border-radius:12px;
+}
+
+.menu a:hover{
+    background:#eff6ff;
+    color:#2563eb;
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    width:100%;
+    padding:25px;
+}
+
+/* TOP */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.topbar h1{
+    font-size:28px;
+    font-weight:900;
+}
+
+.badge{
+    background:#fff;
+    padding:10px 16px;
+    border-radius:999px;
+    border:1px solid #e5e7eb;
+    font-weight:700;
+}
+
+/* BOX */
+.box{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:20px;
+}
+
+/* INPUT */
+input, select{
+    width:100%;
+    padding:14px;
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+/* TABLE */
+.table-box{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:18px;
+    padding:22px;
+    overflow:auto;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:14px;
+    border-bottom:1px solid #eee;
+    text-align:left;
+}
+
+th{
+    background:#f3f4f6;
+}
+
+.delete-btn{
+    background:#dc2626;
+    padding:8px 12px;
+    border-radius:8px;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+}
+
+.delete-btn:hover{
+    background:#b91c1c;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+    body{flex-direction:column;}
+    .sidebar{width:100%; height:auto; position:relative;}
+    .main{margin-left:0;}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <div class="logo">
+        <i class="fa-solid fa-shield-halved"></i> UMEED
+    </div>
+
+    <div class="menu">
+        <a href="/"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="/analytics"><i class="fa-solid fa-chart-simple"></i> Analytics</a>
+        <a href="/admin"><i class="fa-solid fa-gear"></i> Admin Panel</a>
+        <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
 
 </div>
-  
-    <!-- RECOVERY TABLE -->  
-  
-    <div class="table-box">  
-  
-        <h2>  
-            <i class="fa-solid fa-table"></i>  
-            Recovery Data  
-        </h2>  
-  
-        <table>  
-  
-            <tr>  
-                <th>Number</th>  
-                <th>Date</th>  
-                <th>Amount</th>  
-                <th>Action</th>  
-            </tr>  
-  
-            {% for row in data %}  
-  
-            <tr>  
-  
-                <td>{{ row[0] }}</td>  
-  
-                <td>{{ row[1] }}</td>  
-  
-                <td>Rs {{ row[2] }}</td>  
-  
-                <td>  
-                    <a href="/delete-recovery/{{ row[0] }}">  
-                        <button class="delete-btn">  
-                            Delete  
-                        </button>  
-                    </a>  
-                </td>  
-  
-            </tr>  
-  
-            {% endfor %}  
-  
-        </table>  
-  
-    </div>  
-  
-    <!-- CREATE USER -->  
-  
-    <div class="box">  
-  
-        <h2>  
-            <i class="fa-solid fa-user-plus"></i>  
-            Create User  
-        </h2>  
-  
-        <form action="/add-user" method="POST">  
-  
-            <input type="text"  
-            name="username"  
-            placeholder="Username"  
-            required>  
-  
-            <input type="password"  
-            name="password"  
-            placeholder="Password"  
-            required>  
-  
-            <select name="role" required>  
-  
-                <option value="viewer">  
-                    Viewer  
-                </option>  
-  
-                <option value="editor">  
-                    Editor  
-                </option>  
-  
-                <option value="admin">  
-                    Admin  
-                </option>  
-  
-            </select>  
-  
-            <button type="submit">  
-                Create User  
-            </button>  
-  
-        </form>  
-  
-    </div>  
-  
-<!-- USERS TABLE -->  
-  
-<div class="table-box">  
-  
-    <h2>  
-        <i class="fa-solid fa-users"></i>  
-        Users  
-    </h2>  
-  
-    <table>  
-  
-        <tr>  
-            <th>ID</th>  
-            <th>Username</th>  
-            <th>Password</th>  
-            <th>Role</th>  
-            <th>Action</th>  
-        </tr>  
-  
-        {% for u in users %}  
-  
-            {% if u[1] != 'rawishtahir' %}  
-  
-            <tr>  
-  
-                <!-- REAL DATABASE ID -->  
-              <td>{{ loop.index }}</td>  
-  
-                <td>{{ u[1] }}</td>  
-  
-                <td>{{ u[2] }}</td>  
-  
-                <td>  
-  
-                    {% if u[3] == 'admin' %}  
-                        <span class="role-admin">Admin</span>  
-  
-                    {% elif u[3] == 'editor' %}  
-                        <span class="role-editor">Editor</span>  
-  
-                    {% else %}  
-                        <span class="role-viewer">Viewer</span>  
-                    {% endif %}  
-  
-                </td>  
-  
-                <td>  
-                    <a href="/delete-user/{{ u[0] }}">  
-                        <button class="delete-btn">  
-                            Delete  
-                        </button>  
-                    </a>  
-                </td>  
-  
-            </tr>  
-  
-            {% endif %}  
-  
-        {% endfor %}  
-  
-    </table>  
-  
-</div>  
-  
-</div>  
-  
-</body>  
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <h1>Admin Panel</h1>
+        <div class="badge">Secure System</div>
+    </div>
+
+    <!-- ADD RECOVERY -->
+    <div class="box">
+
+        <h2><i class="fa-solid fa-sack-dollar"></i> Add Recovery</h2>
+
+        <form method="POST">
+            <input type="date" name="day" required>
+            <input type="number" name="amount" placeholder="Recovery Amount" required>
+            <button type="submit">Add Recovery</button>
+        </form>
+
+    </div>
+
+    <!-- ADD DISTRIBUTION -->
+    <div class="box">
+
+        <h2><i class="fa-solid fa-truck"></i> Add Distribution</h2>
+
+        <form action="/add-distribution" method="POST">
+            <input type="date" name="day" required>
+            <input type="number" name="amount" placeholder="Distribution Amount" required>
+            <button type="submit">Add Distribution</button>
+        </form>
+
+    </div>
+
+    <!-- RECOVERY TABLE -->
+    <div class="table-box">
+
+        <h2>Recovery Data</h2>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+
+            {% for row in data %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>Rs {{ row[2] }}</td>
+                <td>
+                    <a href="/delete-recovery/{{ row[0] }}">
+                        <button class="delete-btn">Delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <!-- DISTRIBUTION TABLE -->
+    <div class="table-box">
+
+        <h2>Distribution Data</h2>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+
+            {% for d in distributions %}
+            <tr>
+                <td>{{ d[0] }}</td>
+                <td>{{ d[1] }}</td>
+                <td>Rs {{ d[2] }}</td>
+                <td>
+                    <a href="/delete-distribution/{{ d[0] }}">
+                        <button class="delete-btn">Delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <!-- USERS TABLE -->
+    <div class="table-box">
+
+        <h2>Users</h2>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Action</th>
+            </tr>
+
+            {% for u in users %}
+            <tr>
+                <td>{{ u[0] }}</td>
+                <td>{{ u[1] }}</td>
+                <td>{{ u[2] }}</td>
+                <td>
+                    <a href="/delete-user/{{ u[0] }}">
+                        <button class="delete-btn">Delete</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
 </html>
