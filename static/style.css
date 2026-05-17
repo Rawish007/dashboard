@@ -1,5 +1,4 @@
 /* BODY */
-
 body{
     margin:0;
     padding:0;
@@ -9,7 +8,6 @@ body{
 }
 
 /* SIDEBAR */
-
 .sidebar{
     position:fixed;
     left:0;
@@ -22,8 +20,7 @@ body{
     overflow:auto;
 }
 
-/* 🔥 LOGO */
-
+/* LOGO */
 .logo{
     display:flex;
     align-items:center;
@@ -44,7 +41,6 @@ body{
 }
 
 /* SIDEBAR LINKS */
-
 .sidebar a{
     display:flex;
     align-items:center;
@@ -83,7 +79,6 @@ body{
 }
 
 /* ACTIVE MENU */
-
 .sidebar a.active{
     background:#2563eb;
     color:white;
@@ -95,14 +90,12 @@ body{
 }
 
 /* MAIN */
-
 .main{
     margin-left:270px;
     padding:30px;
 }
 
 /* TOPBAR */
-
 .topbar{
     display:flex;
     justify-content:space-between;
@@ -149,7 +142,6 @@ body{
 }
 
 /* PROFILE */
-
 .profile{
     width:45px;
     height:45px;
@@ -158,7 +150,6 @@ body{
 }
 
 /* CARDS */
-
 .cards{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -178,8 +169,6 @@ body{
 .card:hover{
     transform:translateY(-5px);
 }
-
-/* CARD TOP */
 
 .card-top{
     display:flex;
@@ -215,7 +204,6 @@ body{
 }
 
 /* CHART BOX */
-
 .chart-box{
     background:white;
     padding:25px;
@@ -246,7 +234,6 @@ body{
 }
 
 /* FILTER BUTTONS */
-
 .filters{
     display:flex;
     gap:12px;
@@ -277,7 +264,6 @@ body{
 }
 
 /* DELETE BUTTON */
-
 .delete-btn{
     padding:10px 16px;
     border:none;
@@ -294,7 +280,6 @@ body{
 }
 
 /* TABLE */
-
 .table-box{
     background:white;
     padding:25px;
@@ -346,7 +331,34 @@ tr:hover{
     background:#f8fafc;
 }
 
-/* FORM */
+/* =========================
+   🔥 NEW SCROLL FIX (IMPORTANT)
+========================= */
+.scroll-box{
+    max-height:260px;
+    overflow-y:auto;
+    padding-right:8px;
+}
 
+.scroll-box::-webkit-scrollbar{
+    width:6px;
+}
+
+.scroll-box::-webkit-scrollbar-track{
+    background:#f1f5f9;
+    border-radius:10px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb{
+    background:#94a3b8;
+    border-radius:10px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb:hover{
+    background:#2563eb;
+}
+
+/* FORM */
 form{
     background:white;
+}
