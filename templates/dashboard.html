@@ -15,7 +15,7 @@
 
 <style>
 
-/* RESET */
+/* SAME ADMIN RESET */
 *{
     margin:0;
     padding:0;
@@ -29,7 +29,7 @@ body{
     color:#111827;
 }
 
-/* SIDEBAR (SAME ADMIN STYLE) */
+/* SIDEBAR (SAME AS ADMIN) */
 .sidebar{
     width:260px;
     height:100vh;
@@ -40,9 +40,9 @@ body{
 }
 
 .logo{
-    font-size:26px;
-    font-weight:900;
-    margin-bottom:35px;
+    font-size:28px;
+    font-weight:800;
+    margin-bottom:40px;
     display:flex;
     gap:10px;
 }
@@ -53,11 +53,11 @@ body{
     display:flex;
     gap:12px;
     padding:14px;
-    margin-bottom:10px;
+    margin-bottom:12px;
+    border-radius:14px;
     text-decoration:none;
     color:#111827;
     font-weight:600;
-    border-radius:12px;
 }
 
 .menu a:hover{
@@ -69,37 +69,49 @@ body{
 .main{
     margin-left:260px;
     width:100%;
-    padding:25px;
+    padding:30px;
 }
 
-/* TOPBAR */
+/* TOPBAR (SAME STYLE) */
 .topbar{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
+    margin-bottom:30px;
+}
+
+.topbar h1{
+    font-size:32px;
+    font-weight:800;
 }
 
 .badge{
-    padding:10px 15px;
-    border-radius:999px;
     background:#fff;
     border:1px solid #e5e7eb;
+    padding:12px 18px;
+    border-radius:999px;
     font-size:13px;
     font-weight:700;
 }
 
-/* SECTION TITLE */
-.section-title{
-    margin:20px 0 12px;
-    font-size:18px;
-    font-weight:900;
+/* BOX STYLE SAME ADMIN */
+.box{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 4px 18px rgba(0,0,0,0.04);
+}
+
+.box h2{
+    font-size:20px;
+    margin-bottom:20px;
     display:flex;
-    align-items:center;
     gap:10px;
 }
 
-/* CARDS (ADMIN STYLE BUT MORE REALISTIC) */
+/* CARDS SAME ADMIN STYLE */
 .cards{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
@@ -112,11 +124,6 @@ body{
     border-radius:16px;
     border:1px solid #e5e7eb;
     box-shadow:0 4px 12px rgba(0,0,0,0.04);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-3px);
 }
 
 .card h3{
@@ -143,10 +150,20 @@ body{
 /* CHART BOX */
 .chart-box{
     background:#fff;
-    padding:20px;
-    margin-top:20px;
-    border-radius:16px;
     border:1px solid #e5e7eb;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:25px;
+}
+
+/* TABLE SAME ADMIN */
+.table-box{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:20px;
+    padding:25px;
+    overflow:auto;
+    margin-bottom:25px;
 }
 
 /* MOBILE */
@@ -192,7 +209,7 @@ body{
 <!-- MAIN -->
 <div class="main">
 
-    <!-- TOP -->
+    <!-- TOPBAR -->
     <div class="topbar">
 
         <h1><i class="fa-solid fa-chart-line"></i> Dashboard</h1>
@@ -204,39 +221,39 @@ body{
     </div>
 
     <!-- ================= RECOVERY ================= -->
-    <div class="section-title">
-        <i class="fa-solid fa-coins"></i> Recovery Performance
-    </div>
+    <div class="box">
+        <h2><i class="fa-solid fa-coins"></i> Recovery Overview</h2>
 
-    <div class="cards">
+        <div class="cards">
 
-        <div class="card recovery"><h3>Total Recovery</h3><p>Rs {{ total or 0 }}</p></div>
-        <div class="card recovery"><h3>Today</h3><p>Rs {{ today_total or 0 }}</p></div>
-        <div class="card recovery"><h3>Yesterday</h3><p>Rs {{ yesterday_total or 0 }}</p></div>
-        <div class="card recovery"><h3>This Week</h3><p>Rs {{ this_week or 0 }}</p></div>
-        <div class="card recovery"><h3>Last Week</h3><p>Rs {{ last_week or 0 }}</p></div>
-        <div class="card recovery"><h3>This Month</h3><p>Rs {{ this_month or 0 }}</p></div>
-        <div class="card recovery"><h3>Last Month</h3><p>Rs {{ last_month or 0 }}</p></div>
-        <div class="card recovery"><h3>Best Day</h3><p>Rs {{ best_day or 0 }}</p></div>
+            <div class="card recovery"><h3>Total</h3><p>Rs {{ total or 0 }}</p></div>
+            <div class="card recovery"><h3>Today</h3><p>Rs {{ today_total or 0 }}</p></div>
+            <div class="card recovery"><h3>Yesterday</h3><p>Rs {{ yesterday_total or 0 }}</p></div>
+            <div class="card recovery"><h3>This Week</h3><p>Rs {{ this_week or 0 }}</p></div>
+            <div class="card recovery"><h3>Last Week</h3><p>Rs {{ last_week or 0 }}</p></div>
+            <div class="card recovery"><h3>This Month</h3><p>Rs {{ this_month or 0 }}</p></div>
+            <div class="card recovery"><h3>Last Month</h3><p>Rs {{ last_month or 0 }}</p></div>
+            <div class="card recovery"><h3>Best Day</h3><p>Rs {{ best_day or 0 }}</p></div>
 
+        </div>
     </div>
 
     <!-- ================= DISTRIBUTION ================= -->
-    <div class="section-title">
-        <i class="fa-solid fa-truck"></i> Distribution Performance
-    </div>
+    <div class="box">
+        <h2><i class="fa-solid fa-truck"></i> Distribution Overview</h2>
 
-    <div class="cards">
+        <div class="cards">
 
-        <div class="card distribution"><h3>Total Distribution</h3><p>Rs {{ distribution_total or 0 }}</p></div>
-        <div class="card distribution"><h3>Today</h3><p>Rs {{ distribution_today or 0 }}</p></div>
-        <div class="card distribution"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday or 0 }}</p></div>
-        <div class="card distribution"><h3>This Week</h3><p>Rs {{ distribution_this_week or 0 }}</p></div>
-        <div class="card distribution"><h3>Last Week</h3><p>Rs {{ distribution_last_week or 0 }}</p></div>
-        <div class="card distribution"><h3>This Month</h3><p>Rs {{ distribution_this_month or 0 }}</p></div>
-        <div class="card distribution"><h3>Last Month</h3><p>Rs {{ distribution_last_month or 0 }}</p></div>
-        <div class="card distribution"><h3>Best Distribution</h3><p>Rs {{ best_distribution or 0 }}</p></div>
+            <div class="card distribution"><h3>Total</h3><p>Rs {{ distribution_total or 0 }}</p></div>
+            <div class="card distribution"><h3>Today</h3><p>Rs {{ distribution_today or 0 }}</p></div>
+            <div class="card distribution"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday or 0 }}</p></div>
+            <div class="card distribution"><h3>This Week</h3><p>Rs {{ distribution_this_week or 0 }}</p></div>
+            <div class="card distribution"><h3>Last Week</h3><p>Rs {{ distribution_last_week or 0 }}</p></div>
+            <div class="card distribution"><h3>This Month</h3><p>Rs {{ distribution_this_month or 0 }}</p></div>
+            <div class="card distribution"><h3>Last Month</h3><p>Rs {{ distribution_last_month or 0 }}</p></div>
+            <div class="card distribution"><h3>Best</h3><p>Rs {{ best_distribution or 0 }}</p></div>
 
+        </div>
     </div>
 
     <!-- ================= CHARTS ================= -->
@@ -252,42 +269,35 @@ body{
 
 </div>
 
+<!-- CHART -->
 <script>
 
-const recoveryLabels = {{ labels|default([])|tojson }};
-const recoveryData = {{ amounts|default([])|tojson }};
+const rLabels = {{ labels|default([])|tojson }};
+const rData = {{ amounts|default([])|tojson }};
 
-const distributionLabels = {{ distribution_labels|default([])|tojson }};
-const distributionData = {{ distribution_values|default([])|tojson }};
+const dLabels = {{ distribution_labels|default([])|tojson }};
+const dData = {{ distribution_values|default([])|tojson }};
 
-/* RECOVERY */
 new Chart(document.getElementById('recoveryChart'), {
-    type:'line',
+    type:'bar',
     data:{
-        labels:recoveryLabels,
+        labels:rLabels,
         datasets:[{
             label:'Recovery',
-            data:recoveryData,
-            borderColor:'#2563eb',
-            backgroundColor:'rgba(37,99,235,0.1)',
-            fill:true,
-            tension:0.4
+            data:rData,
+            backgroundColor:'#2563eb'
         }]
     }
 });
 
-/* DISTRIBUTION */
 new Chart(document.getElementById('distributionChart'), {
-    type:'line',
+    type:'bar',
     data:{
-        labels:distributionLabels,
+        labels:dLabels,
         datasets:[{
             label:'Distribution',
-            data:distributionData,
-            borderColor:'#ef4444',
-            backgroundColor:'rgba(239,68,68,0.1)',
-            fill:true,
-            tension:0.4
+            data:dData,
+            backgroundColor:'#ef4444'
         }]
     }
 });
