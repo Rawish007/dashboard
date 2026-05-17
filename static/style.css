@@ -1,13 +1,24 @@
-/* BODY */
+/* =========================
+   RESET
+========================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body{
     margin:0;
     padding:0;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background:#f6f8fc;
     color:#0f172a;
+    display:flex;
 }
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR
+========================= */
 .sidebar{
     position:fixed;
     left:0;
@@ -20,15 +31,13 @@ body{
     overflow:auto;
 }
 
-/* LOGO */
 .logo{
     display:flex;
     align-items:center;
     gap:12px;
-    color:#111;
     font-size:28px;
-    margin-bottom:40px;
     font-weight:800;
+    margin-bottom:40px;
 }
 
 .logo i{
@@ -37,10 +46,9 @@ body{
     padding:12px;
     border-radius:14px;
     font-size:22px;
-    box-shadow:0 4px 12px rgba(37,99,235,0.12);
 }
 
-/* SIDEBAR LINKS */
+/* LINKS */
 .sidebar a{
     display:flex;
     align-items:center;
@@ -50,22 +58,7 @@ body{
     padding:14px;
     border-radius:14px;
     margin-bottom:12px;
-    font-size:16px;
     font-weight:600;
-    transition:0.3s;
-}
-
-.sidebar a i{
-    background:#f1f5f9;
-    width:40px;
-    height:40px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:12px;
-    font-size:18px;
-    color:#111;
-    transition:0.3s;
 }
 
 .sidebar a:hover{
@@ -73,41 +66,46 @@ body{
     color:#2563eb;
 }
 
-.sidebar a:hover i{
-    background:#2563eb;
-    color:white;
-}
-
-/* MAIN */
+/* =========================
+   MAIN
+========================= */
 .main{
-    margin-left:270px;
+    margin-left:260px;
     padding:30px;
+    width:100%;
 }
 
-/* TOPBAR */
 .topbar{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:30px;
+    margin-bottom:25px;
 }
 
 .topbar h1{
-    font-size:34px;
-    margin:0;
+    font-size:30px;
     font-weight:800;
 }
 
-/* BOX */
+.badge{
+    background:white;
+    padding:10px 16px;
+    border-radius:999px;
+    border:1px solid #e2e8f0;
+    font-weight:700;
+}
+
+/* =========================
+   BOXES (FOR FORMS)
+========================= */
 .box{
     background:white;
-    border:1px solid #e2e8f0;
-    border-radius:18px;
     padding:22px;
+    border-radius:18px;
+    border:1px solid #e2e8f0;
     margin-bottom:20px;
 }
 
-/* INPUT */
 input, select{
     width:100%;
     padding:14px;
@@ -117,12 +115,11 @@ input, select{
     outline:none;
 }
 
-/* BUTTON */
 button{
     width:100%;
     padding:14px;
     background:#2563eb;
-    color:#fff;
+    color:white;
     border:none;
     border-radius:10px;
     font-weight:700;
@@ -134,28 +131,28 @@ button:hover{
 }
 
 /* =========================
-   🔥 SCROLL FIX (WORKING)
+   TABLE BOX (MAIN FIX 🔥)
 ========================= */
-
-/* THIS is the IMPORTANT part */
 .table-box{
-    background:#fff;
+    background:white;
     border:1px solid #e2e8f0;
     border-radius:18px;
     padding:22px;
-    margin-top:30px;
 
-    max-height:320px;   /* scroll height */
-    overflow-y:auto;    /* vertical scroll */
+    max-height:320px;   /* 🔥 HEIGHT FIX */
+    overflow:auto;      /* 🔥 SCROLL ENABLE */
+
+    margin-bottom:20px;
 }
 
-/* scrollbar design */
+/* CUSTOM SCROLLBAR */
 .table-box::-webkit-scrollbar{
     width:6px;
 }
 
 .table-box::-webkit-scrollbar-track{
     background:#f1f5f9;
+    border-radius:10px;
 }
 
 .table-box::-webkit-scrollbar-thumb{
@@ -173,22 +170,18 @@ table{
     border-collapse:collapse;
 }
 
-/* sticky header */
 th{
     background:#111;
     color:white;
-    padding:16px;
+    padding:14px;
     text-align:left;
-    font-size:15px;
     position:sticky;
     top:0;
-    z-index:2;
 }
 
 td{
-    padding:16px;
-    border-bottom:1px solid #e2e8f0;
-    font-size:15px;
+    padding:14px;
+    border-bottom:1px solid #eee;
 }
 
 tr:hover{
@@ -197,12 +190,11 @@ tr:hover{
 
 /* DELETE BUTTON */
 .delete-btn{
-    padding:10px 16px;
-    border:none;
-    border-radius:10px;
     background:#dc2626;
-    color:#fff;
-    font-weight:700;
+    padding:8px 12px;
+    border:none;
+    border-radius:8px;
+    color:white;
     cursor:pointer;
 }
 
@@ -210,7 +202,9 @@ tr:hover{
     background:#b91c1c;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 @media(max-width:900px){
     body{flex-direction:column;}
     .sidebar{width:100%; height:auto; position:relative;}
