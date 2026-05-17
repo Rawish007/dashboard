@@ -376,7 +376,6 @@ def admin():
         (request.form["day"], request.form["amount"])
     )
     conn.commit()
-    conn.close()
 
     return redirect("/admin")
 
