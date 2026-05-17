@@ -29,11 +29,11 @@ body{
     color:#111827;
 }
 
-/* SIDEBAR */
+/* SIDEBAR (SAME ADMIN STYLE) */
 .sidebar{
     width:260px;
     height:100vh;
-    background:#fff;
+    background:#ffffff;
     border-right:1px solid #e5e7eb;
     padding:24px;
     position:fixed;
@@ -42,7 +42,7 @@ body{
 .logo{
     font-size:26px;
     font-weight:900;
-    margin-bottom:30px;
+    margin-bottom:35px;
     display:flex;
     gap:10px;
 }
@@ -72,7 +72,7 @@ body{
     padding:25px;
 }
 
-/* TOP */
+/* TOPBAR */
 .topbar{
     display:flex;
     justify-content:space-between;
@@ -86,61 +86,78 @@ body{
     background:#fff;
     border:1px solid #e5e7eb;
     font-size:13px;
+    font-weight:700;
 }
 
-/* CARDS */
+/* SECTION TITLE */
+.section-title{
+    margin:20px 0 12px;
+    font-size:18px;
+    font-weight:900;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* CARDS (ADMIN STYLE BUT MORE REALISTIC) */
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
     gap:15px;
 }
 
 .card{
     background:#fff;
-    padding:20px;
-    border-radius:15px;
+    padding:18px;
+    border-radius:16px;
     border:1px solid #e5e7eb;
-    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+    box-shadow:0 4px 12px rgba(0,0,0,0.04);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
 }
 
 .card h3{
-    font-size:13px;
+    font-size:12px;
     color:#6b7280;
+    font-weight:700;
 }
 
 .card p{
     font-size:22px;
     font-weight:900;
-    margin-top:8px;
+    margin-top:6px;
+}
+
+/* SPECIAL COLORS */
+.recovery{
+    border-left:4px solid #2563eb;
+}
+
+.distribution{
+    border-left:4px solid #ef4444;
 }
 
 /* CHART BOX */
 .chart-box{
     background:#fff;
-    margin-top:20px;
     padding:20px;
-    border-radius:15px;
+    margin-top:20px;
+    border-radius:16px;
     border:1px solid #e5e7eb;
-}
-
-/* SECTION TITLE */
-.section-title{
-    margin:20px 0 10px;
-    font-size:18px;
-    font-weight:800;
 }
 
 /* MOBILE */
 @media(max-width:900px){
 
-    body{
-        flex-direction:column;
-    }
+    body{ flex-direction:column; }
 
     .sidebar{
-        position:relative;
         width:100%;
         height:auto;
+        position:relative;
     }
 
     .main{
@@ -181,61 +198,60 @@ body{
         <h1><i class="fa-solid fa-chart-line"></i> Dashboard</h1>
 
         <div class="badge">
-            <i class="fa-solid fa-lock"></i> Secure System
+            Secure Analytics System
         </div>
 
     </div>
 
     <!-- ================= RECOVERY ================= -->
-    <div class="section-title">Recovery Overview</div>
+    <div class="section-title">
+        <i class="fa-solid fa-coins"></i> Recovery Performance
+    </div>
 
     <div class="cards">
 
-        <div class="card"><h3>Total</h3><p>Rs {{ total or 0 }}</p></div>
-        <div class="card"><h3>Today</h3><p>Rs {{ today_total or 0 }}</p></div>
-        <div class="card"><h3>Yesterday</h3><p>Rs {{ yesterday_total or 0 }}</p></div>
-        <div class="card"><h3>This Week</h3><p>Rs {{ this_week or 0 }}</p></div>
-        <div class="card"><h3>Last Week</h3><p>Rs {{ last_week or 0 }}</p></div>
-        <div class="card"><h3>This Month</h3><p>Rs {{ this_month or 0 }}</p></div>
-        <div class="card"><h3>Last Month</h3><p>Rs {{ last_month or 0 }}</p></div>
-        <div class="card"><h3>Best Day</h3><p>Rs {{ best_day or 0 }}</p></div>
+        <div class="card recovery"><h3>Total Recovery</h3><p>Rs {{ total or 0 }}</p></div>
+        <div class="card recovery"><h3>Today</h3><p>Rs {{ today_total or 0 }}</p></div>
+        <div class="card recovery"><h3>Yesterday</h3><p>Rs {{ yesterday_total or 0 }}</p></div>
+        <div class="card recovery"><h3>This Week</h3><p>Rs {{ this_week or 0 }}</p></div>
+        <div class="card recovery"><h3>Last Week</h3><p>Rs {{ last_week or 0 }}</p></div>
+        <div class="card recovery"><h3>This Month</h3><p>Rs {{ this_month or 0 }}</p></div>
+        <div class="card recovery"><h3>Last Month</h3><p>Rs {{ last_month or 0 }}</p></div>
+        <div class="card recovery"><h3>Best Day</h3><p>Rs {{ best_day or 0 }}</p></div>
 
     </div>
 
     <!-- ================= DISTRIBUTION ================= -->
-    <div class="section-title">Distribution Overview</div>
+    <div class="section-title">
+        <i class="fa-solid fa-truck"></i> Distribution Performance
+    </div>
 
     <div class="cards">
 
-        <div class="card"><h3>Total</h3><p>Rs {{ distribution_total or 0 }}</p></div>
-        <div class="card"><h3>Today</h3><p>Rs {{ distribution_today or 0 }}</p></div>
-        <div class="card"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday or 0 }}</p></div>
-        <div class="card"><h3>This Week</h3><p>Rs {{ distribution_this_week or 0 }}</p></div>
-        <div class="card"><h3>Last Week</h3><p>Rs {{ distribution_last_week or 0 }}</p></div>
-        <div class="card"><h3>This Month</h3><p>Rs {{ distribution_this_month or 0 }}</p></div>
-        <div class="card"><h3>Last Month</h3><p>Rs {{ distribution_last_month or 0 }}</p></div>
-        <div class="card"><h3>Best</h3><p>Rs {{ best_distribution or 0 }}</p></div>
+        <div class="card distribution"><h3>Total Distribution</h3><p>Rs {{ distribution_total or 0 }}</p></div>
+        <div class="card distribution"><h3>Today</h3><p>Rs {{ distribution_today or 0 }}</p></div>
+        <div class="card distribution"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday or 0 }}</p></div>
+        <div class="card distribution"><h3>This Week</h3><p>Rs {{ distribution_this_week or 0 }}</p></div>
+        <div class="card distribution"><h3>Last Week</h3><p>Rs {{ distribution_last_week or 0 }}</p></div>
+        <div class="card distribution"><h3>This Month</h3><p>Rs {{ distribution_this_month or 0 }}</p></div>
+        <div class="card distribution"><h3>Last Month</h3><p>Rs {{ distribution_last_month or 0 }}</p></div>
+        <div class="card distribution"><h3>Best Distribution</h3><p>Rs {{ best_distribution or 0 }}</p></div>
 
     </div>
 
     <!-- ================= CHARTS ================= -->
     <div class="chart-box">
-
         <h2>Recovery Chart</h2>
         <canvas id="recoveryChart"></canvas>
-
     </div>
 
     <div class="chart-box">
-
         <h2>Distribution Chart</h2>
         <canvas id="distributionChart"></canvas>
-
     </div>
 
 </div>
 
-<!-- SCRIPT -->
 <script>
 
 const recoveryLabels = {{ labels|default([])|tojson }};
@@ -246,35 +262,33 @@ const distributionData = {{ distribution_values|default([])|tojson }};
 
 /* RECOVERY */
 new Chart(document.getElementById('recoveryChart'), {
-    type:'bar',
+    type:'line',
     data:{
         labels:recoveryLabels,
         datasets:[{
             label:'Recovery',
             data:recoveryData,
-            backgroundColor:'#2563eb'
+            borderColor:'#2563eb',
+            backgroundColor:'rgba(37,99,235,0.1)',
+            fill:true,
+            tension:0.4
         }]
-    },
-    options:{
-        responsive:true,
-        scales:{ y:{ beginAtZero:true } }
     }
 });
 
 /* DISTRIBUTION */
 new Chart(document.getElementById('distributionChart'), {
-    type:'bar',
+    type:'line',
     data:{
         labels:distributionLabels,
         datasets:[{
             label:'Distribution',
             data:distributionData,
-            backgroundColor:'#ef4444'
+            borderColor:'#ef4444',
+            backgroundColor:'rgba(239,68,68,0.1)',
+            fill:true,
+            tension:0.4
         }]
-    },
-    options:{
-        responsive:true,
-        scales:{ y:{ beginAtZero:true } }
     }
 });
 
