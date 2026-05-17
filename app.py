@@ -371,9 +371,14 @@ def admin():
     c = conn.cursor()
 
     if request.method == "POST":
-        c.execute("INSERT INTO analytics(day,amount) VALUES(?,?)",
-                  (request.form["day"], request.form["amount"]))
-        conn.commit()
+    c.execute(
+        "INSERT INTO analytics(day,amount) VALUES(?,?)",
+        (request.form["day"], request.form["amount"])
+    )
+    conn.commit()
+    conn.close()
+
+    return redirect("/admin")
 
     c.execute("SELECT * FROM analytics ORDER BY id DESC")
     data = c.fetchall()
