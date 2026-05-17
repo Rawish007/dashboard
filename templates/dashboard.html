@@ -29,7 +29,7 @@ body{
     color:#111827;
 }
 
-/* SIDEBAR (SAME AS ADMIN) */
+/* SIDEBAR */
 .sidebar{
     width:260px;
     height:100vh;
@@ -72,7 +72,7 @@ body{
     padding:30px;
 }
 
-/* TOPBAR (SAME STYLE) */
+/* TOPBAR */
 .topbar{
     display:flex;
     justify-content:space-between;
@@ -94,7 +94,7 @@ body{
     font-weight:700;
 }
 
-/* BOX STYLE SAME ADMIN */
+/* BOX */
 .box{
     background:#fff;
     border:1px solid #e5e7eb;
@@ -111,7 +111,7 @@ body{
     gap:10px;
 }
 
-/* CARDS SAME ADMIN STYLE */
+/* CARDS */
 .cards{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
@@ -138,16 +138,11 @@ body{
     margin-top:6px;
 }
 
-/* SPECIAL COLORS */
-.recovery{
-    border-left:4px solid #2563eb;
-}
+.recovery{ border-left:4px solid #2563eb; }
+.distribution{ border-left:4px solid #ef4444; }
+.analytics{ border-left:4px solid #22c55e; }
 
-.distribution{
-    border-left:4px solid #ef4444;
-}
-
-/* CHART BOX */
+/* CHART */
 .chart-box{
     background:#fff;
     border:1px solid #e5e7eb;
@@ -156,19 +151,8 @@ body{
     margin-bottom:25px;
 }
 
-/* TABLE SAME ADMIN */
-.table-box{
-    background:#fff;
-    border:1px solid #e5e7eb;
-    border-radius:20px;
-    padding:25px;
-    overflow:auto;
-    margin-bottom:25px;
-}
-
 /* MOBILE */
 @media(max-width:900px){
-
     body{ flex-direction:column; }
 
     .sidebar{
@@ -209,75 +193,100 @@ body{
 <!-- MAIN -->
 <div class="main">
 
-    <!-- TOPBAR -->
-    <div class="topbar">
+<!-- TOP -->
+<div class="topbar">
+    <h1><i class="fa-solid fa-chart-line"></i> Dashboard</h1>
+    <div class="badge">Secure Analytics System</div>
+</div>
 
-        <h1><i class="fa-solid fa-chart-line"></i> Dashboard</h1>
+<!-- ================= RECOVERY ================= -->
+<div class="box">
+    <h2><i class="fa-solid fa-coins"></i> Recovery Overview</h2>
 
-        <div class="badge">
-            Secure Analytics System
+    <div class="cards">
+
+        <div class="card recovery"><h3>Total</h3><p>Rs {{ total or 0 }}</p></div>
+        <div class="card recovery"><h3>Today</h3><p>Rs {{ today_total or 0 }}</p></div>
+        <div class="card recovery"><h3>Yesterday</h3><p>Rs {{ yesterday_total or 0 }}</p></div>
+        <div class="card recovery"><h3>This Week</h3><p>Rs {{ this_week or 0 }}</p></div>
+        <div class="card recovery"><h3>Last Week</h3><p>Rs {{ last_week or 0 }}</p></div>
+        <div class="card recovery"><h3>This Month</h3><p>Rs {{ this_month or 0 }}</p></div>
+        <div class="card recovery"><h3>Last Month</h3><p>Rs {{ last_month or 0 }}</p></div>
+        <div class="card recovery"><h3>Best Day</h3><p>Rs {{ best_day or 0 }}</p></div>
+
+    </div>
+</div>
+
+<!-- ================= DISTRIBUTION ================= -->
+<div class="box">
+    <h2><i class="fa-solid fa-truck"></i> Distribution Overview</h2>
+
+    <div class="cards">
+
+        <div class="card distribution"><h3>Total</h3><p>Rs {{ distribution_total or 0 }}</p></div>
+        <div class="card distribution"><h3>Today</h3><p>Rs {{ distribution_today or 0 }}</p></div>
+        <div class="card distribution"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday or 0 }}</p></div>
+        <div class="card distribution"><h3>This Week</h3><p>Rs {{ distribution_this_week or 0 }}</p></div>
+        <div class="card distribution"><h3>Last Week</h3><p>Rs {{ distribution_last_week or 0 }}</p></div>
+        <div class="card distribution"><h3>This Month</h3><p>Rs {{ distribution_this_month or 0 }}</p></div>
+        <div class="card distribution"><h3>Last Month</h3><p>Rs {{ distribution_last_month or 0 }}</p></div>
+        <div class="card distribution"><h3>Best</h3><p>Rs {{ best_distribution or 0 }}</p></div>
+
+    </div>
+</div>
+
+<!-- ================= NEW ANALYTICS PANEL ================= -->
+<div class="box">
+    <h2><i class="fa-solid fa-chart-pie"></i> Analytics Overview</h2>
+
+    <div class="cards">
+
+        <div class="card analytics">
+            <h3>Weekly Growth</h3>
+            <p>{{ (this_week or 0) - (last_week or 0) }}</p>
+        </div>
+
+        <div class="card analytics">
+            <h3>Monthly Growth</h3>
+            <p>{{ (this_month or 0) - (last_month or 0) }}</p>
+        </div>
+
+        <div class="card analytics">
+            <h3>Recovery Total</h3>
+            <p>{{ total or 0 }}</p>
+        </div>
+
+        <div class="card analytics">
+            <h3>Distribution Total</h3>
+            <p>{{ distribution_total or 0 }}</p>
         </div>
 
     </div>
+</div>
 
-    <!-- ================= RECOVERY ================= -->
-    <div class="box">
-        <h2><i class="fa-solid fa-coins"></i> Recovery Overview</h2>
+<!-- ================= CHARTS ================= -->
+<div class="chart-box">
+    <h2>Recovery Chart</h2>
+    <canvas id="recoveryChart"></canvas>
+</div>
 
-        <div class="cards">
-
-            <div class="card recovery"><h3>Total</h3><p>Rs {{ total or 0 }}</p></div>
-            <div class="card recovery"><h3>Today</h3><p>Rs {{ today_total or 0 }}</p></div>
-            <div class="card recovery"><h3>Yesterday</h3><p>Rs {{ yesterday_total or 0 }}</p></div>
-            <div class="card recovery"><h3>This Week</h3><p>Rs {{ this_week or 0 }}</p></div>
-            <div class="card recovery"><h3>Last Week</h3><p>Rs {{ last_week or 0 }}</p></div>
-            <div class="card recovery"><h3>This Month</h3><p>Rs {{ this_month or 0 }}</p></div>
-            <div class="card recovery"><h3>Last Month</h3><p>Rs {{ last_month or 0 }}</p></div>
-            <div class="card recovery"><h3>Best Day</h3><p>Rs {{ best_day or 0 }}</p></div>
-
-        </div>
-    </div>
-
-    <!-- ================= DISTRIBUTION ================= -->
-    <div class="box">
-        <h2><i class="fa-solid fa-truck"></i> Distribution Overview</h2>
-
-        <div class="cards">
-
-            <div class="card distribution"><h3>Total</h3><p>Rs {{ distribution_total or 0 }}</p></div>
-            <div class="card distribution"><h3>Today</h3><p>Rs {{ distribution_today or 0 }}</p></div>
-            <div class="card distribution"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday or 0 }}</p></div>
-            <div class="card distribution"><h3>This Week</h3><p>Rs {{ distribution_this_week or 0 }}</p></div>
-            <div class="card distribution"><h3>Last Week</h3><p>Rs {{ distribution_last_week or 0 }}</p></div>
-            <div class="card distribution"><h3>This Month</h3><p>Rs {{ distribution_this_month or 0 }}</p></div>
-            <div class="card distribution"><h3>Last Month</h3><p>Rs {{ distribution_last_month or 0 }}</p></div>
-            <div class="card distribution"><h3>Best</h3><p>Rs {{ best_distribution or 0 }}</p></div>
-
-        </div>
-    </div>
-
-    <!-- ================= CHARTS ================= -->
-    <div class="chart-box">
-        <h2>Recovery Chart</h2>
-        <canvas id="recoveryChart"></canvas>
-    </div>
-
-    <div class="chart-box">
-        <h2>Distribution Chart</h2>
-        <canvas id="distributionChart"></canvas>
-    </div>
+<div class="chart-box">
+    <h2>Distribution Chart</h2>
+    <canvas id="distributionChart"></canvas>
+</div>
 
 </div>
 
-<!-- CHART -->
 <script>
 
+/* FIXED VARIABLES */
 const rLabels = {{ labels|default([])|tojson }};
 const rData = {{ amounts|default([])|tojson }};
 
-const dLabels = {{ distribution_labels|default([])|tojson }};
-const dData = {{ distribution_values|default([])|tojson }};
+const dLabels = {{ dist_labels|default([])|tojson }};
+const dData = {{ dist_amounts|default([])|tojson }};
 
+/* RECOVERY */
 new Chart(document.getElementById('recoveryChart'), {
     type:'bar',
     data:{
@@ -290,6 +299,7 @@ new Chart(document.getElementById('recoveryChart'), {
     }
 });
 
+/* DISTRIBUTION */
 new Chart(document.getElementById('distributionChart'), {
     type:'bar',
     data:{
