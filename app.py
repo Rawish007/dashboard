@@ -10,7 +10,6 @@ app.secret_key = "umeedsecret"
 # DATABASE INIT
 # =========================
 def init_db():
-
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
@@ -38,8 +37,8 @@ def init_db():
     )
     """)
 
+    # default admin
     c.execute("SELECT COUNT(*) FROM users")
-
     if c.fetchone()[0] == 0:
         c.execute(
             "INSERT INTO users(username,password) VALUES(?,?)",
@@ -58,7 +57,6 @@ init_db()
 # =========================
 @app.route("/login", methods=["GET", "POST"])
 def login():
-
     if request.method == "POST":
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
@@ -94,7 +92,6 @@ def logout():
 # =========================
 @app.route("/")
 def dashboard():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -119,10 +116,6 @@ def dashboard():
     prev_month = 12 if current_month == 1 else current_month - 1
     prev_month_year = current_year - 1 if current_month == 1 else current_year
 
-
-    # =========================
-    # RECOVERY STATS
-    # =========================
     total = today_total = yesterday_total = 0
     this_week = last_week = 0
     this_month = last_month = 0
@@ -144,7 +137,6 @@ def dashboard():
 
             if date == today:
                 today_total += amount
-
             if date == yesterday:
                 yesterday_total += amount
 
@@ -163,10 +155,6 @@ def dashboard():
         except:
             pass
 
-
-    # =========================
-    # DISTRIBUTION STATS
-    # =========================
     distribution_total = distribution_today = distribution_yesterday = 0
     distribution_this_week = distribution_last_week = 0
     distribution_this_month = distribution_last_month = 0
@@ -188,7 +176,6 @@ def dashboard():
 
             if date == today:
                 distribution_today += amount
-
             if date == yesterday:
                 distribution_yesterday += amount
 
@@ -207,10 +194,8 @@ def dashboard():
         except:
             pass
 
-
     return render_template(
         "dashboard.html",
-
         total=total,
         today_total=today_total,
         yesterday_total=yesterday_total,
@@ -245,7 +230,6 @@ def dashboard():
 # =========================
 @app.route("/analytics")
 def analytics():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -282,25 +266,21 @@ def analytics():
 
             if date == today:
                 today_val += amount
-
             if date == yesterday:
                 yesterday_val += amount
 
             if date.isocalendar()[1] == current_week:
                 week_now += amount
-
             if date.isocalendar()[1] == current_week - 1:
                 week_last += amount
 
             if date.month == current_month:
                 month_now += amount
-
             if date.month == current_month - 1:
                 month_last += amount
 
             if date.year == current_year:
                 year_now += amount
-
             if date.year == current_year - 1:
                 year_last += amount
 
@@ -315,22 +295,16 @@ def analytics():
 
     return render_template(
         "analytics.html",
-
         today_val=today_val,
         yesterday_val=yesterday_val,
         total_val=total_val,
-
         distribution_total=distribution_total,
-
         week_now=week_now,
         week_last=week_last,
         month_now=month_now,
         month_last=month_last,
         year_now=year_now,
-        year_last=year_last,
-
-        data=data,
-        dist=dist
+        year_last=year_last
     )
 
 
@@ -339,7 +313,6 @@ def analytics():
 # =========================
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -371,21 +344,26 @@ def admin():
 
 
 # =========================
-# ADD USER
+# ADD USER (FIXED)
 # =========================
 @app.route("/add-user", methods=["POST"])
 def add_user():
-
     if "user" not in session:
         return redirect("/login")
+
+    username = request.form["username"]
+    password = request.form["password"]
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute(
-        "INSERT INTO users(username,password) VALUES(?,?)",
-        (request.form["username"], request.form["password"])
-    )
+    c.execute("SELECT * FROM users WHERE username=?", (username,))
+    if c.fetchone():
+        conn.close()
+        return "User already exists"
+
+    c.execute("INSERT INTO users(username,password) VALUES(?,?)",
+              (username, password))
 
     conn.commit()
     conn.close()
@@ -394,21 +372,18 @@ def add_user():
 
 
 # =========================
-# ADD DISTRIBUTION
+# ADD DISTRIBUTION (FIXED)
 # =========================
 @app.route("/add-distribution", methods=["POST"])
 def add_distribution():
-
     if "user" not in session:
         return redirect("/login")
 
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
-    c.execute(
-        "INSERT INTO distribution(day,amount) VALUES(?,?)",
-        (request.form["day"], request.form["amount"])
-    )
+    c.execute("INSERT INTO distribution(day,amount) VALUES(?,?)",
+              (request.form["day"], request.form["amount"]))
 
     conn.commit()
     conn.close()
@@ -417,7 +392,7 @@ def add_distribution():
 
 
 # =========================
-# DELETE FUNCTIONS
+# DELETE
 # =========================
 @app.route("/delete-recovery/<int:id>")
 def delete_recovery(id):
@@ -441,7 +416,6 @@ def delete_distribution(id):
 
 @app.route("/delete-user/<int:id>")
 def delete_user(id):
-
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
 
@@ -458,8 +432,5 @@ def delete_user(id):
     return redirect("/admin")
 
 
-# =========================
-# RUN
-# =========================
 if __name__ == "__main__":
     app.run(debug=True)
