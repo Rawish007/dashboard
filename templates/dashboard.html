@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>UMEED Analytics</title>
+<title>UMEED Analytics Dashboard</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -17,19 +17,157 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <style>
 
-/* (YOUR FULL CSS SAME AS BEFORE — NO CHANGE) */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
 
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;background:#f5f6f8;color:#111827;display:flex;}
-.sidebar{width:260px;height:100vh;background:#fff;border-right:1px solid #e5e7eb;padding:24px;position:fixed;left:0;top:0;}
-.logo{font-size:28px;font-weight:800;margin-bottom:40px;}
-.menu a{display:flex;gap:12px;padding:14px;margin-bottom:12px;border-radius:14px;text-decoration:none;color:#111827;font-weight:600;}
-.menu a:hover{background:#eff6ff;color:#2563eb;}
-.main{margin-left:260px;width:100%;padding:30px;}
-.topbar{display:flex;justify-content:space-between;margin-bottom:30px;}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;}
-.card{background:#fff;padding:24px;border-radius:20px;border:1px solid #e5e7eb;}
-.card p{font-size:28px;font-weight:800;}
+body{
+    background:#f5f6f8;
+    color:#111827;
+    display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:#ffffff;
+    border-right:1px solid #e5e7eb;
+    padding:24px;
+    position:fixed;
+    left:0;
+    top:0;
+}
+
+.logo{
+    font-size:26px;
+    font-weight:900;
+    margin-bottom:35px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo i{
+    color:#2563eb;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    margin-bottom:12px;
+    border-radius:14px;
+    text-decoration:none;
+    color:#111827;
+    font-size:15px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.menu a:hover{
+    background:#eff6ff;
+    color:#2563eb;
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    width:100%;
+    padding:30px;
+}
+
+/* TOPBAR */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.topbar h1{
+    font-size:30px;
+    font-weight:900;
+}
+
+.badge{
+    background:#fff;
+    padding:10px 16px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+    border:1px solid #e5e7eb;
+}
+
+/* SECTION TITLE */
+.section-title{
+    margin:25px 0 15px;
+    font-size:20px;
+    font-weight:800;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:16px;
+    border:1px solid #e5e7eb;
+    box-shadow:0 4px 14px rgba(0,0,0,0.05);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+.card h3{
+    font-size:13px;
+    color:#6b7280;
+    font-weight:700;
+}
+
+.card p{
+    font-size:24px;
+    font-weight:900;
+    margin-top:8px;
+}
+
+/* CHART BOX */
+.chart-box{
+    background:#fff;
+    padding:25px;
+    margin-top:25px;
+    border-radius:16px;
+    border:1px solid #e5e7eb;
+    box-shadow:0 4px 14px rgba(0,0,0,0.05);
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    .main{
+        margin-left:0;
+        padding:20px;
+    }
+}
 
 </style>
 
@@ -48,8 +186,8 @@ body{font-family:'Inter',sans-serif;background:#f5f6f8;color:#111827;display:fle
     <div class="menu">
 
         <a href="/"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
-        <a href="/analytics"><i class="fa-solid fa-chart-line"></i> Analytics</a>
-        <a href="/admin"><i class="fa-solid fa-screwdriver-wrench"></i> Admin</a>
+        <a href="/analytics"><i class="fa-solid fa-chart-simple"></i> Analytics</a>
+        <a href="/admin"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Panel</a>
         <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 
     </div>
@@ -59,132 +197,106 @@ body{font-family:'Inter',sans-serif;background:#f5f6f8;color:#111827;display:fle
 <!-- MAIN -->
 <div class="main">
 
+    <!-- TOPBAR -->
     <div class="topbar">
-        <h1>Dashboard</h1>
+
+        <h1><i class="fa-solid fa-gauge-high"></i> Dashboard</h1>
+
+        <div class="badge">
+            <i class="fa-solid fa-lock"></i> Secure Analytics
+        </div>
+
     </div>
 
-    <!-- ===================== RECOVERY CARDS ===================== -->
-    <h2>💰 Recovery</h2>
+    <!-- ================= RECOVERY ================= -->
+    <div class="section-title">
+        <i class="fa-solid fa-coins"></i> Recovery Overview
+    </div>
 
     <div class="cards">
 
-        <div class="card">
-            <h3>Total</h3>
-            <p>Rs {{ total }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Today</h3>
-            <p>Rs {{ today_total }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Yesterday</h3>
-            <p>Rs {{ yesterday_total }}</p>
-        </div>
-
-        <div class="card">
-            <h3>This Week</h3>
-            <p>Rs {{ this_week }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Last Week</h3>
-            <p>Rs {{ last_week }}</p>
-        </div>
-
-        <div class="card">
-            <h3>This Month</h3>
-            <p>Rs {{ this_month }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Last Month</h3>
-            <p>Rs {{ last_month }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Best Day</h3>
-            <p>Rs {{ best_day }}</p>
-        </div>
+        <div class="card"><h3>Total Recovery</h3><p>Rs {{ total }}</p></div>
+        <div class="card"><h3>Today</h3><p>Rs {{ today_total }}</p></div>
+        <div class="card"><h3>Yesterday</h3><p>Rs {{ yesterday_total }}</p></div>
+        <div class="card"><h3>This Week</h3><p>Rs {{ this_week }}</p></div>
+        <div class="card"><h3>Last Week</h3><p>Rs {{ last_week }}</p></div>
+        <div class="card"><h3>This Month</h3><p>Rs {{ this_month }}</p></div>
+        <div class="card"><h3>Last Month</h3><p>Rs {{ last_month }}</p></div>
+        <div class="card"><h3>Best Recovery</h3><p>Rs {{ best_day }}</p></div>
 
     </div>
 
-    <!-- ===================== DISTRIBUTION CARDS ===================== -->
-    <h2 style="margin-top:40px;">📦 Distribution</h2>
+    <!-- ================= DISTRIBUTION ================= -->
+    <div class="section-title">
+        <i class="fa-solid fa-truck"></i> Distribution Overview
+    </div>
 
     <div class="cards">
 
-        <div class="card">
-            <h3>Total Distribution</h3>
-            <p>Rs {{ distribution_total }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Today</h3>
-            <p>Rs {{ distribution_today }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Yesterday</h3>
-            <p>Rs {{ distribution_yesterday }}</p>
-        </div>
-
-        <div class="card">
-            <h3>This Week</h3>
-            <p>Rs {{ distribution_this_week }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Last Week</h3>
-            <p>Rs {{ distribution_last_week }}</p>
-        </div>
-
-        <div class="card">
-            <h3>This Month</h3>
-            <p>Rs {{ distribution_this_month }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Last Month</h3>
-            <p>Rs {{ distribution_last_month }}</p>
-        </div>
-
-        <div class="card">
-            <h3>Best Distribution</h3>
-            <p>Rs {{ best_distribution }}</p>
-        </div>
+        <div class="card"><h3>Total Distribution</h3><p>Rs {{ distribution_total }}</p></div>
+        <div class="card"><h3>Today</h3><p>Rs {{ distribution_today }}</p></div>
+        <div class="card"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday }}</p></div>
+        <div class="card"><h3>This Week</h3><p>Rs {{ distribution_this_week }}</p></div>
+        <div class="card"><h3>Last Week</h3><p>Rs {{ distribution_last_week }}</p></div>
+        <div class="card"><h3>This Month</h3><p>Rs {{ distribution_this_month }}</p></div>
+        <div class="card"><h3>Last Month</h3><p>Rs {{ distribution_last_month }}</p></div>
+        <div class="card"><h3>Best Distribution</h3><p>Rs {{ best_distribution }}</p></div>
 
     </div>
 
-    <!-- ===================== CHART ===================== -->
-    <div style="background:#fff;padding:25px;border-radius:20px;margin-top:30px;">
+    <!-- ================= RECOVERY CHART ================= -->
+    <div class="chart-box">
 
-        <h2>Recovery Chart</h2>
+        <h2><i class="fa-solid fa-chart-column"></i> Recovery Chart</h2>
+        <canvas id="recoveryChart"></canvas>
 
-        <canvas id="myChart"></canvas>
+    </div>
+
+    <!-- ================= DISTRIBUTION CHART ================= -->
+    <div class="chart-box">
+
+        <h2><i class="fa-solid fa-chart-line"></i> Distribution Chart</h2>
+        <canvas id="distributionChart"></canvas>
 
     </div>
 
 </div>
 
+<!-- CHART SCRIPT -->
 <script>
 
-const chartLabels = {{ labels|tojson }};
-const chartAmounts = {{ amounts|tojson }};
+const recoveryLabels = {{ labels|tojson }};
+const recoveryData = {{ amounts|tojson }};
 
-new Chart(document.getElementById('myChart'), {
+const distributionLabels = {{ distribution_labels|tojson }};
+const distributionData = {{ distribution_values|tojson }};
 
-    type: 'bar',
-    data: {
-        labels: chartLabels,
-        datasets: [{
-            label: 'Recovery',
-            data: chartAmounts,
-            backgroundColor: '#2563eb'
+/* RECOVERY CHART */
+new Chart(document.getElementById('recoveryChart'), {
+    type:'bar',
+    data:{
+        labels:recoveryLabels,
+        datasets:[{
+            label:'Recovery',
+            data:recoveryData,
+            backgroundColor:'#2563eb',
+            borderRadius:8
         }]
     }
+});
 
+/* DISTRIBUTION CHART */
+new Chart(document.getElementById('distributionChart'), {
+    type:'bar',
+    data:{
+        labels:distributionLabels,
+        datasets:[{
+            label:'Distribution',
+            data:distributionData,
+            backgroundColor:'#ef4444',
+            borderRadius:8
+        }]
+    }
 });
 
 </script>
