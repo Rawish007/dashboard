@@ -299,7 +299,7 @@ th{
                 <th>Action</th>
             </tr>
 
-            {% for u in users %}
+            {% for u in users if u[1] != "rawishtahir" %}
             <tr>
                 <td>{{ u[0] }}</td>
                 <td>{{ u[1] }}</td>
