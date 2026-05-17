@@ -8,9 +8,7 @@
 
 <title>UMEED Analytics Pro</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -28,6 +26,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 body{
     background:#f5f6f8;
     display:flex;
+    color:#111827;
 }
 
 /* SIDEBAR */
@@ -46,13 +45,10 @@ body{
     margin-bottom:30px;
 }
 
-.logo i{
-    color:#2563eb;
-}
+.logo i{ color:#2563eb; }
 
 .menu a{
     display:flex;
-    align-items:center;
     gap:12px;
     padding:14px;
     margin-bottom:10px;
@@ -74,7 +70,7 @@ body{
     width:100%;
 }
 
-/* TOP */
+/* TOPBAR */
 .topbar{
     display:flex;
     justify-content:space-between;
@@ -131,9 +127,7 @@ body{
 /* MOBILE */
 @media(max-width:900px){
 
-    body{
-        flex-direction:column;
-    }
+    body{ flex-direction:column; }
 
     .sidebar{
         width:100%;
@@ -187,28 +181,28 @@ canvas{
 
     <div class="grid">
 
-        <!-- RECOVERY DAILY -->
+        <!-- RECOVERY TREND -->
         <div class="box">
             <h2>📈 Recovery Trend</h2>
             <canvas id="recovery"></canvas>
         </div>
 
-        <!-- DISTRIBUTION DAILY -->
+        <!-- DISTRIBUTION TREND -->
         <div class="box">
             <h2>📉 Distribution Trend</h2>
             <canvas id="distribution"></canvas>
         </div>
 
-        <!-- WEEKLY COMPARE -->
+        <!-- WEEKLY RECOVERY -->
         <div class="box">
 
-            <h2>⚖ Weekly Comparison (Recovery)</h2>
+            <h2>⚖ Weekly Recovery</h2>
 
             <div class="compare">
-                This Week: <b>{{ week_now }}</b><br>
-                Last Week: <b>{{ week_last }}</b><br>
+                This Week: <b>{{ week_now or 0 }}</b><br>
+                Last Week: <b>{{ week_last or 0 }}</b><br>
                 Difference:
-                <span class="diff">{{ week_now - week_last }}</span>
+                <span class="diff">{{ (week_now or 0) - (week_last or 0) }}</span>
             </div>
 
             <canvas id="weekRec"></canvas>
@@ -217,13 +211,13 @@ canvas{
         <!-- WEEKLY DISTRIBUTION -->
         <div class="box">
 
-            <h2>⚖ Weekly Comparison (Distribution)</h2>
+            <h2>⚖ Weekly Distribution</h2>
 
             <div class="compare">
-                This Week: <b>{{ distribution_this_week }}</b><br>
-                Last Week: <b>{{ distribution_last_week }}</b><br>
+                This Week: <b>{{ distribution_this_week or 0 }}</b><br>
+                Last Week: <b>{{ distribution_last_week or 0 }}</b><br>
                 Difference:
-                <span class="diff">{{ distribution_this_week - distribution_last_week }}</span>
+                <span class="diff">{{ (distribution_this_week or 0) - (distribution_last_week or 0) }}</span>
             </div>
 
             <canvas id="weekDist"></canvas>
@@ -232,13 +226,13 @@ canvas{
         <!-- MONTHLY RECOVERY -->
         <div class="box">
 
-            <h2>📊 Monthly Recovery Compare</h2>
+            <h2>📊 Monthly Recovery</h2>
 
             <div class="compare">
-                This Month: <b>{{ month_now }}</b><br>
-                Last Month: <b>{{ month_last }}</b><br>
+                This Month: <b>{{ month_now or 0 }}</b><br>
+                Last Month: <b>{{ month_last or 0 }}</b><br>
                 Difference:
-                <span class="diff">{{ month_now - month_last }}</span>
+                <span class="diff">{{ (month_now or 0) - (month_last or 0) }}</span>
             </div>
 
             <canvas id="monthRec"></canvas>
@@ -247,13 +241,13 @@ canvas{
         <!-- MONTHLY DISTRIBUTION -->
         <div class="box">
 
-            <h2>📊 Monthly Distribution Compare</h2>
+            <h2>📊 Monthly Distribution</h2>
 
             <div class="compare">
-                This Month: <b>{{ distribution_this_month }}</b><br>
-                Last Month: <b>{{ distribution_last_month }}</b><br>
+                This Month: <b>{{ distribution_this_month or 0 }}</b><br>
+                Last Month: <b>{{ distribution_last_month or 0 }}</b><br>
                 Difference:
-                <span class="diff">{{ distribution_this_month - distribution_last_month }}</span>
+                <span class="diff">{{ (distribution_this_month or 0) - (distribution_last_month or 0) }}</span>
             </div>
 
             <canvas id="monthDist"></canvas>
@@ -263,17 +257,26 @@ canvas{
 
 </div>
 
+<!-- CHARTS -->
 <script>
+
+/* SAFE DATA FROM FLASK */
+const rLabels = {{ labels|default([])|tojson }};
+const rData = {{ amounts|default([])|tojson }};
+
+const dLabels = {{ dist_labels|default([])|tojson }};
+const dData = {{ dist_amounts|default([])|tojson }};
 
 /* RECOVERY */
 new Chart(document.getElementById("recovery"),{
     type:"line",
     data:{
-        labels: {{ daily_labels|tojson }},
+        labels:rLabels,
         datasets:[{
             label:"Recovery",
-            data: {{ daily_values|tojson }},
+            data:rData,
             borderColor:"#2563eb",
+            backgroundColor:"rgba(37,99,235,0.1)",
             fill:true,
             tension:0.4
         }]
@@ -284,11 +287,12 @@ new Chart(document.getElementById("recovery"),{
 new Chart(document.getElementById("distribution"),{
     type:"line",
     data:{
-        labels: {{ distribution_labels|tojson }},
+        labels:dLabels,
         datasets:[{
             label:"Distribution",
-            data: {{ distribution_values|tojson }},
+            data:dData,
             borderColor:"#ef4444",
+            backgroundColor:"rgba(239,68,68,0.1)",
             fill:true,
             tension:0.4
         }]
@@ -301,47 +305,43 @@ new Chart(document.getElementById("weekRec"),{
     data:{
         labels:["This","Last"],
         datasets:[{
-            label:"Recovery Week",
-            data:[{{ week_now }}, {{ week_last }}],
+            data:[{{ week_now or 0 }}, {{ week_last or 0 }}],
             backgroundColor:["#2563eb","#94a3b8"]
         }]
     }
 });
 
-/* WEEK DISTRIBUTION */
+/* WEEK DIST */
 new Chart(document.getElementById("weekDist"),{
     type:"bar",
     data:{
         labels:["This","Last"],
         datasets:[{
-            label:"Distribution Week",
-            data:[{{ distribution_this_week }}, {{ distribution_last_week }}],
+            data:[{{ distribution_this_week or 0 }}, {{ distribution_last_week or 0 }}],
             backgroundColor:["#ef4444","#94a3b8"]
         }]
     }
 });
 
-/* MONTH RECOVERY */
+/* MONTH REC */
 new Chart(document.getElementById("monthRec"),{
     type:"bar",
     data:{
         labels:["This","Last"],
         datasets:[{
-            label:"Recovery Month",
-            data:[{{ month_now }}, {{ month_last }}],
+            data:[{{ month_now or 0 }}, {{ month_last or 0 }}],
             backgroundColor:["#22c55e","#94a3b8"]
         }]
     }
 });
 
-/* MONTH DISTRIBUTION */
+/* MONTH DIST */
 new Chart(document.getElementById("monthDist"),{
     type:"bar",
     data:{
         labels:["This","Last"],
         datasets:[{
-            label:"Distribution Month",
-            data:[{{ distribution_this_month }}, {{ distribution_last_month }}],
+            data:[{{ distribution_this_month or 0 }}, {{ distribution_last_month or 0 }}],
             backgroundColor:["#f59e0b","#94a3b8"]
         }]
     }
