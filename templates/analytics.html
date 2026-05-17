@@ -289,6 +289,36 @@ canvas{
 
 </div>
 
+<!-- YEARLY RECOVERY -->
+<div class="box">
+
+    <h2>📊 Yearly Recovery</h2>
+
+    <div class="compare">
+        This Year: <b>{{ year_now or 0 }}</b><br>
+        Last Year: <b>{{ year_last or 0 }}</b><br>
+        Difference:
+        <span class="diff">{{ (year_now or 0) - (year_last or 0) }}</span>
+    </div>
+
+    <canvas id="yearRec"></canvas>
+</div>
+
+<!-- YEARLY DISTRIBUTION -->
+<div class="box">
+
+    <h2>📊 Yearly Distribution</h2>
+
+    <div class="compare">
+        This Year: <b>{{ distribution_this_year or 0 }}</b><br>
+        Last Year: <b>{{ distribution_last_year or 0 }}</b><br>
+        Difference:
+        <span class="diff">{{ (distribution_this_year or 0) - (distribution_last_year or 0) }}</span>
+    </div>
+
+    <canvas id="yearDist"></canvas>
+</div>
+    
 <!-- CHARTS -->
 <script>
 
@@ -379,6 +409,30 @@ new Chart(document.getElementById("monthDist"),{
     }
 });
 
+/* YEAR RECOVERY */
+new Chart(document.getElementById("yearRec"),{
+    type:"bar",
+    data:{
+        labels:["This Year","Last Year"],
+        datasets:[{
+            data:[{{ year_now or 0 }}, {{ year_last or 0 }}],
+            backgroundColor:["#2563eb","#94a3b8"]
+        }]
+    }
+});
+
+/* YEAR DISTRIBUTION */
+new Chart(document.getElementById("yearDist"),{
+    type:"bar",
+    data:{
+        labels:["This Year","Last Year"],
+        datasets:[{
+            data:[{{ distribution_this_year or 0 }}, {{ distribution_last_year or 0 }}],
+            backgroundColor:["#ef4444","#94a3b8"]
+        }]
+    }
+});
+    
 </script>
 
 </body>
