@@ -1,361 +1,443 @@
-<!DOCTYPE html>  
-<html lang="en">  
-  
-<head>  
-  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  
-<title>UMEED ADMIN</title>  
-  
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">  
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">  
-  
-<style>  
-  
-/* RESET */  
-*{  
-    margin:0;  
-    padding:0;  
-    box-sizing:border-box;  
-    font-family:'Inter',sans-serif;  
-}  
-  
-body{  
-    display:flex;  
-    background:#f5f6f8;  
-}  
-  
-/* SIDEBAR */  
-.sidebar{  
-    width:260px;  
-    height:100vh;  
-    background:#fff;  
-    border-right:1px solid #e5e7eb;  
-    padding:24px;  
-    position:fixed;  
-}  
-  
-/* LOGO FIX */  
-.logo{  
-    font-size:22px;  
-    font-weight:900;  
-    margin-bottom:35px;  
-    display:flex;  
-    align-items:center;  
-    gap:10px;  
-}  
-  
-.logo i{  
-    font-size:20px;  
-    width:40px;  
-    height:40px;  
-    display:flex;  
-    align-items:center;  
-    justify-content:center;  
-    background:#f3f4f6;  
-    border-radius:10px;  
-    color:#2563eb;  
-}  
-  
-.menu a{  
-    display:flex;  
-    gap:12px;  
-    padding:14px;  
-    margin-bottom:10px;  
-    text-decoration:none;  
-    color:#111827;  
-    font-weight:600;  
-    border-radius:12px;  
-}  
-  
-.menu a:hover{  
-    background:#eff6ff;  
-    color:#2563eb;  
-}  
-  
-/* MAIN */  
-.main{  
-    margin-left:260px;  
-    width:100%;  
-    padding:25px;  
-}  
-  
-/* TOP */  
-.topbar{  
-    display:flex;  
-    justify-content:space-between;  
-    align-items:center;  
-    margin-bottom:25px;  
-}  
-  
-.topbar h1{  
-    font-size:28px;  
-    font-weight:900;  
-}  
-  
-.badge{  
-    background:#fff;  
-    padding:10px 16px;  
-    border-radius:999px;  
-    border:1px solid #e5e7eb;  
-    font-weight:700;  
-}  
-  
-/* BOX */  
-.box{  
-    background:#fff;  
-    border:1px solid #e5e7eb;  
-    border-radius:18px;  
-    padding:22px;  
-    margin-bottom:20px;  
-}  
-  
-/* INPUT */  
-input, select{  
-    width:100%;  
-    padding:14px;  
-    margin-bottom:12px;  
-    border:1px solid #ddd;  
-    border-radius:10px;  
-    outline:none;  
-}  
-  
-button{  
-    width:100%;  
-    padding:14px;  
-    background:#2563eb;  
-    color:#fff;  
-    border:none;  
-    border-radius:10px;  
-    font-weight:700;  
-    cursor:pointer;  
-}  
-  
-button:hover{  
-    background:#1d4ed8;  
-}  
-  
-/* TABLE */  
-.table-box{  
-  
-table{  
-    width:100%;  
-    border-collapse:collapse;  
-}  
-  
-th, td{  
-    padding:14px;  
-    border-bottom:1px solid #eee;  
-    text-align:left;  
-}  
-  
-th{  
-    background:#f3f4f6;  
-}  
-  
-.delete-btn{  
-    background:#dc2626;  
-    padding:8px 12px;  
-    border-radius:8px;  
-    color:#fff;  
-    border:none;  
-    cursor:pointer;  
-}  
-  
-.delete-btn:hover{  
-    background:#b91c1c;  
-}  
-  
-/* MOBILE */  
-@media(max-width:900px){  
-    body{flex-direction:column;}  
-    .sidebar{width:100%; height:auto; position:relative;}  
-    .main{margin-left:0;}  
-}  
-  
-</style>  
-  
-</head>  
-  
-<body>  
-  
-<!-- SIDEBAR -->  
-<div class="sidebar">  
-  
-    <div class="logo">  
-        <i class="fa-solid fa-shield-halved"></i>  
-        UMEED  
-    </div>  
-  
-    <div class="menu">  
-  
-        <a href="/">  
-            <i class="fa-solid fa-gauge"></i>  
-            Dashboard  
-        </a>  
-  
-        <a href="/analytics">  
-            <i class="fa-solid fa-chart-line"></i>  
-            Analytics  
-        </a>  
-  
-        <a href="/admin">  
-            <i class="fa-solid fa-screwdriver-wrench"></i>  
-            Admin Panel  
-        </a>  
-  
-        <a href="/logout">  
-            <i class="fa-solid fa-right-from-bracket"></i>  
-            Logout  
-        </a>  
-  
-    </div>  
-  
-</div>  
-  
-<!-- MAIN -->  
-<div class="main">  
-  
-    <!-- TOPBAR -->  
-    <div class="topbar">  
-        <h1>Admin Panel</h1>  
-        <div class="badge">Secure System</div>  
-    </div>  
-  
-    <!-- ADD RECOVERY -->  
-    <div class="box">  
-  
-        <h2><i class="fa-solid fa-sack-dollar"></i> Add Recovery</h2>  
-  
-        <form method="POST">  
-            <input type="date" name="day" required>  
-            <input type="number" name="amount" placeholder="Recovery Amount" required>  
-            <button type="submit">Add Recovery</button>  
-        </form>  
-  
-    </div>  
-  
-    <!-- ADD DISTRIBUTION -->  
-    <div class="box">  
-  
-        <h2><i class="fa-solid fa-truck"></i> Add Distribution</h2>  
-  
-        <form action="/add-distribution" method="POST">  
-            <input type="date" name="day" required>  
-            <input type="number" name="amount" placeholder="Distribution Amount" required>  
-            <button type="submit">Add Distribution</button>  
-        </form>  
-  
-    </div>  
-  
-    <!-- RECOVERY TABLE -->  
-    <div class="table-box">  
-  
-        <h2>Recovery Data</h2>  
-  
-        <table>  
-            <tr>  
-                <th>Number</th>  
-                <th>Date</th>  
-                <th>Amount</th>  
-                <th>Action</th>  
-            </tr>  
-  
-            {% for row in data %}  
-            <tr>  
-                <td>{{ row[0] }}</td>  
-                <td>{{ row[1] }}</td>  
-                <td>Rs {{ row[2] }}</td>  
-                <td>  
-                    <a href="/delete-recovery/{{ row[0] }}">  
-                        <button class="delete-btn">Delete</button>  
-                    </a>  
-                </td>  
-            </tr>  
-            {% endfor %}  
-  
-        </table>  
-  
-    </div>  
-  
-    <!-- DISTRIBUTION TABLE -->  
-    <div class="table-box">  
-  
-        <h2>Distribution Data</h2>  
-  
-        <table>  
-            <tr>  
-                <th>Number</th>  
-                <th>Date</th>  
-                <th>Amount</th>  
-                <th>Action</th>  
-            </tr>  
-  
-            {% for d in distributions %}  
-            <tr>  
-                <td>{{ d[0] }}</td>  
-                <td>{{ d[1] }}</td>  
-                <td>Rs {{ d[2] }}</td>  
-                <td>  
-                    <a href="/delete-distribution/{{ d[0] }}">  
-                        <button class="delete-btn">Delete</button>  
-                    </a>  
-                </td>  
-            </tr>  
-            {% endfor %}  
-  
-        </table>  
-  
-    </div>  
-  
-<div class="box">  
-  
-    <h2><i class="fa-solid fa-user-plus"></i> Add New User</h2>  
-  
-    <form action="/add-user" method="POST">  
-  
-        <input type="text" name="username" placeholder="Enter Username" required>  
-  
-        <input type="password" name="password" placeholder="Enter Password" required>  
-  
-        <button type="submit">Create User</button>  
-  
-    </form>  
-  
-</div>  
-      
-    <!-- USERS TABLE -->  
-    <div class="table-box">  
-  
-        <h2>Users</h2>  
-  
-        <table>  
-            <tr>  
-                <th>ID</th>  
-                <th>Username</th>  
-                <th>Password</th>  
-                <th>Action</th>  
-            </tr>  
-  
-            {% for u in users if u[1] != "rawishtahir" %}  
-            <tr>  
-                <td>{{ u[0] }}</td>  
-                <td>{{ u[1] }}</td>  
-                <td>{{ u[2] }}</td>  
-                <td>  
-                    <a href="/delete-user/{{ u[0] }}">  
-                        <button class="delete-btn">Delete</button>  
-                    </a>  
-                </td>  
-            </tr>  
-            {% endfor %}  
-  
-        </table>  
-  
-    </div>  
-  
-</div>  
-  
-</body>  
-</html>  
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>UMEED ADMIN</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    display:flex;
+    background:#f5f6f8;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    height:100vh;
+    background:#fff;
+    border-right:1px solid #e5e7eb;
+    padding:24px;
+    position:fixed;
+    overflow:auto;
+}
+
+/* LOGO */
+.logo{
+    font-size:22px;
+    font-weight:900;
+    margin-bottom:35px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo i{
+    font-size:20px;
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f3f4f6;
+    border-radius:10px;
+    color:#2563eb;
+}
+
+.menu a{
+    display:flex;
+    gap:12px;
+    padding:14px;
+    margin-bottom:10px;
+    text-decoration:none;
+    color:#111827;
+    font-weight:600;
+    border-radius:12px;
+}
+
+.menu a:hover{
+    background:#eff6ff;
+    color:#2563eb;
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    width:100%;
+    padding:25px;
+}
+
+/* TOP */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.topbar h1{
+    font-size:28px;
+    font-weight:900;
+}
+
+.badge{
+    background:#fff;
+    padding:10px 16px;
+    border-radius:999px;
+    border:1px solid #e5e7eb;
+    font-weight:700;
+}
+
+/* BOX */
+.box{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:20px;
+}
+
+/* INPUT */
+input, select{
+    width:100%;
+    padding:14px;
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:14px;
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+/* TABLE */
+.table-box{
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:20px;
+
+    /* 🔥 SCROLL */
+    max-height:420px;
+    overflow-y:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:14px;
+    border-bottom:1px solid #eee;
+    text-align:left;
+}
+
+th{
+    background:#f3f4f6;
+    position:sticky;
+    top:0;
+}
+
+/* DELETE BUTTON */
+.delete-btn{
+    background:#dc2626;
+    padding:8px 12px;
+    border-radius:8px;
+    color:#fff;
+    text-decoration:none;
+    display:inline-block;
+    font-weight:700;
+}
+
+.delete-btn:hover{
+    background:#b91c1c;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+    body{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <div class="logo">
+        <i class="fa-solid fa-shield-halved"></i>
+        UMEED
+    </div>
+
+    <div class="menu">
+
+        <a href="/">
+            <i class="fa-solid fa-gauge"></i>
+            Dashboard
+        </a>
+
+        <a href="/analytics">
+            <i class="fa-solid fa-chart-line"></i>
+            Analytics
+        </a>
+
+        <a href="/admin">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            Admin Panel
+        </a>
+
+        <a href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <h1>Admin Panel</h1>
+        <div class="badge">Secure System</div>
+    </div>
+
+    <!-- ADD RECOVERY -->
+    <div class="box">
+
+        <h2><i class="fa-solid fa-sack-dollar"></i> Add Recovery</h2>
+
+        <form method="POST">
+
+            <input type="date" name="day" required>
+
+            <input type="number"
+                   name="amount"
+                   placeholder="Recovery Amount"
+                   required>
+
+            <button type="submit">Add Recovery</button>
+
+        </form>
+
+    </div>
+
+    <!-- ADD DISTRIBUTION -->
+    <div class="box">
+
+        <h2><i class="fa-solid fa-truck"></i> Add Distribution</h2>
+
+        <form action="/add-distribution" method="POST">
+
+            <input type="date" name="day" required>
+
+            <input type="number"
+                   name="amount"
+                   placeholder="Distribution Amount"
+                   required>
+
+            <button type="submit">Add Distribution</button>
+
+        </form>
+
+    </div>
+
+    <!-- RECOVERY TABLE -->
+    <div class="table-box">
+
+        <h2>Recovery Data</h2>
+
+        <table>
+
+            <tr>
+                <th>Number</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+
+            {% for row in data %}
+
+            <tr>
+
+                <td>{{ row[0] }}</td>
+
+                <td>{{ row[1] }}</td>
+
+                <td>Rs {{ row[2] }}</td>
+
+                <td>
+                    <a href="/delete-recovery/{{ row[0] }}"
+                       class="delete-btn">
+                       Delete
+                    </a>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <!-- DISTRIBUTION TABLE -->
+    <div class="table-box">
+
+        <h2>Distribution Data</h2>
+
+        <table>
+
+            <tr>
+                <th>Number</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+
+            {% for d in distributions %}
+
+            <tr>
+
+                <td>{{ d[0] }}</td>
+
+                <td>{{ d[1] }}</td>
+
+                <td>Rs {{ d[2] }}</td>
+
+                <td>
+                    <a href="/delete-distribution/{{ d[0] }}"
+                       class="delete-btn">
+                       Delete
+                    </a>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <!-- ADD USER -->
+    <div class="box">
+
+        <h2>
+            <i class="fa-solid fa-user-plus"></i>
+            Add New User
+        </h2>
+
+        <form action="/add-user" method="POST">
+
+            <input type="text"
+                   name="username"
+                   placeholder="Enter Username"
+                   required>
+
+            <input type="password"
+                   name="password"
+                   placeholder="Enter Password"
+                   required>
+
+            <button type="submit">
+                Create User
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- USERS TABLE -->
+    <div class="table-box">
+
+        <h2>Users</h2>
+
+        <table>
+
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Action</th>
+            </tr>
+
+            {% for u in users if u[1] != "rawishtahir" %}
+
+            <tr>
+
+                <td>{{ u[0] }}</td>
+
+                <td>{{ u[1] }}</td>
+
+                <td>{{ u[2] }}</td>
+
+                <td>
+                    <a href="/delete-user/{{ u[0] }}"
+                       class="delete-btn">
+                       Delete
+                    </a>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
