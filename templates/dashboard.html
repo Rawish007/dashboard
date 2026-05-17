@@ -8,9 +8,7 @@
 
 <title>UMEED Dashboard</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,42 +28,38 @@ body{
     display:flex;
 }
 
-/* SIDEBAR */
+/* ================= SIDEBAR ================= */
 .sidebar{
     width:260px;
     height:100vh;
-    background:#ffffff;
+    background:#fff;
     border-right:1px solid #e5e7eb;
     padding:24px;
     position:fixed;
     left:0;
     top:0;
+    transition:0.3s;
 }
 
 .logo{
     font-size:26px;
     font-weight:900;
-    margin-bottom:35px;
     display:flex;
-    align-items:center;
     gap:10px;
+    margin-bottom:30px;
 }
 
-.logo i{
-    color:#2563eb;
-}
+.logo i{ color:#2563eb; }
 
 .menu a{
     display:flex;
-    align-items:center;
     gap:12px;
     padding:14px;
-    margin-bottom:12px;
-    border-radius:14px;
+    margin-bottom:10px;
     text-decoration:none;
     color:#111827;
-    font-size:15px;
     font-weight:600;
+    border-radius:12px;
     transition:0.3s;
 }
 
@@ -74,7 +68,7 @@ body{
     color:#2563eb;
 }
 
-/* MAIN */
+/* ================= MAIN ================= */
 .main{
     margin-left:260px;
     width:100%;
@@ -86,87 +80,118 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:25px;
-}
-
-.topbar h1{
-    font-size:30px;
-    font-weight:900;
+    margin-bottom:20px;
 }
 
 .badge{
-    background:#fff;
-    padding:10px 16px;
+    padding:10px 15px;
     border-radius:999px;
-    font-size:13px;
-    font-weight:700;
     border:1px solid #e5e7eb;
+    background:#fff;
+    font-size:13px;
 }
 
-/* SECTION TITLE */
+/* TITLE */
 .section-title{
-    margin:25px 0 15px;
-    font-size:20px;
+    margin:20px 0 10px;
     font-weight:800;
+    font-size:18px;
     display:flex;
-    align-items:center;
     gap:10px;
 }
 
 /* CARDS */
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
     gap:15px;
 }
 
 .card{
     background:#fff;
     padding:20px;
-    border-radius:16px;
+    border-radius:15px;
     border:1px solid #e5e7eb;
-    box-shadow:0 4px 14px rgba(0,0,0,0.05);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-3px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
 .card h3{
     font-size:13px;
     color:#6b7280;
-    font-weight:700;
 }
 
 .card p{
-    font-size:24px;
+    font-size:22px;
     font-weight:900;
     margin-top:8px;
 }
 
-/* CHART BOX */
+/* CHART */
 .chart-box{
     background:#fff;
-    padding:25px;
-    margin-top:25px;
-    border-radius:16px;
+    padding:20px;
+    margin-top:20px;
+    border-radius:15px;
     border:1px solid #e5e7eb;
-    box-shadow:0 4px 14px rgba(0,0,0,0.05);
 }
 
-/* RESPONSIVE */
+/* ================= MOBILE MENU BUTTON ================= */
+.menu-btn{
+    display:none;
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* ================= RESPONSIVE ================= */
 @media(max-width:900px){
+
+    body{
+        flex-direction:column;
+    }
+
     .sidebar{
-        position:relative;
-        width:100%;
-        height:auto;
+        position:fixed;
+        left:-260px;
+        top:0;
+        height:100%;
+        z-index:1000;
+    }
+
+    .sidebar.active{
+        left:0;
     }
 
     .main{
         margin-left:0;
-        padding:20px;
+        padding:15px;
     }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .topbar{
+        flex-direction:row;
+        justify-content:space-between;
+    }
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+/* SMALL MOBILE */
+@media(max-width:500px){
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .topbar h1{
+        font-size:20px;
+    }
+
 }
 
 </style>
@@ -176,20 +201,18 @@ body{
 <body>
 
 <!-- SIDEBAR -->
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
 
     <div class="logo">
-        <i class="fa-solid fa-shield-halved"></i>
+        <i class="fa-solid fa-shield"></i>
         UMEED
     </div>
 
     <div class="menu">
-
         <a href="/"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
         <a href="/analytics"><i class="fa-solid fa-chart-simple"></i> Analytics</a>
-        <a href="/admin"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Panel</a>
+        <a href="/admin"><i class="fa-solid fa-gear"></i> Admin</a>
         <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-
     </div>
 
 </div>
@@ -200,78 +223,75 @@ body{
     <!-- TOPBAR -->
     <div class="topbar">
 
-        <h1><i class="fa-solid fa-gauge-high"></i> Dashboard</h1>
+        <div style="display:flex;gap:15px;align-items:center;">
+            <div class="menu-btn" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+
+            <h1><i class="fa-solid fa-gauge"></i> Dashboard</h1>
+        </div>
 
         <div class="badge">
-            <i class="fa-solid fa-lock"></i> Secure Analytics
+            <i class="fa-solid fa-lock"></i> Secure
         </div>
 
     </div>
 
-    <!-- ================= RECOVERY ================= -->
-    <div class="section-title">
-        <i class="fa-solid fa-coins"></i> Recovery Overview
-    </div>
+    <!-- RECOVERY -->
+    <div class="section-title"><i class="fa-solid fa-coins"></i> Recovery</div>
 
     <div class="cards">
-
-        <div class="card"><h3>Total Recovery</h3><p>Rs {{ total }}</p></div>
+        <div class="card"><h3>Total</h3><p>Rs {{ total }}</p></div>
         <div class="card"><h3>Today</h3><p>Rs {{ today_total }}</p></div>
         <div class="card"><h3>Yesterday</h3><p>Rs {{ yesterday_total }}</p></div>
         <div class="card"><h3>This Week</h3><p>Rs {{ this_week }}</p></div>
         <div class="card"><h3>Last Week</h3><p>Rs {{ last_week }}</p></div>
         <div class="card"><h3>This Month</h3><p>Rs {{ this_month }}</p></div>
         <div class="card"><h3>Last Month</h3><p>Rs {{ last_month }}</p></div>
-        <div class="card"><h3>Best Recovery</h3><p>Rs {{ best_day }}</p></div>
-
+        <div class="card"><h3>Best</h3><p>Rs {{ best_day }}</p></div>
     </div>
 
-    <!-- ================= DISTRIBUTION ================= -->
-    <div class="section-title">
-        <i class="fa-solid fa-truck"></i> Distribution Overview
-    </div>
+    <!-- DISTRIBUTION -->
+    <div class="section-title"><i class="fa-solid fa-truck"></i> Distribution</div>
 
     <div class="cards">
-
-        <div class="card"><h3>Total Distribution</h3><p>Rs {{ distribution_total }}</p></div>
+        <div class="card"><h3>Total</h3><p>Rs {{ distribution_total }}</p></div>
         <div class="card"><h3>Today</h3><p>Rs {{ distribution_today }}</p></div>
         <div class="card"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday }}</p></div>
         <div class="card"><h3>This Week</h3><p>Rs {{ distribution_this_week }}</p></div>
         <div class="card"><h3>Last Week</h3><p>Rs {{ distribution_last_week }}</p></div>
         <div class="card"><h3>This Month</h3><p>Rs {{ distribution_this_month }}</p></div>
         <div class="card"><h3>Last Month</h3><p>Rs {{ distribution_last_month }}</p></div>
-        <div class="card"><h3>Best Distribution</h3><p>Rs {{ best_distribution }}</p></div>
-
+        <div class="card"><h3>Best</h3><p>Rs {{ best_distribution }}</p></div>
     </div>
 
-    <!-- ================= RECOVERY CHART ================= -->
+    <!-- CHARTS -->
     <div class="chart-box">
-
-        <h2><i class="fa-solid fa-chart-column"></i> Recovery Chart</h2>
+        <h2>Recovery Chart</h2>
         <canvas id="recoveryChart"></canvas>
-
     </div>
 
-    <!-- ================= DISTRIBUTION CHART ================= -->
     <div class="chart-box">
-
-        <h2><i class="fa-solid fa-chart-line"></i> Distribution Chart</h2>
+        <h2>Distribution Chart</h2>
         <canvas id="distributionChart"></canvas>
-
     </div>
 
 </div>
 
-<!-- CHART SCRIPT -->
+<!-- SCRIPT -->
 <script>
 
-const recoveryLabels = {{ labels|tojson }};
-const recoveryData = {{ amounts|tojson }};
+function toggleMenu(){
+    document.getElementById("sidebar").classList.toggle("active");
+}
 
-const distributionLabels = {{ distribution_labels|tojson }};
-const distributionData = {{ distribution_values|tojson }};
+const recoveryLabels = {{ labels | default([]) | tojson }};
+const recoveryData = {{ amounts | default([]) | tojson }};
 
-/* RECOVERY CHART */
+const distributionLabels = {{ distribution_labels | default([]) | tojson }};
+const distributionData = {{ distribution_values | default([]) | tojson }};
+
+/* Recovery */
 new Chart(document.getElementById('recoveryChart'), {
     type:'bar',
     data:{
@@ -279,13 +299,16 @@ new Chart(document.getElementById('recoveryChart'), {
         datasets:[{
             label:'Recovery',
             data:recoveryData,
-            backgroundColor:'#2563eb',
-            borderRadius:8
+            backgroundColor:'#2563eb'
         }]
+    },
+    options:{
+        responsive:true,
+        scales:{ y:{ beginAtZero:true } }
     }
 });
 
-/* DISTRIBUTION CHART */
+/* Distribution */
 new Chart(document.getElementById('distributionChart'), {
     type:'bar',
     data:{
@@ -293,9 +316,12 @@ new Chart(document.getElementById('distributionChart'), {
         datasets:[{
             label:'Distribution',
             data:distributionData,
-            backgroundColor:'#ef4444',
-            borderRadius:8
+            backgroundColor:'#ef4444'
         }]
+    },
+    options:{
+        responsive:true,
+        scales:{ y:{ beginAtZero:true } }
     }
 });
 
