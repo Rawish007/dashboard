@@ -384,6 +384,7 @@ if request.method == "POST":
     conn.commit()
 
     return redirect("/admin")
+    
     c.execute("SELECT * FROM analytics ORDER BY id DESC")
     data = c.fetchall()
 
