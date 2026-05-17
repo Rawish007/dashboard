@@ -15,6 +15,7 @@
 
 <style>
 
+/* RESET */
 *{
     margin:0;
     padding:0;
@@ -24,11 +25,11 @@
 
 body{
     background:#f5f6f8;
-    color:#111827;
     display:flex;
+    color:#111827;
 }
 
-/* ================= SIDEBAR ================= */
+/* SIDEBAR */
 .sidebar{
     width:260px;
     height:100vh;
@@ -36,17 +37,14 @@ body{
     border-right:1px solid #e5e7eb;
     padding:24px;
     position:fixed;
-    left:0;
-    top:0;
-    transition:0.3s;
 }
 
 .logo{
     font-size:26px;
     font-weight:900;
+    margin-bottom:30px;
     display:flex;
     gap:10px;
-    margin-bottom:30px;
 }
 
 .logo i{ color:#2563eb; }
@@ -60,7 +58,6 @@ body{
     color:#111827;
     font-weight:600;
     border-radius:12px;
-    transition:0.3s;
 }
 
 .menu a:hover{
@@ -68,14 +65,14 @@ body{
     color:#2563eb;
 }
 
-/* ================= MAIN ================= */
+/* MAIN */
 .main{
     margin-left:260px;
     width:100%;
-    padding:30px;
+    padding:25px;
 }
 
-/* TOPBAR */
+/* TOP */
 .topbar{
     display:flex;
     justify-content:space-between;
@@ -86,18 +83,9 @@ body{
 .badge{
     padding:10px 15px;
     border-radius:999px;
-    border:1px solid #e5e7eb;
     background:#fff;
+    border:1px solid #e5e7eb;
     font-size:13px;
-}
-
-/* TITLE */
-.section-title{
-    margin:20px 0 10px;
-    font-weight:800;
-    font-size:18px;
-    display:flex;
-    gap:10px;
 }
 
 /* CARDS */
@@ -112,7 +100,7 @@ body{
     padding:20px;
     border-radius:15px;
     border:1px solid #e5e7eb;
-    box-shadow:0 4px 12px rgba(0,0,0,0.05);
+    box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 
 .card h3{
@@ -126,23 +114,23 @@ body{
     margin-top:8px;
 }
 
-/* CHART */
+/* CHART BOX */
 .chart-box{
     background:#fff;
-    padding:20px;
     margin-top:20px;
+    padding:20px;
     border-radius:15px;
     border:1px solid #e5e7eb;
 }
 
-/* ================= MOBILE MENU BUTTON ================= */
-.menu-btn{
-    display:none;
-    font-size:22px;
-    cursor:pointer;
+/* SECTION TITLE */
+.section-title{
+    margin:20px 0 10px;
+    font-size:18px;
+    font-weight:800;
 }
 
-/* ================= RESPONSIVE ================= */
+/* MOBILE */
 @media(max-width:900px){
 
     body{
@@ -150,48 +138,15 @@ body{
     }
 
     .sidebar{
-        position:fixed;
-        left:-260px;
-        top:0;
-        height:100%;
-        z-index:1000;
-    }
-
-    .sidebar.active{
-        left:0;
+        position:relative;
+        width:100%;
+        height:auto;
     }
 
     .main{
         margin-left:0;
         padding:15px;
     }
-
-    .menu-btn{
-        display:block;
-    }
-
-    .topbar{
-        flex-direction:row;
-        justify-content:space-between;
-    }
-
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-}
-
-/* SMALL MOBILE */
-@media(max-width:500px){
-
-    .cards{
-        grid-template-columns:1fr;
-    }
-
-    .topbar h1{
-        font-size:20px;
-    }
-
 }
 
 </style>
@@ -201,15 +156,15 @@ body{
 <body>
 
 <!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
+<div class="sidebar">
 
     <div class="logo">
-        <i class="fa-solid fa-shield"></i>
+        <i class="fa-solid fa-shield-halved"></i>
         UMEED
     </div>
 
     <div class="menu">
-        <a href="/"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="/"><i class="fa-solid fa-gauge"></i> Dashboard</a>
         <a href="/analytics"><i class="fa-solid fa-chart-simple"></i> Analytics</a>
         <a href="/admin"><i class="fa-solid fa-gear"></i> Admin</a>
         <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
@@ -220,60 +175,62 @@ body{
 <!-- MAIN -->
 <div class="main">
 
-    <!-- TOPBAR -->
+    <!-- TOP -->
     <div class="topbar">
 
-        <div style="display:flex;gap:15px;align-items:center;">
-            <div class="menu-btn" onclick="toggleMenu()">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-
-            <h1><i class="fa-solid fa-gauge"></i> Dashboard</h1>
-        </div>
+        <h1><i class="fa-solid fa-chart-line"></i> Dashboard</h1>
 
         <div class="badge">
-            <i class="fa-solid fa-lock"></i> Secure
+            <i class="fa-solid fa-lock"></i> Secure System
         </div>
 
     </div>
 
-    <!-- RECOVERY -->
-    <div class="section-title"><i class="fa-solid fa-coins"></i> Recovery</div>
+    <!-- ================= RECOVERY ================= -->
+    <div class="section-title">Recovery Overview</div>
 
     <div class="cards">
-        <div class="card"><h3>Total</h3><p>Rs {{ total }}</p></div>
-        <div class="card"><h3>Today</h3><p>Rs {{ today_total }}</p></div>
-        <div class="card"><h3>Yesterday</h3><p>Rs {{ yesterday_total }}</p></div>
-        <div class="card"><h3>This Week</h3><p>Rs {{ this_week }}</p></div>
-        <div class="card"><h3>Last Week</h3><p>Rs {{ last_week }}</p></div>
-        <div class="card"><h3>This Month</h3><p>Rs {{ this_month }}</p></div>
-        <div class="card"><h3>Last Month</h3><p>Rs {{ last_month }}</p></div>
-        <div class="card"><h3>Best</h3><p>Rs {{ best_day }}</p></div>
+
+        <div class="card"><h3>Total</h3><p>Rs {{ total or 0 }}</p></div>
+        <div class="card"><h3>Today</h3><p>Rs {{ today_total or 0 }}</p></div>
+        <div class="card"><h3>Yesterday</h3><p>Rs {{ yesterday_total or 0 }}</p></div>
+        <div class="card"><h3>This Week</h3><p>Rs {{ this_week or 0 }}</p></div>
+        <div class="card"><h3>Last Week</h3><p>Rs {{ last_week or 0 }}</p></div>
+        <div class="card"><h3>This Month</h3><p>Rs {{ this_month or 0 }}</p></div>
+        <div class="card"><h3>Last Month</h3><p>Rs {{ last_month or 0 }}</p></div>
+        <div class="card"><h3>Best Day</h3><p>Rs {{ best_day or 0 }}</p></div>
+
     </div>
 
-    <!-- DISTRIBUTION -->
-    <div class="section-title"><i class="fa-solid fa-truck"></i> Distribution</div>
+    <!-- ================= DISTRIBUTION ================= -->
+    <div class="section-title">Distribution Overview</div>
 
     <div class="cards">
-        <div class="card"><h3>Total</h3><p>Rs {{ distribution_total }}</p></div>
-        <div class="card"><h3>Today</h3><p>Rs {{ distribution_today }}</p></div>
-        <div class="card"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday }}</p></div>
-        <div class="card"><h3>This Week</h3><p>Rs {{ distribution_this_week }}</p></div>
-        <div class="card"><h3>Last Week</h3><p>Rs {{ distribution_last_week }}</p></div>
-        <div class="card"><h3>This Month</h3><p>Rs {{ distribution_this_month }}</p></div>
-        <div class="card"><h3>Last Month</h3><p>Rs {{ distribution_last_month }}</p></div>
-        <div class="card"><h3>Best</h3><p>Rs {{ best_distribution }}</p></div>
+
+        <div class="card"><h3>Total</h3><p>Rs {{ distribution_total or 0 }}</p></div>
+        <div class="card"><h3>Today</h3><p>Rs {{ distribution_today or 0 }}</p></div>
+        <div class="card"><h3>Yesterday</h3><p>Rs {{ distribution_yesterday or 0 }}</p></div>
+        <div class="card"><h3>This Week</h3><p>Rs {{ distribution_this_week or 0 }}</p></div>
+        <div class="card"><h3>Last Week</h3><p>Rs {{ distribution_last_week or 0 }}</p></div>
+        <div class="card"><h3>This Month</h3><p>Rs {{ distribution_this_month or 0 }}</p></div>
+        <div class="card"><h3>Last Month</h3><p>Rs {{ distribution_last_month or 0 }}</p></div>
+        <div class="card"><h3>Best</h3><p>Rs {{ best_distribution or 0 }}</p></div>
+
     </div>
 
-    <!-- CHARTS -->
+    <!-- ================= CHARTS ================= -->
     <div class="chart-box">
+
         <h2>Recovery Chart</h2>
         <canvas id="recoveryChart"></canvas>
+
     </div>
 
     <div class="chart-box">
+
         <h2>Distribution Chart</h2>
         <canvas id="distributionChart"></canvas>
+
     </div>
 
 </div>
@@ -281,17 +238,13 @@ body{
 <!-- SCRIPT -->
 <script>
 
-function toggleMenu(){
-    document.getElementById("sidebar").classList.toggle("active");
-}
+const recoveryLabels = {{ labels|default([])|tojson }};
+const recoveryData = {{ amounts|default([])|tojson }};
 
-const recoveryLabels = {{ labels | default([]) | tojson }};
-const recoveryData = {{ amounts | default([]) | tojson }};
+const distributionLabels = {{ distribution_labels|default([])|tojson }};
+const distributionData = {{ distribution_values|default([])|tojson }};
 
-const distributionLabels = {{ distribution_labels | default([]) | tojson }};
-const distributionData = {{ distribution_values | default([]) | tojson }};
-
-/* Recovery */
+/* RECOVERY */
 new Chart(document.getElementById('recoveryChart'), {
     type:'bar',
     data:{
@@ -308,7 +261,7 @@ new Chart(document.getElementById('recoveryChart'), {
     }
 });
 
-/* Distribution */
+/* DISTRIBUTION */
 new Chart(document.getElementById('distributionChart'), {
     type:'bar',
     data:{
