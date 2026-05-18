@@ -1,100 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>UMEED ADMIN</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}UMEED{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+:root{
+  --ink:#0f1117;
+  --ink2:#4a4d5a;
+  --ink3:#8b8fa8;
+  --surface:#ffffff;
+  --bg:#f0f1f6;
+  --blue:#2563eb;
+  --blue-dark:#1d4ed8;
+  --blue-soft:#eff4ff;
+  --border:#e2e4f0;
+  --red:#dc2626;
+  --red-soft:#fef2f2;
+  --green:#16a34a;
+  --green-soft:#f0fdf4;
+  --amber:#d97706;
+  --amber-soft:#fffbeb;
+  --sidebar-w:260px;
+  --radius:14px;
+}
 
-    <style>
-        body{
-            margin:0;
-            font-family:Arial;
-            background:#f5f6f8;
-            display:flex;
-        }
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  display:flex;
+  min-height:100vh;
+}
 
-        .sidebar{
-            width:240px;
-            height:100vh;
-            background:#fff;
-            border-right:1px solid #ddd;
-            padding:20px;
-            position:fixed;
-        }
+/* ====== SIDEBAR ====== */
+.sidebar{
+  width:var(--sidebar-w);
+  height:100vh;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  padding:28px 20px;
+  position:fixed;
+  top:0;left:0;
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+  z-index:100;
+}
 
-        .sidebar a{
-            display:block;
-            padding:12px;
-            text-decoration:none;
-            color:#111;
-            margin-bottom:10px;
-            border-radius:10px;
-        }
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 8px;
+  margin-bottom:36px;
+}
 
-        .sidebar a:hover{
-            background:#eef2ff;
-        }
+.brand-icon{
+  width:40px;height:40px;
+  background:var(--ink);
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
 
-        .main{
-            margin-left:260px;
-            width:100%;
-            padding:20px;
-        }
+.brand-icon svg{
+  width:20px;height:20px;
+  stroke:#fff;fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
 
-        .box, .table-box{
-            background:#fff;
-            padding:20px;
-            margin-bottom:20px;
-            border-radius:12px;
-        }
+.brand-name{
+  font-family:'DM Serif Display',serif;
+  font-size:22px;
+  letter-spacing:-.3px;
+  color:var(--ink);
+}
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-        }
+.nav-section{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  color:var(--ink3);
+  padding:0 12px;
+  margin-bottom:8px;
+}
 
-        th,td{
-            padding:12px;
-            border-bottom:1px solid #ddd;
-        }
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  border-radius:10px;
+  text-decoration:none;
+  color:var(--ink2);
+  font-size:14.5px;
+  font-weight:500;
+  margin-bottom:3px;
+  transition:background .15s, color .15s;
+}
 
-        button{
-            padding:10px 14px;
-            background:#2563eb;
-            color:white;
-            border:none;
-            border-radius:8px;
-            cursor:pointer;
-        }
+.nav-link i{
+  width:20px;
+  font-size:15px;
+  text-align:center;
+  color:var(--ink3);
+  transition:color .15s;
+}
 
-        .delete-btn{
-            background:#dc2626;
-        }
-    </style>
+.nav-link:hover{
+  background:var(--blue-soft);
+  color:var(--blue);
+}
+
+.nav-link:hover i{color:var(--blue)}
+
+.nav-link.active{
+  background:var(--ink);
+  color:#fff;
+}
+
+.nav-link.active i{color:#fff}
+
+.sidebar-footer{
+  margin-top:auto;
+  padding-top:20px;
+  border-top:1px solid var(--border);
+}
+
+.user-pill{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  background:var(--bg);
+  border-radius:10px;
+  margin-bottom:8px;
+}
+
+.user-avatar{
+  width:32px;height:32px;
+  background:var(--ink);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:600;
+  color:#fff;
+  flex-shrink:0;
+}
+
+.user-name{
+  font-size:13.5px;
+  font-weight:500;
+  color:var(--ink);
+}
+
+.user-role{
+  font-size:11.5px;
+  color:var(--ink3);
+}
+
+/* ====== MAIN ====== */
+.main{
+  margin-left:var(--sidebar-w);
+  flex:1;
+  padding:32px;
+  min-width:0;
+}
+
+/* ====== TOPBAR ====== */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:28px;
+}
+
+.page-title{
+  font-family:'DM Serif Display',serif;
+  font-size:28px;
+  color:var(--ink);
+  letter-spacing:-.4px;
+}
+
+.page-subtitle{
+  font-size:13.5px;
+  color:var(--ink3);
+  margin-top:3px;
+}
+
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.badge-pill{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:8px 16px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:500;
+  color:var(--ink2);
+}
+
+/* ====== CARDS GRID ====== */
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.stat-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px 22px;
+  position:relative;
+  overflow:hidden;
+  transition:box-shadow .2s, transform .2s;
+}
+
+.stat-card:hover{
+  box-shadow:0 6px 24px rgba(15,17,23,.08);
+  transform:translateY(-2px);
+}
+
+.stat-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;
+  width:3px;
+  height:100%;
+  background:var(--accent,var(--blue));
+  border-radius:3px 0 0 3px;
+}
+
+.stat-label{
+  font-size:11.5px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+  color:var(--ink3);
+  margin-bottom:10px;
+}
+
+.stat-value{
+  font-family:'DM Serif Display',serif;
+  font-size:26px;
+  color:var(--ink);
+  letter-spacing:-.5px;
+}
+
+.stat-value span{
+  font-size:13px;
+  color:var(--ink3);
+  font-family:'DM Sans',sans-serif;
+  font-weight:400;
+  margin-left:3px;
+}
+
+/* ====== SECTION BOX ====== */
+.section-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px;
+  margin-bottom:24px;
+}
+
+.section-title{
+  font-size:16px;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.section-title i{
+  font-size:15px;
+  color:var(--ink3);
+}
+
+/* ====== FORMS ====== */
+.form-row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.form-group{
+  flex:1;
+  min-width:160px;
+}
+
+.form-group label{
+  display:block;
+  font-size:12.5px;
+  font-weight:500;
+  color:var(--ink2);
+  margin-bottom:6px;
+}
+
+.form-control{
+  width:100%;
+  height:44px;
+  border:1.5px solid var(--border);
+  border-radius:9px;
+  padding:0 14px;
+  font-size:14px;
+  font-family:'DM Sans',sans-serif;
+  color:var(--ink);
+  background:var(--surface);
+  outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+
+.form-control:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+.btn{
+  height:44px;
+  padding:0 22px;
+  border:none;
+  border-radius:9px;
+  font-size:14px;
+  font-weight:600;
+  font-family:'DM Sans',sans-serif;
+  cursor:pointer;
+  transition:background .15s, transform .1s;
+  white-space:nowrap;
+}
+
+.btn:active{transform:scale(.97)}
+
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{background:#1e2130}
+
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:var(--blue-dark)}
+
+.btn-danger{background:var(--red);color:#fff;font-size:12.5px;height:36px;padding:0 14px}
+.btn-danger:hover{background:#b91c1c}
+
+/* ====== TABLE ====== */
+.table-wrap{
+  overflow-x:auto;
+  max-height:380px;
+  overflow-y:auto;
+  border-radius:10px;
+  border:1px solid var(--border);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13.5px;
+}
+
+thead th{
+  background:var(--bg);
+  padding:11px 16px;
+  text-align:left;
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  color:var(--ink3);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:1;
+}
+
+tbody td{
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  color:var(--ink2);
+}
+
+tbody tr:last-child td{border-bottom:none}
+
+tbody tr:hover td{background:#f7f8fc}
+
+.amount-cell{
+  font-weight:600;
+  color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+
+.id-cell{
+  font-family:monospace;
+  font-size:12px;
+  color:var(--ink3);
+}
+
+/* ====== CHART ====== */
+.chart-box{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px;
+  margin-bottom:24px;
+}
+
+.chart-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:18px;
+}
+
+/* ====== MOBILE ====== */
+@media(max-width:860px){
+  .sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+    flex-direction:row;
+    flex-wrap:wrap;
+    padding:16px;
+  }
+  .brand{margin-bottom:0;margin-right:auto}
+  .nav-section{display:none}
+  .sidebar-footer{display:none}
+  .sidebar nav{display:flex;gap:4px;width:100%;margin-top:12px}
+  .nav-link{padding:8px 12px;font-size:13px}
+  .main{margin-left:0;padding:16px}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
 </head>
-
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
+<aside class="sidebar">
 
-    <h2>UMEED</h2>
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <span class="brand-name">UMEED</span>
+  </div>
 
-    <a href="/">Dashboard</a>
-    <a href="/admin">Admin Panel</a>
-    <a href="/analytics">Analytics</a>
-    <a href="/logout">Logout</a>
+  <div class="nav-section">Navigation</div>
+  <nav>
+    <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">
+      <i class="fa-solid fa-gauge"></i> Dashboard
+    </a>
+    <a href="/analytics" class="nav-link {% if request.path == '/analytics' %}active{% endif %}">
+      <i class="fa-solid fa-chart-line"></i> Analytics
+    </a>
+    <a href="/admin" class="nav-link {% if request.path == '/admin' %}active{% endif %}">
+      <i class="fa-solid fa-screwdriver-wrench"></i> Admin Panel
+    </a>
+  </nav>
 
-</div>
+  <div class="sidebar-footer">
+    <div class="user-pill">
+      <div class="user-avatar">{{ session.user[0]|upper if session.user else 'U' }}</div>
+      <div>
+        <div class="user-name">{{ session.user or 'User' }}</div>
+        <div class="user-role">Administrator</div>
+      </div>
+    </div>
+    <a href="/logout" class="nav-link">
+      <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+  </div>
 
-<!-- MAIN CONTENT -->
-<div class="main">
+</aside>
 
-    {% block content %}
-    {% endblock %}
-
-</div>
+<main class="main">
+  {% block content %}{% endblock %}
+</main>
 
 </body>
 </html>
