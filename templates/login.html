@@ -1,234 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>UMEED Login</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-
+<title>UMEED — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
+*{margin:0;padding:0;box-sizing:border-box}
 
-/* RESET */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+:root{
+  --ink:#0f1117;
+  --ink2:#4a4d5a;
+  --ink3:#8b8fa8;
+  --surface:#ffffff;
+  --bg:#f0f1f6;
+  --blue:#2563eb;
+  --blue-dark:#1d4ed8;
+  --blue-soft:#eff4ff;
+  --border:#e2e4f0;
+  --red:#dc2626;
+  --radius:14px;
 }
-
-/* BODY */
 
 body{
-
-    font-family:'Roboto',sans-serif;
-
-    height:100vh;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:#ffffff;
-
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:24px;
 }
 
-/* LOGIN BOX CENTER */
-
-.login-box{
-
-    width:100%;
-    max-width:380px;
-
-    text-align:center;
-
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:48px 44px;
+  width:100%;
+  max-width:420px;
+  box-shadow:0 8px 40px rgba(15,17,23,0.08);
+  animation:rise .5s cubic-bezier(.22,1,.36,1) both;
 }
 
-/* LOGO */
-
-.logo{
-
-    font-size:58px;
-
-    font-weight:700;
-
-    color:#2563eb;
-
-    letter-spacing:-1px;
-
-    margin-bottom:10px;
-
+@keyframes rise{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
-/* TAGLINE */
-
-.tagline{
-
-    font-size:18px;
-
-    color:#1c1e21;
-
-    margin-bottom:25px;
-
-    font-weight:400;
-
+.brand{
+  text-align:center;
+  margin-bottom:36px;
 }
 
-/* FORM BOX */
-
-.form-box{
-
-    background:#fff;
-
-    padding:20px;
-
-    border-radius:10px;
-
-    box-shadow:
-    0 4px 18px rgba(0,0,0,0.12);
-
+.brand-icon{
+  width:56px;height:56px;
+  background:var(--ink);
+  border-radius:16px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:16px;
 }
 
-/* INPUT */
-
-.input{
-
-    width:100%;
-
-    height:52px;
-
-    margin-bottom:12px;
-
-    padding:0 14px;
-
-    border:1px solid #dddfe2;
-
-    border-radius:8px;
-
-    font-size:16px;
-
-    outline:none;
-
+.brand-icon svg{
+  width:28px;height:28px;
+  fill:none;
+  stroke:#fff;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
 }
 
-.input:focus{
-
-    border-color:#2563eb;
-
-    box-shadow:0 0 0 3px rgba(37,99,235,0.15);
-
+.brand-name{
+  font-family:'DM Serif Display',serif;
+  font-size:30px;
+  color:var(--ink);
+  letter-spacing:-.5px;
+  display:block;
 }
 
-/* LOGIN BUTTON */
-
-.login-btn{
-
-    width:100%;
-
-    height:50px;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:#2563eb;
-
-    color:#fff;
-
-    font-size:18px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:0.2s;
-
-    margin-top:5px;
-
+.brand-sub{
+  font-size:13px;
+  color:var(--ink3);
+  margin-top:4px;
+  font-weight:400;
 }
 
-.login-btn:hover{
-
-    background:#1d4ed8;
-
+.error-box{
+  background:#fef2f2;
+  border:1px solid #fecaca;
+  border-radius:10px;
+  padding:12px 16px;
+  margin-bottom:20px;
+  font-size:13.5px;
+  color:var(--red);
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-/* FORGOT */
-
-.forgot{
-
-    margin-top:12px;
-
+.error-box svg{
+  width:16px;height:16px;
+  flex-shrink:0;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:2;
+  stroke-linecap:round;
 }
 
-.forgot a{
-
-    font-size:14px;
-
-    color:#2563eb;
-
-    text-decoration:none;
-
+label{
+  display:block;
+  font-size:13px;
+  font-weight:500;
+  color:var(--ink2);
+  margin-bottom:7px;
 }
 
-.forgot a:hover{
-
-    text-decoration:underline;
-
+input[type=text],
+input[type=password]{
+  width:100%;
+  height:48px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  padding:0 16px;
+  font-size:15px;
+  font-family:'DM Sans',sans-serif;
+  color:var(--ink);
+  background:var(--surface);
+  outline:none;
+  transition:border-color .2s, box-shadow .2s;
+  margin-bottom:16px;
 }
 
-/* FOOTER */
+input[type=text]:focus,
+input[type=password]:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 4px rgba(37,99,235,.12);
+}
+
+.btn{
+  width:100%;
+  height:50px;
+  background:var(--ink);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:15px;
+  font-weight:600;
+  font-family:'DM Sans',sans-serif;
+  cursor:pointer;
+  letter-spacing:.2px;
+  transition:background .2s, transform .1s;
+  margin-top:4px;
+}
+
+.btn:hover{background:#1e2130}
+.btn:active{transform:scale(.98)}
 
 .footer{
-
-    margin-top:18px;
-
-    font-size:13px;
-
-    color:#65676b;
-
+  text-align:center;
+  margin-top:28px;
+  font-size:12.5px;
+  color:var(--ink3);
 }
 
+.footer strong{color:var(--ink2)}
 </style>
-
 </head>
-
 <body>
 
-<div class="login-box">
+<div class="card">
 
-    <div class="logo">UMEED</div>
-
-    <div class="tagline">
-        Secure Business Dashboard Login
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
     </div>
+    <span class="brand-name">UMEED</span>
+    <p class="brand-sub">Business Intelligence Dashboard</p>
+  </div>
 
-    <div class="form-box">
+  {% if error %}
+  <div class="error-box">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    {{ error }}
+  </div>
+  {% endif %}
 
-        <form method="POST">
+  <form method="POST">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Enter your username" required autocomplete="username">
 
-            <input type="text" name="username" class="input" placeholder="Email or Username" required>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
 
-            <input type="password" name="password" class="input" placeholder="Password" required>
+    <button class="btn" type="submit">Sign In</button>
+  </form>
 
-            <button type="submit" class="login-btn">Log In</button>
-
-        </form>
-
-        <div class="forgot">
-            <a href="/forgot-password">Forgotten password?</a>
-        </div>
-
-    </div>
-
-    <div class="footer">
-        Private • Secure • UMEED System
-    </div>
+  <div class="footer">
+    <strong>Private &amp; Secure</strong> — UMEED System &copy; 2025
+  </div>
 
 </div>
 
