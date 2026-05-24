@@ -1,11 +1,127 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Global Thoughts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% block content %}
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b0b0b;
+    color: white;
+}
 
-<h1>🌍 Global Anonymous Thoughts</h1>
+/* HEADER */
+header {
+    padding: 20px;
+    text-align: center;
+    background: #111;
+    border-bottom: 1px solid #222;
+}
 
+header h1 {
+    margin: 0;
+    font-size: 26px;
+}
+
+header p {
+    color: #aaa;
+}
+
+/* CONTAINER */
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* FORM */
+form {
+    background: #161616;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+textarea, select, input {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: #0f0f0f;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background: #00c3ff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* FEED */
+.card {
+    background: #151515;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border-left: 3px solid #00c3ff;
+}
+
+.card small {
+    color: #888;
+}
+
+/* STATS */
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+.stat-box {
+    background: #161616;
+    padding: 10px;
+    border-radius: 10px;
+    flex: 1;
+    margin: 5px;
+    text-align: center;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+    .stats {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌍 Global Anonymous Thoughts</h1>
+    <p>Real thoughts from real people around the world</p>
+</header>
+
+<div class="container">
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat-box">🔥 Live Thoughts</div>
+    <div class="stat-box">🌍 Global Users</div>
+    <div class="stat-box">💭 Anonymous Posts</div>
+</div>
+
+<!-- FORM -->
 <form action="/post" method="POST">
-    <textarea name="text" placeholder="Write your thought..." required></textarea>
+    <textarea name="text" placeholder="Share your thought..." required></textarea>
 
     <select name="mood">
         <option value="happy">😊 Happy</option>
@@ -17,33 +133,37 @@
 
     <input type="text" name="country" placeholder="Country (optional)">
 
-    <button type="submit">Post</button>
+    <button type="submit">Post Anonymously</button>
 </form>
 
-<hr>
-
+<!-- FEED -->
 <h2>Live Feed</h2>
 <div id="feed"></div>
 
+</div>
+
 <script>
-async function load() {
+async function loadFeed(){
     let res = await fetch("/api/thoughts");
     let data = await res.json();
 
     let html = "";
+
     data.forEach(t => {
         html += `
         <div class="card">
             <p>${t.text}</p>
             <small>${t.mood} | ${t.country}</small>
-        </div>`;
+        </div>
+        `;
     });
 
     document.getElementById("feed").innerHTML = html;
 }
 
-load();
-setInterval(load, 5000);
+loadFeed();
+setInterval(loadFeed, 4000);
 </script>
 
-{% endblock %}
+</body>
+</html>
