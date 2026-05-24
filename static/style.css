@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f0f0f;
+    color: white;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+textarea {
+    height: 100px;
+    padding: 10px;
+}
+
+select, input, button {
+    padding: 10px;
+}
+
+button {
+    background: #00c3ff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.card {
+    background: #1c1c1c;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
