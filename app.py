@@ -3,7 +3,6 @@ import sqlite3
 
 app = Flask(__name__)
 
-# ---------------- DB ----------------
 def get_db():
     conn = sqlite3.connect("database.db")
     conn.row_factory = sqlite3.Row
@@ -25,11 +24,12 @@ def init_db():
 
 init_db()
 
-# ---------------- ROUTES ----------------
+# ---------------- HOME ----------------
 @app.route("/")
 def index():
     return render_template("index.html")
 
+# ---------------- POST ----------------
 @app.route("/post", methods=["POST"])
 def post_thought():
     text = request.form["text"]
@@ -44,13 +44,39 @@ def post_thought():
 
     return redirect("/")
 
+# ---------------- API ----------------
 @app.route("/api/thoughts")
-def get_thoughts():
+def api_thoughts():
     conn = get_db()
-    thoughts = conn.execute("SELECT * FROM thoughts ORDER BY id DESC LIMIT 50").fetchall()
+    rows = conn.execute("SELECT * FROM thoughts ORDER BY id DESC LIMIT 100").fetchall()
+    conn.close()
+    return jsonify([dict(r) for r in rows])
+
+# ---------------- DASHBOARD ----------------
+@app.route("/dashboard")
+def dashboard():
+    conn = get_db()
+
+    total = conn.execute("SELECT COUNT(*) as c FROM thoughts").fetchone()["c"]
+
+    moods = conn.execute("""
+        SELECT mood, COUNT(*) as c 
+        FROM thoughts 
+        GROUP BY mood
+    """).fetchall()
+
+    latest = conn.execute("""
+        SELECT * FROM thoughts 
+        ORDER BY id DESC 
+        LIMIT 20
+    """).fetchall()
+
     conn.close()
 
-    return jsonify([dict(row) for row in thoughts])
+    return render_template("dashboard.html",
+                           total=total,
+                           moods=moods,
+                           latest=latest)
 
 if __name__ == "__main__":
     app.run(debug=True)
