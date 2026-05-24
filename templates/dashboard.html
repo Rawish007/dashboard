@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body{
+            background:#111;
+            color:white;
+            font-family:Arial;
+            padding:20px;
+        }
+        .box{
+            background:#1c1c1c;
+            padding:15px;
+            margin:10px 0;
+            border-radius:10px;
+        }
+        .grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📊 Admin Dashboard</h1>
+
+<div class="box">
+    <h2>Total Thoughts: {{ total }}</h2>
+</div>
+
+<div class="box">
+    <h3>🔥 Mood Stats</h3>
+    {% for m in moods %}
+        <p>{{ m.mood }} : {{ m.c }}</p>
+    {% endfor %}
+</div>
+
+<div class="box">
+    <h3>🧠 Latest Thoughts</h3>
+    {% for t in latest %}
+        <p>{{ t.text }} ({{ t.mood }} | {{ t.country }})</p>
+    {% endfor %}
+</div>
+
+</body>
+</html>
