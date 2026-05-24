@@ -3,6 +3,7 @@ import sqlite3
 
 app = Flask(__name__)
 
+# ---------------- DATABASE ----------------
 def get_db():
     conn = sqlite3.connect("database.db")
     conn.row_factory = sqlite3.Row
@@ -29,16 +30,18 @@ init_db()
 def index():
     return render_template("index.html")
 
-# ---------------- POST ----------------
+# ---------------- POST THOUGHT ----------------
 @app.route("/post", methods=["POST"])
-def post_thought():
+def post():
     text = request.form["text"]
     mood = request.form["mood"]
     country = request.form.get("country", "Unknown")
 
     conn = get_db()
-    conn.execute("INSERT INTO thoughts (text, mood, country) VALUES (?, ?, ?)",
-                 (text, mood, country))
+    conn.execute(
+        "INSERT INTO thoughts (text, mood, country) VALUES (?, ?, ?)",
+        (text, mood, country)
+    )
     conn.commit()
     conn.close()
 
@@ -46,10 +49,13 @@ def post_thought():
 
 # ---------------- API ----------------
 @app.route("/api/thoughts")
-def api_thoughts():
+def api():
     conn = get_db()
-    rows = conn.execute("SELECT * FROM thoughts ORDER BY id DESC LIMIT 100").fetchall()
+    rows = conn.execute(
+        "SELECT * FROM thoughts ORDER BY id DESC LIMIT 100"
+    ).fetchall()
     conn.close()
+
     return jsonify([dict(r) for r in rows])
 
 # ---------------- DASHBOARD ----------------
@@ -60,23 +66,26 @@ def dashboard():
     total = conn.execute("SELECT COUNT(*) as c FROM thoughts").fetchone()["c"]
 
     moods = conn.execute("""
-        SELECT mood, COUNT(*) as c 
-        FROM thoughts 
+        SELECT mood, COUNT(*) as c
+        FROM thoughts
         GROUP BY mood
     """).fetchall()
 
     latest = conn.execute("""
-        SELECT * FROM thoughts 
-        ORDER BY id DESC 
+        SELECT * FROM thoughts
+        ORDER BY id DESC
         LIMIT 20
     """).fetchall()
 
     conn.close()
 
-    return render_template("dashboard.html",
-                           total=total,
-                           moods=moods,
-                           latest=latest)
+    return render_template(
+        "dashboard.html",
+        total=total,
+        moods=moods,
+        latest=latest
+    )
 
+# ---------------- RUN ----------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
