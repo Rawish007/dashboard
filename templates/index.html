@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>🌍 Global Anonymous Thoughts</h1>
+
+<form action="/post" method="POST">
+    <textarea name="text" placeholder="Write your thought..." required></textarea>
+
+    <select name="mood">
+        <option value="happy">😊 Happy</option>
+        <option value="sad">😭 Sad</option>
+        <option value="angry">😡 Angry</option>
+        <option value="love">❤️ Love</option>
+        <option value="tired">😴 Tired</option>
+    </select>
+
+    <input type="text" name="country" placeholder="Country (optional)">
+
+    <button type="submit">Post</button>
+</form>
+
+<hr>
+
+<h2>Live Thoughts</h2>
+<div id="feed"></div>
+
+<script>
+async function loadThoughts() {
+    const res = await fetch("/api/thoughts");
+    const data = await res.json();
+
+    let html = "";
+    data.forEach(t => {
+        html += `
+        <div class="card">
+            <p>${t.text}</p>
+            <small>${t.mood} | ${t.country}</small>
+        </div>`;
+    });
+
+    document.getElementById("feed").innerHTML = html;
+}
+
+loadThoughts();
+setInterval(loadThoughts, 5000);
+</script>
+
+{% endblock %}
