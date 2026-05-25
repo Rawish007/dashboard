@@ -1,169 +1,2480 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Global Thoughts</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Global Anonymous Thoughts</title>
+<meta name="description" content="Share your thoughts anonymously with the world. No identity. No judgment. Just raw human expression."/>
+<meta property="og:title" content="Global Anonymous Thoughts"/>
+<meta property="og:description" content="Share your thoughts anonymously with the world."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-body {
-    margin: 0;
-    font-family: Arial;
-    background: #0b0b0b;
-    color: white;
-}
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #16161f;
+    --card: #1a1a25;
+    --card2: #1f1f2e;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --accent: #e8c97a;
+    --accent2: #c9a84c;
+    --accent3: #f5e3a0;
+    --teal: #4ecdc4;
+    --rose: #ff6b9d;
+    --violet: #9b8fe8;
+    --text: #e8e8f0;
+    --text2: #a0a0b8;
+    --text3: #6a6a82;
+    --red: #ff5c5c;
+    --green: #4ade80;
+    --radius: 16px;
+    --radius2: 24px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.5);
+    --shadow2: 0 2px 12px rgba(0,0,0,0.3);
+    --glow: 0 0 30px rgba(232,201,122,0.15);
+  }
 
-/* HEADER */
-header {
-    padding: 20px;
-    text-align: center;
-    background: #111;
-    border-bottom: 1px solid #222;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-header h1 {
-    margin: 0;
-    font-size: 26px;
-}
+  html { scroll-behavior: smooth; }
 
-header p {
-    color: #aaa;
-}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: default;
+  }
 
-/* CONTAINER */
-.container {
-    width: 90%;
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
-}
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
 
-/* FORM */
-form {
-    background: #161616;
-    padding: 15px;
-    border-radius: 10px;
-}
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 2px; }
 
-textarea, select, input {
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px;
-    background: #0f0f0f;
-    color: white;
-    border: 1px solid #333;
-    border-radius: 5px;
-}
-
-button {
-    margin-top: 10px;
-    width: 100%;
-    padding: 10px;
-    background: #00c3ff;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* FEED */
-.card {
-    background: #151515;
-    padding: 15px;
-    margin-top: 10px;
-    border-radius: 10px;
-    border-left: 3px solid #00c3ff;
-}
-
-.card small {
-    color: #888;
-}
-
-/* STATS */
-.stats {
+  /* NAVBAR */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    margin: 15px 0;
-}
+    padding: 0 32px;
+    height: 68px;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
 
-.stat-box {
-    background: #161616;
-    padding: 10px;
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
     border-radius: 10px;
-    flex: 1;
-    margin: 5px;
-    text-align: center;
-}
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    box-shadow: 0 0 16px rgba(232,201,122,0.3);
+    flex-shrink: 0;
+  }
 
-/* MOBILE */
-@media(max-width:600px){
-    .stats {
-        flex-direction: column;
-    }
-}
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text2);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--card); }
+
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 20px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-decoration: none;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text2);
+    border: 1px solid var(--border2);
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--accent); background: rgba(232,201,122,0.05); }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0a0a0f;
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(232,201,122,0.25);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(232,201,122,0.4); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .btn-outline:hover { background: rgba(232,201,122,0.1); }
+
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 22px;
+    cursor: pointer;
+    padding: 6px;
+  }
+
+  /* MOBILE MENU */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 68px; left: 0; right: 0;
+    background: rgba(10,10,15,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 999;
+    padding: 20px 24px;
+    flex-direction: column;
+    gap: 6px;
+    animation: slideDown 0.2s ease;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { color: var(--text2); text-decoration: none; padding: 12px 16px; border-radius: 10px; font-size: 15px; font-weight: 500; transition: all 0.2s; }
+  .mobile-menu a:hover { color: var(--text); background: var(--card); }
+  .mobile-menu-divider { height: 1px; background: var(--border); margin: 8px 0; }
+
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 24px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(232,201,122,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(78,205,196,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 40% at 80% 70%, rgba(155,143,232,0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* FLOATING ORBS */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+    animation: float 8s ease-in-out infinite;
+  }
+  .orb-1 { width: 300px; height: 300px; background: rgba(232,201,122,0.06); top: 10%; left: 5%; animation-delay: 0s; }
+  .orb-2 { width: 200px; height: 200px; background: rgba(78,205,196,0.05); top: 60%; right: 8%; animation-delay: 3s; }
+  .orb-3 { width: 250px; height: 250px; background: rgba(155,143,232,0.04); bottom: 20%; left: 15%; animation-delay: 5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+  }
+
+  /* GLOBE VISUAL */
+  .globe-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(600px, 90vw);
+    height: min(600px, 90vw);
+    pointer-events: none;
+    opacity: 0.06;
+  }
+
+  .globe-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+  }
+  .globe-ring:nth-child(1) { inset: 0; }
+  .globe-ring:nth-child(2) { inset: 12%; transform: rotateX(70deg); }
+  .globe-ring:nth-child(3) { inset: 25%; transform: rotateX(70deg) rotateZ(30deg); }
+  .globe-ring:nth-child(4) { inset: 10%; transform: rotateY(60deg); }
+  .globe-ring:nth-child(5) { inset: 22%; transform: rotateY(60deg) rotateZ(45deg); }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232,201,122,0.1);
+    border: 1px solid rgba(232,201,122,0.2);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    animation: fadeInUp 0.6s ease both;
+  }
+
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero h1 .line2 {
+    display: block;
+    color: var(--text2);
+    font-weight: 400;
+    font-size: 0.65em;
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  .hero-sub {
+    font-size: clamp(15px, 2vw, 18px);
+    color: var(--text2);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    font-weight: 300;
+    animation: fadeInUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeInUp 0.6s 0.3s ease both;
+  }
+
+  .btn-hero {
+    padding: 14px 32px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 64px;
+    animation: fadeInUp 0.6s 0.4s ease both;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 4px;
+  }
+
+  .stat-divider {
+    width: 1px;
+    background: var(--border2);
+    align-self: stretch;
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--text3);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: fadeInUp 1s 0.6s ease both;
+  }
+
+  .scroll-arrow {
+    width: 20px; height: 20px;
+    border-right: 1.5px solid var(--text3);
+    border-bottom: 1.5px solid var(--text3);
+    transform: rotate(45deg);
+    animation: scrollBounce 2s infinite;
+  }
+
+  @keyframes scrollBounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50% { transform: rotate(45deg) translateY(4px); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  section { position: relative; }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .section-tag::before {
+    content: '';
+    width: 24px;
+    height: 1.5px;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .section-title em { color: var(--accent); font-style: italic; }
+
+  .section-sub {
+    color: var(--text2);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 500px;
+    font-weight: 300;
+  }
+
+  /* THOUGHT COMPOSER */
+  .composer-section { background: var(--bg2); }
+
+  .composer-card {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius2);
+    padding: 32px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .composer-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--teal), var(--violet));
+  }
+
+  .composer-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .anon-avatar {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--card2), var(--bg3));
+    border: 1px solid var(--border2);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .composer-meta { flex: 1; }
+  .composer-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .composer-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+  .mood-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .mood-chip {
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text2);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .mood-chip:hover, .mood-chip.active { border-color: var(--accent); color: var(--accent); background: rgba(232,201,122,0.08); }
+
+  .thought-textarea {
+    width: 100%;
+    min-height: 120px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    padding: 16px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+    font-weight: 300;
+  }
+  .thought-textarea:focus { border-color: var(--accent); }
+  .thought-textarea::placeholder { color: var(--text3); }
+
+  .composer-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .composer-tools {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tool-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text3);
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  .tool-btn:hover { color: var(--accent); border-color: var(--accent); background: rgba(232,201,122,0.06); }
+
+  .char-count { font-size: 12px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
+
+  /* TAGS INPUT */
+  .tags-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .tag-pill {
+    padding: 4px 12px;
+    background: rgba(78,205,196,0.1);
+    border: 1px solid rgba(78,205,196,0.2);
+    color: var(--teal);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: default;
+  }
+
+  .tag-pill span { cursor: pointer; opacity: 0.6; font-size: 14px; line-height: 1; }
+  .tag-pill span:hover { opacity: 1; }
+
+  /* CONTENT GRID */
+  .content-section { background: var(--bg); }
+
+  .feed-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); color: #0a0a0f; border-color: var(--accent); font-weight: 700; }
+
+  .filter-spacer { flex: 1; }
+
+  .sort-select {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* THOUGHTS MASONRY */
+  .thoughts-grid {
+    columns: 3;
+    column-gap: 20px;
+  }
+
+  @media (max-width: 900px) { .thoughts-grid { columns: 2; } }
+  @media (max-width: 580px) { .thoughts-grid { columns: 1; } }
+
+  .thought-card {
+    break-inside: avoid;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .thought-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .thought-card:hover { transform: translateY(-2px); border-color: var(--border2); box-shadow: var(--shadow); }
+  .thought-card:hover::before { opacity: 1; }
+
+  .mood-indicator { /* mood color handled inline */ }
+
+  .thought-mood {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+  }
+
+  .thought-body {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text2);
+    margin-bottom: 16px;
+    font-weight: 300;
+  }
+
+  .thought-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .thought-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .t-tag {
+    font-size: 11px;
+    color: var(--text3);
+    background: var(--bg3);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .t-tag::before { content: '#'; }
+
+  .thought-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .thought-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .user-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .user-info { }
+  .user-name { font-size: 12px; font-weight: 600; color: var(--text); }
+  .user-time { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+  .thought-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--text3);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: color 0.2s;
+    padding: 0;
+  }
+  .action-btn:hover { color: var(--accent); }
+  .action-btn.liked { color: var(--rose); }
+  .action-btn.liked svg path { fill: var(--rose); }
+
+  .action-icon { width: 14px; height: 14px; fill: currentColor; }
+
+  /* WORLD MAP SECTION */
+  .world-section { background: var(--bg2); }
+
+  .world-visual {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius2);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    min-height: 340px;
+  }
+
+  .world-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .world-dots {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .country-dot {
+    position: absolute;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    animation: dotPulse 3s ease-in-out infinite;
+  }
+
+  .country-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    opacity: 0;
+    animation: ripple 3s ease-in-out infinite;
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.8; }
+  }
+  @keyframes ripple {
+    0% { inset: -2px; opacity: 0.6; }
+    100% { inset: -16px; opacity: 0; }
+  }
+
+  .world-stat-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .world-stat-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .world-stat-card .icon { font-size: 28px; margin-bottom: 8px; }
+  .world-stat-card .num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--accent); }
+  .world-stat-card .lbl { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+  /* FEATURES */
+  .features-section { background: var(--bg); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 48px;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card:hover { transform: translateY(-4px); border-color: var(--border2); box-shadow: var(--shadow); }
+
+  .feature-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .feature-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .feature-desc { font-size: 14px; color: var(--text2); line-height: 1.65; font-weight: 300; }
+
+  .feature-badge {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(232,201,122,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(232,201,122,0.2);
+  }
+
+  /* TRENDING */
+  .trending-section { background: var(--bg2); }
+
+  .trending-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  @media (max-width: 768px) { .trending-grid { grid-template-columns: 1fr; } }
+
+  .trending-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .trending-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .trending-item:hover { border-color: var(--border2); transform: translateX(4px); }
+
+  .trend-rank {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--border2);
+    width: 28px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+
+  .trend-rank.top { color: var(--accent); }
+
+  .trend-content { flex: 1; min-width: 0; }
+  .trend-tag { font-size: 14px; font-weight: 600; color: var(--text); }
+  .trend-count { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+  .trend-bar-wrap { width: 60px; }
+  .trend-bar-bg { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+  .trend-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; }
+
+  /* LEADERBOARD */
+  .leaderboard-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .lb-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+
+  .lb-rank {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text3);
+    width: 20px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .lb-avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .lb-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .lb-pts { font-size: 12px; color: var(--text3); }
+  .lb-badge { margin-left: auto; font-size: 16px; }
+
+  /* CATEGORIES */
+  .categories-section { background: var(--bg); }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .cat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .cat-card:hover { transform: translateY(-4px); border-color: var(--border2); box-shadow: var(--shadow); }
+
+  .cat-icon { font-size: 32px; margin-bottom: 10px; }
+  .cat-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .cat-count { font-size: 12px; color: var(--text3); }
+
+  /* TESTIMONIALS */
+  .testimonials-section { background: var(--bg2); }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 48px;
+  }
+
+  .test-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+
+  .test-stars { color: var(--accent); font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+  .test-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .test-author { display: flex; align-items: center; gap: 10px; }
+  .test-avi { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; font-weight: 700; }
+  .test-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .test-loc { font-size: 11px; color: var(--text3); }
+
+  /* FAQ */
+  .faq-section { background: var(--bg); }
+
+  .faq-list { max-width: 700px; display: flex; flex-direction: column; gap: 8px; margin-top: 48px; }
+
+  .faq-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .faq-q {
+    padding: 18px 22px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: color 0.2s;
+    user-select: none;
+  }
+  .faq-q:hover { color: var(--accent); }
+
+  .faq-arrow {
+    font-size: 20px;
+    color: var(--text3);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .faq-item.open .faq-arrow { transform: rotate(45deg); color: var(--accent); }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.7;
+    font-weight: 300;
+    padding: 0 22px;
+  }
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 22px 18px; }
+
+  /* CTA */
+  .cta-section { background: var(--bg2); }
+
+  .cta-box {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius2);
+    padding: 64px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(232,201,122,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .cta-box h2 em { color: var(--accent); font-style: italic; }
+  .cta-box p { color: var(--text2); font-size: 16px; max-width: 460px; margin: 0 auto 32px; line-height: 1.7; font-weight: 300; }
+
+  .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 48px 24px 32px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+
+  @media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .footer-top { grid-template-columns: 1fr; } }
+
+  .footer-brand .logo-text { font-size: 20px; }
+  .footer-desc { font-size: 13px; color: var(--text3); line-height: 1.7; margin-top: 12px; max-width: 260px; }
+
+  .footer-socials { display: flex; gap: 8px; margin-top: 20px; }
+  .social-btn {
+    width: 36px; height: 36px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text3);
+    text-decoration: none;
+  }
+  .social-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(232,201,122,0.08); }
+
+  .footer-col h4 { font-size: 13px; font-weight: 700; color: var(--text); letter-spacing: 0.5px; margin-bottom: 14px; }
+  .footer-links { display: flex; flex-direction: column; gap: 8px; }
+  .footer-links a { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-copy { font-size: 12px; color: var(--text3); }
+  .footer-copy span { color: var(--accent); }
+
+  .footer-legal { display: flex; gap: 16px; }
+  .footer-legal a { font-size: 12px; color: var(--text3); text-decoration: none; }
+  .footer-legal a:hover { color: var(--accent); }
+
+  /* NOTIFICATION TOAST */
+  .toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    pointer-events: all;
+    animation: toastIn 0.3s ease;
+    max-width: 280px;
+  }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(24px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .toast-icon { font-size: 18px; flex-shrink: 0; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius2);
+    padding: 36px;
+    max-width: 440px;
+    width: 100%;
+    animation: modalIn 0.3s ease;
+    position: relative;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(12px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: var(--bg3);
+    border: none;
+    color: var(--text2);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    display: grid;
+    place-items: center;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { background: var(--border2); color: var(--text); }
+
+  .modal h2 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+  .modal p { color: var(--text2); font-size: 14px; line-height: 1.65; margin-bottom: 24px; }
+
+  .form-group { margin-bottom: 16px; }
+  .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text2); letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase; }
+  .form-input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--accent); }
+  .form-input::placeholder { color: var(--text3); }
+
+  .form-check { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+  .form-check input { accent-color: var(--accent); width: 14px; height: 14px; }
+  .form-check label { font-size: 13px; color: var(--text2); }
+  .form-check label a { color: var(--accent); text-decoration: none; }
+
+  .modal-switch { text-align: center; margin-top: 16px; font-size: 13px; color: var(--text3); }
+  .modal-switch a { color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; }
+
+  /* NOTIFICATIONS PANEL */
+  .notif-panel {
+    position: fixed;
+    top: 76px; right: 16px;
+    width: 320px;
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    z-index: 1500;
+    box-shadow: var(--shadow);
+    display: none;
+    overflow: hidden;
+    animation: slideDown 0.2s ease;
+  }
+  .notif-panel.open { display: block; }
+
+  .notif-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .notif-header h3 { font-size: 14px; font-weight: 700; }
+  .notif-clear { font-size: 12px; color: var(--accent); cursor: pointer; }
+
+  .notif-list { max-height: 320px; overflow-y: auto; }
+  .notif-item { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: flex-start; cursor: pointer; transition: background 0.2s; }
+  .notif-item:hover { background: var(--bg3); }
+  .notif-item:last-child { border: none; }
+  .notif-item-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .notif-item-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .notif-item-text strong { color: var(--text); }
+  .notif-item-time { font-size: 11px; color: var(--text3); margin-top: 3px; }
+  .notif-badge { background: var(--rose); color: white; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; }
+
+  /* SEARCH BAR */
+  .search-bar-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 360px;
+  }
+
+  .search-bar {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 9px 14px 9px 36px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-bar:focus { border-color: var(--accent); }
+  .search-bar::placeholder { color: var(--text3); }
+  .search-icon {
+    position: absolute;
+    left: 11px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--text3);
+    pointer-events: none;
+  }
+
+  /* LAYOUT HELPERS */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* LOADING SKELETON */
+  .skeleton {
+    background: linear-gradient(90deg, var(--card) 25%, var(--card2) 50%, var(--card) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 6px;
+  }
+  @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+  /* LIVE TICKER */
+  .live-ticker {
+    background: var(--bg3);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    gap: 48px;
+    animation: ticker 30s linear infinite;
+  }
+
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .ticker-dot { width: 5px; height: 5px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* PROGRESS RINGS */
+  .progress-ring { transform: rotate(-90deg); }
+  .progress-ring-circle { transition: stroke-dashoffset 1s ease; }
+
+  /* RESPONSIVE NAV */
+  @media (max-width: 820px) {
+    .nav-links { display: none; }
+    .mobile-menu-btn { display: block; }
+    .nav-right .btn-ghost { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 90px 20px 60px; }
+    .hero h1 { letter-spacing: -0.5px; }
+    .hero-stats { gap: 20px; }
+    .stat-divider { display: none; }
+    .section-inner { padding: 60px 20px; }
+    .composer-card { padding: 20px; }
+    .cta-box { padding: 40px 20px; }
+  }
 </style>
 </head>
-
 <body>
 
-<header>
-    <h1>🌍 Global Anonymous Thoughts</h1>
-    <p>Real thoughts from real people around the world</p>
-</header>
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="logo-icon">🌍</div>
+    <div>
+      <div class="logo-text">Global <span>Anonymous</span></div>
+      <div style="font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;font-family:'JetBrains Mono',monospace">Thoughts</div>
+    </div>
+  </a>
 
-<div class="container">
+  <ul class="nav-links">
+    <li><a href="#feed">Feed</a></li>
+    <li><a href="#trending">Trending</a></li>
+    <li><a href="#categories">Categories</a></li>
+    <li><a href="#world">World Map</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
 
-<!-- STATS -->
-<div class="stats">
-    <div class="stat-box">🔥 Live Thoughts</div>
-    <div class="stat-box">🌍 Global Users</div>
-    <div class="stat-box">💭 Anonymous Posts</div>
+  <div class="nav-right">
+    <div class="search-bar-wrap" style="display:none" id="nav-search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-bar" type="text" placeholder="Search thoughts..."/>
+    </div>
+    <button class="tool-btn" onclick="document.getElementById('nav-search-wrap').style.display=document.getElementById('nav-search-wrap').style.display==='none'?'block':'none'" title="Search" style="width:36px;height:36px;font-size:16px;">🔍</button>
+    <button class="tool-btn" id="notif-btn" title="Notifications" style="position:relative">
+      🔔
+      <span class="notif-badge" style="position:absolute;top:-4px;right:-4px">3</span>
+    </button>
+    <button class="btn btn-ghost" onclick="openModal('login')">Sign In</button>
+    <button class="btn btn-primary" onclick="openModal('signup')">Join Free</button>
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#feed">📰 Feed</a>
+  <a href="#trending">🔥 Trending</a>
+  <a href="#categories">🏷️ Categories</a>
+  <a href="#world">🌍 World Map</a>
+  <a href="#about">ℹ️ About</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="#" onclick="openModal('login')">🔑 Sign In</a>
+  <a href="#" onclick="openModal('signup')" style="color:var(--accent)">✨ Join Free</a>
 </div>
 
-<!-- FORM -->
-<form action="/post" method="POST">
-    <textarea name="text" placeholder="Share your thought..." required></textarea>
+<!-- NOTIFICATIONS PANEL -->
+<div class="notif-panel" id="notif-panel">
+  <div class="notif-header">
+    <h3>🔔 Notifications</h3>
+    <span class="notif-clear" onclick="clearNotifs()">Mark all read</span>
+  </div>
+  <div class="notif-list" id="notif-list">
+    <div class="notif-item">
+      <span class="notif-item-icon">❤️</span>
+      <div>
+        <div class="notif-item-text"><strong>42 people</strong> resonated with your thought</div>
+        <div class="notif-item-time">2 minutes ago</div>
+      </div>
+    </div>
+    <div class="notif-item">
+      <span class="notif-item-icon">💬</span>
+      <div>
+        <div class="notif-item-text"><strong>ShadowWatcher</strong> replied to your thought</div>
+        <div class="notif-item-time">18 minutes ago</div>
+      </div>
+    </div>
+    <div class="notif-item">
+      <span class="notif-item-icon">🌍</span>
+      <div>
+        <div class="notif-item-text">Your thought reached <strong>5 countries</strong></div>
+        <div class="notif-item-time">1 hour ago</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <select name="mood">
-        <option value="happy">😊 Happy</option>
-        <option value="sad">😭 Sad</option>
-        <option value="angry">😡 Angry</option>
-        <option value="love">❤️ Love</option>
-        <option value="tired">😴 Tired</option>
-    </select>
+<!-- LIVE TICKER -->
+<div class="live-ticker" style="margin-top:68px">
+  <div class="ticker-inner">
+    <span class="ticker-item"><span class="ticker-dot"></span> 2,847 thoughts shared today</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 🇺🇸 United States · 412 active</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 🔥 #midnight trending worldwide</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 🇮🇳 India · 298 active</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> ✨ 156 new thoughts in last hour</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 🇧🇷 Brazil · 187 active</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 💭 #loneliness · 891 resonates</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 🇬🇧 UK · 143 active</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item"><span class="ticker-dot"></span> 2,847 thoughts shared today</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 🇺🇸 United States · 412 active</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 🔥 #midnight trending worldwide</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 🇮🇳 India · 298 active</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> ✨ 156 new thoughts in last hour</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 🇧🇷 Brazil · 187 active</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 💭 #loneliness · 891 resonates</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> 🇬🇧 UK · 143 active</span>
+  </div>
+</div>
 
-    <input type="text" name="country" placeholder="Country (optional)">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="globe-container">
+    <div class="globe-ring"></div>
+    <div class="globe-ring"></div>
+    <div class="globe-ring"></div>
+    <div class="globe-ring"></div>
+    <div class="globe-ring"></div>
+  </div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
-    <button type="submit">Post Anonymously</button>
-</form>
+  <div class="hero-eyebrow">
+    <span class="live-dot"></span>
+    2,847 thoughts shared today
+  </div>
+
+  <h1>
+    Your Voice.<br>
+    <em>No Name.</em>
+    <span class="line2">Heard Around The World.</span>
+  </h1>
+
+  <p class="hero-sub">
+    A borderless space for raw human expression. Share what you feel, think, and experience — completely anonymous, completely free. Millions of souls listening.
+  </p>
+
+  <div class="hero-actions">
+    <button class="btn btn-primary btn-hero" onclick="scrollToComposer()">
+      ✍️ Share a Thought
+    </button>
+    <a href="#feed" class="btn btn-ghost btn-hero">
+      📰 Browse Feed
+    </a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num" id="counter-thoughts">0</div>
+      <div class="stat-label">Thoughts Shared</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num" id="counter-countries">0</div>
+      <div class="stat-label">Countries</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num" id="counter-users">0</div>
+      <div class="stat-label">Anonymous Voices</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num" id="counter-today">0</div>
+      <div class="stat-label">Active Today</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-arrow"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- THOUGHT COMPOSER -->
+<section class="composer-section" id="compose">
+  <div class="section-inner">
+    <div class="two-col">
+      <div>
+        <div class="section-tag">Express Yourself</div>
+        <h2 class="section-title">What's on your<br><em>mind right now?</em></h2>
+        <p class="section-sub">No followers. No algorithms. No judgment. Just your honest thought released into the world.</p>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text2)">
+            <span style="color:var(--accent)">✓</span> 100% Anonymous — no account needed
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text2)">
+            <span style="color:var(--accent)">✓</span> Reaches people in 150+ countries
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text2)">
+            <span style="color:var(--accent)">✓</span> Zero data collection on anonymous posts
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="composer-card" id="composer">
+          <div class="composer-header">
+            <div class="anon-avatar">🎭</div>
+            <div class="composer-meta">
+              <div class="composer-name">Anonymous Soul</div>
+              <div class="composer-sub">🌍 Visible Worldwide · Just now</div>
+            </div>
+            <div style="margin-left:auto">
+              <select class="sort-select" id="visibility-sel" style="font-size:12px">
+                <option>🌍 Global</option>
+                <option>🌎 My Region</option>
+                <option>🏙️ My City</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="font-size:12px;color:var(--text3);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;font-weight:600">Choose Mood</div>
+          <div class="mood-row" id="mood-row">
+            <button class="mood-chip active" data-mood="💭 Reflective">💭 Reflective</button>
+            <button class="mood-chip" data-mood="😔 Sad">😔 Sad</button>
+            <button class="mood-chip" data-mood="😤 Frustrated">😤 Frustrated</button>
+            <button class="mood-chip" data-mood="🥰 Grateful">🥰 Grateful</button>
+            <button class="mood-chip" data-mood="😂 Funny">😂 Funny</button>
+            <button class="mood-chip" data-mood="😤 Rant">😤 Rant</button>
+            <button class="mood-chip" data-mood="💡 Insight">💡 Insight</button>
+            <button class="mood-chip" data-mood="😰 Anxious">😰 Anxious</button>
+          </div>
+
+          <textarea class="thought-textarea" id="thought-input" maxlength="500" placeholder="Pour your heart out... the world is listening 🌍"></textarea>
+
+          <div class="tags-row" id="tags-row">
+            <span style="font-size:12px;color:var(--text3)">#tags:</span>
+            <div class="tag-pill">thoughts <span onclick="removeTag(this)">×</span></div>
+            <div class="tag-pill">anonymous <span onclick="removeTag(this)">×</span></div>
+            <input type="text" id="tag-input" placeholder="+ add tag" style="background:none;border:none;color:var(--accent);font-size:12px;outline:none;font-family:'DM Sans',sans-serif;width:80px" onkeydown="handleTagInput(event)"/>
+          </div>
+
+          <div class="composer-footer">
+            <div class="composer-tools">
+              <button class="tool-btn" title="Add image" onclick="showToast('📷', 'Image upload coming soon!')">📷</button>
+              <button class="tool-btn" title="Add link" onclick="showToast('🔗', 'Link embed coming soon!')">🔗</button>
+              <button class="tool-btn" title="Bold" onclick="showToast('✏️', 'Rich text coming soon!')">𝐁</button>
+              <button class="tool-btn" title="Language" onclick="showToast('🌐', 'Auto-translation enabled!')">🌐</button>
+              <button class="tool-btn" title="Sensitivity" onclick="showToast('🛡️', 'Content sensitivity filter on.')">🛡️</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <span class="char-count"><span id="char-count">0</span>/500</span>
+              <button class="btn btn-primary" id="post-btn" onclick="postThought()">Share Thought →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FEED -->
-<h2>Live Feed</h2>
-<div id="feed"></div>
+<section class="content-section" id="feed">
+  <div class="section-inner">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px">
+      <div>
+        <div class="section-tag">Global Feed</div>
+        <h2 class="section-title">Thoughts from<br><em>around the world</em></h2>
+      </div>
+      <div class="search-bar-wrap" style="max-width:260px;width:100%">
+        <span class="search-icon">🔍</span>
+        <input class="search-bar" type="text" placeholder="Search thoughts..." id="feed-search" oninput="filterFeed(this.value)"/>
+      </div>
+    </div>
 
+    <div class="feed-controls">
+      <button class="filter-btn active" data-filter="all" onclick="setFilter(this,'all')">All</button>
+      <button class="filter-btn" data-filter="trending" onclick="setFilter(this,'trending')">🔥 Trending</button>
+      <button class="filter-btn" data-filter="new" onclick="setFilter(this,'new')">✨ New</button>
+      <button class="filter-btn" data-filter="reflective" onclick="setFilter(this,'reflective')">💭 Reflective</button>
+      <button class="filter-btn" data-filter="funny" onclick="setFilter(this,'funny')">😂 Funny</button>
+      <button class="filter-btn" data-filter="rant" onclick="setFilter(this,'rant')">😤 Rant</button>
+      <div class="filter-spacer"></div>
+      <select class="sort-select" onchange="showToast('🔃','Feed sorted!')">
+        <option>Sort: Latest</option>
+        <option>Sort: Most Resonated</option>
+        <option>Sort: Most Discussed</option>
+        <option>Sort: Most Shared</option>
+      </select>
+    </div>
+
+    <div class="thoughts-grid" id="thoughts-grid">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <div style="text-align:center;margin-top:16px">
+      <button class="btn btn-ghost" onclick="loadMoreThoughts()" id="load-more-btn">Load More Thoughts ↓</button>
+    </div>
+  </div>
+</section>
+
+<!-- WORLD MAP -->
+<section class="world-section" id="world">
+  <div class="section-inner">
+    <div class="section-tag">Global Reach</div>
+    <h2 class="section-title">Thoughts know<br><em>no borders</em></h2>
+    <p class="section-sub" style="margin-bottom:36px">Live activity from voices around the globe sharing their truths right now.</p>
+
+    <div class="world-visual">
+      <div class="world-grid"></div>
+      <div class="world-dots" id="world-dots"></div>
+      <div style="position:relative;z-index:1;text-align:center;padding:40px 0">
+        <div style="font-size:48px;margin-bottom:12px">🌍</div>
+        <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--accent)">150+</div>
+        <div style="font-size:14px;color:var(--text2);margin-top:4px">Countries with active voices</div>
+        <div style="margin-top:24px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <div style="font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block"></span> Active Now</div>
+          <div style="font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block"></span> High Activity</div>
+          <div style="font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--violet);display:inline-block"></span> Rising</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="world-stat-cards">
+      <div class="world-stat-card">
+        <div class="icon">🇺🇸</div>
+        <div class="num">412</div>
+        <div class="lbl">United States</div>
+      </div>
+      <div class="world-stat-card">
+        <div class="icon">🇮🇳</div>
+        <div class="num">298</div>
+        <div class="lbl">India</div>
+      </div>
+      <div class="world-stat-card">
+        <div class="icon">🇧🇷</div>
+        <div class="num">187</div>
+        <div class="lbl">Brazil</div>
+      </div>
+      <div class="world-stat-card">
+        <div class="icon">🇬🇧</div>
+        <div class="num">143</div>
+        <div class="lbl">United Kingdom</div>
+      </div>
+      <div class="world-stat-card">
+        <div class="icon">🇩🇪</div>
+        <div class="num">128</div>
+        <div class="lbl">Germany</div>
+      </div>
+      <div class="world-stat-card">
+        <div class="icon">🌏</div>
+        <div class="num">+145</div>
+        <div class="lbl">More Countries</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="about">
+  <div class="section-inner">
+    <div class="section-tag">Why GAT</div>
+    <h2 class="section-title">Built for <em>honesty</em><br>and human connection</h2>
+    <p class="section-sub">Every feature is designed to protect your identity while amplifying your voice.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(232,201,122,0.1)">🎭</div>
+        <div class="feature-title">True Anonymity</div>
+        <div class="feature-desc">Zero IP logging. No cookies. No device fingerprinting. Your thoughts are truly yours — and nobody else's.</div>
+        <div class="feature-badge">Core</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(78,205,196,0.1)">🌍</div>
+        <div class="feature-title">Global Reach</div>
+        <div class="feature-desc">Your words ripple across 150+ countries instantly. Every thought is a message in a bottle to humanity.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(155,143,232,0.1)">🌐</div>
+        <div class="feature-title">Auto-Translation</div>
+        <div class="feature-desc">Share in any language. Our AI instantly translates thoughts into 60+ languages so nothing gets lost.</div>
+        <div class="feature-badge">AI</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(255,107,157,0.1)">❤️</div>
+        <div class="feature-title">Resonate System</div>
+        <div class="feature-desc">Instead of likes — "resonates." Because some thoughts hit different. Acknowledge what moved you.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(74,222,128,0.1)">🛡️</div>
+        <div class="feature-title">Safe Space</div>
+        <div class="feature-desc">Content moderation without surveillance. AI-powered harm detection with full context privacy.</div>
+        <div class="feature-badge">Protected</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(232,201,122,0.1)">📊</div>
+        <div class="feature-title">Thought Analytics</div>
+        <div class="feature-desc">See how far your anonymous thoughts traveled. Countries reached, resonates over time, peak moments.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(78,205,196,0.1)">🎙️</div>
+        <div class="feature-title">Voice Thoughts</div>
+        <div class="feature-desc">Too much to type? Record a voice note. Pitch-shifted for anonymity. Your emotion, not your identity.</div>
+        <div class="feature-badge">New</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(155,143,232,0.1)">🕰️</div>
+        <div class="feature-title">Time Capsule</div>
+        <div class="feature-desc">Schedule a thought to publish in the future. Write to the world in 1 week, 1 month, or 1 year.</div>
+        <div class="feature-badge">Beta</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(255,92,92,0.1)">🔥</div>
+        <div class="feature-title">Trending Engine</div>
+        <div class="feature-desc">Discover what the world is really thinking. Real-time trending topics, hashtags, and emotional moments.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRENDING -->
+<section class="trending-section" id="trending">
+  <div class="section-inner">
+    <div class="section-tag">Right Now</div>
+    <h2 class="section-title">What the world<br><em>is feeling</em></h2>
+
+    <div class="trending-grid">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px">🔥 Trending Topics</div>
+        <div class="trending-list" id="trending-list"></div>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px">🏆 Top Voices This Week</div>
+        <div class="leaderboard-list" id="leaderboard-list"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories-section" id="categories">
+  <div class="section-inner">
+    <div class="section-tag">Browse</div>
+    <h2 class="section-title">Explore by<br><em>category</em></h2>
+    <div class="categories-grid" id="categories-grid"></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-inner">
+    <div class="section-tag">Community</div>
+    <h2 class="section-title">Voices that<br><em>found freedom</em></h2>
+    <div class="testimonials-grid" id="testimonials-grid"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-inner">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title">Questions<br><em>answered</em></h2>
+    <div class="faq-list" id="faq-list"></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-inner">
+    <div class="cta-box">
+      <h2>Ready to share what<br><em>you really think?</em></h2>
+      <p>Join 2.4 million anonymous voices. No name, no judgment — just your truth, heard worldwide.</p>
+      <div class="cta-actions">
+        <button class="btn btn-primary btn-hero" onclick="scrollToComposer()">✍️ Share Your First Thought</button>
+        <button class="btn btn-ghost btn-hero" onclick="openModal('signup')">🎭 Create Anonymous Profile</button>
+      </div>
+      <div style="margin-top:24px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap">
+        <span style="font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px"><span style="color:var(--green)">✓</span> Always Free</span>
+        <span style="font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px"><span style="color:var(--green)">✓</span> No Email Required</span>
+        <span style="font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px"><span style="color:var(--green)">✓</span> Zero Ads</span>
+        <span style="font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px"><span style="color:var(--green)">✓</span> Open Source</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="display:flex;align-items:center;gap:10px;margin-bottom:0">
+          <div class="logo-icon">🌍</div>
+          <div>
+            <div class="logo-text">Global <span>Anonymous</span></div>
+            <div style="font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;font-family:'JetBrains Mono',monospace">Thoughts</div>
+          </div>
+        </div>
+        <p class="footer-desc">A borderless space for raw, honest human expression. No identity required. Just your truth.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" title="Twitter/X">𝕏</a>
+          <a href="#" class="social-btn" title="Instagram">📸</a>
+          <a href="#" class="social-btn" title="Reddit">🤖</a>
+          <a href="#" class="social-btn" title="Discord">💬</a>
+          <a href="#" class="social-btn" title="GitHub">🐙</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <div class="footer-links">
+          <a href="#feed">Browse Feed</a>
+          <a href="#trending">Trending</a>
+          <a href="#categories">Categories</a>
+          <a href="#world">World Map</a>
+          <a href="#">Time Capsule</a>
+          <a href="#">Voice Thoughts</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Community</h4>
+        <div class="footer-links">
+          <a href="#">Community Guidelines</a>
+          <a href="#">Report Content</a>
+          <a href="#">Discord Server</a>
+          <a href="#">Blog</a>
+          <a href="#">Newsletter</a>
+          <a href="#">Partners</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Trust & Safety</h4>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Data Policy</a>
+          <a href="#">Cookie Policy</a>
+          <a href="#">Transparency Report</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 <span>Global Anonymous Thoughts</span>. Made with ❤️ for humanity.</div>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="login-modal" onclick="closeModalOutside(event,'login-modal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('login')">✕</button>
+    <h2>Welcome <em style="color:var(--accent);font-style:italic">back</em></h2>
+    <p>Sign in to your anonymous profile to track your thoughts and see your impact.</p>
+    <div class="form-group">
+      <label class="form-label">Anonymous Username</label>
+      <input class="form-input" type="text" placeholder="e.g. MidnightThinker42"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input class="form-input" type="password" placeholder="Your secret password"/>
+    </div>
+    <div class="form-check">
+      <input type="checkbox" id="remember" checked/>
+      <label for="remember">Stay signed in on this device</label>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px" onclick="closeModal('login');showToast('🎭','Signed in anonymously!')">Sign In</button>
+    <div class="modal-switch">
+      No account? <a onclick="closeModal('login');openModal('signup')">Create anonymous profile →</a>
+    </div>
+  </div>
+</div>
+
+<!-- SIGNUP MODAL -->
+<div class="modal-overlay" id="signup-modal" onclick="closeModalOutside(event,'signup-modal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('signup')">✕</button>
+    <h2>Join <em style="color:var(--accent);font-style:italic">anonymously</em></h2>
+    <p>No real name. No email required. Just pick a username and start sharing.</p>
+    <div class="form-group">
+      <label class="form-label">Choose an Anonymous Username</label>
+      <input class="form-input" type="text" placeholder="e.g. NightOwlThinker" id="signup-username"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password (optional — for profile access)</label>
+      <input class="form-input" type="password" placeholder="Optional but recommended"/>
+    </div>
+    <div class="form-check">
+      <input type="checkbox" id="agree" checked/>
+      <label for="agree">I agree to the <a href="#">Community Guidelines</a> and <a href="#">Terms</a></label>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:14px" onclick="handleSignup()">Create My Anonymous Profile</button>
+    <div style="margin-top:16px;padding:14px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);border-radius:10px;font-size:12px;color:var(--text2);line-height:1.6">
+      🛡️ <strong style="color:var(--green)">Privacy guaranteed:</strong> We never ask for your real name, email, phone, or any identifying information.
+    </div>
+    <div class="modal-switch">
+      Already a member? <a onclick="closeModal('signup');openModal('login')">Sign in →</a>
+    </div>
+  </div>
 </div>
 
 <script>
-async function loadFeed(){
-    let res = await fetch("/api/thoughts");
-    let data = await res.json();
+// ─── DATA ───────────────────────────────────────────────
+const THOUGHTS = [
+  { id:1, mood:'💭 Reflective', moodColor:'rgba(155,143,232,0.15)', moodTextColor:'#9b8fe8', quote:'I wonder if the person who cuts me off in traffic is also having the worst week of their life.', tags:['empathy','daily','thoughts'], user:'CosmicWanderer', userBg:'#9b8fe8', time:'3 min ago', likes:247, comments:18, shares:34, country:'🇺🇸', filter:'reflective' },
+  { id:2, mood:'😔 Sad', moodColor:'rgba(99,179,237,0.15)', moodTextColor:'#63b3ed', quote:'Some days I feel like the only person in a room full of connections but still completely alone.', tags:['loneliness','real','feelings'], user:'MidnightSoul', userBg:'#63b3ed', time:'7 min ago', likes:891, comments:64, shares:128, country:'🇬🇧', filter:'reflective' },
+  { id:3, mood:'💡 Insight', moodColor:'rgba(232,201,122,0.15)', moodTextColor:'#e8c97a', quote:'The most honest version of yourself only shows up at 3am. Strange how darkness is better at truth than daylight.', tags:['3am','truth','honesty'], user:'NightOwl88', userBg:'#e8c97a', time:'12 min ago', likes:1204, comments:89, shares:203, country:'🇦🇺', filter:'trending' },
+  { id:4, mood:'🥰 Grateful', moodColor:'rgba(74,222,128,0.15)', moodTextColor:'#4ade80', quote:'A stranger held the elevator for me today and I almost cried. Some days that small act feels like the whole world.', tags:['kindness','grateful','strangers'], user:'SunriseHope', userBg:'#4ade80', time:'28 min ago', likes:432, comments:41, shares:67, country:'🇮🇳', filter:'new' },
+  { id:5, mood:'😤 Rant', moodColor:'rgba(255,92,92,0.15)', moodTextColor:'#ff5c5c', quote:'Why do we praise people for being busy? "How are you?" "Busy!" is not a personality. Rest is productive too.', tags:['hustle','rant','society'], user:'SlowMorning', userBg:'#ff5c5c', time:'1 hr ago', likes:2341, comments:187, shares:445, country:'🇩🇪', filter:'rant' },
+  { id:6, mood:'😂 Funny', moodColor:'rgba(251,191,36,0.15)', moodTextColor:'#fbbf24', quote:'My therapist said I need to work on my inner child. My inner child immediately refused and asked for snacks.', tags:['therapy','humor','relatable'], user:'GiggleGhost', userBg:'#fbbf24', time:'2 hr ago', likes:3892, comments:241, shares:612, country:'🇨🇦', filter:'funny' },
+  { id:7, mood:'💭 Reflective', moodColor:'rgba(155,143,232,0.15)', moodTextColor:'#9b8fe8', quote:'We spend our whole childhood wanting to be adults and our whole adulthood wishing we could go back.', tags:['childhood','time','nostalgia'], user:'TwilightDream', userBg:'#9b8fe8', time:'3 hr ago', likes:1567, comments:93, shares:278, country:'🇧🇷', filter:'reflective' },
+  { id:8, mood:'😰 Anxious', moodColor:'rgba(251,146,60,0.15)', moodTextColor:'#fb923c', quote:'I keep rehearsing conversations that will never happen. My brain is a theater with an audience of one.', tags:['anxiety','overthinking','mentalhealth'], user:'QuietStorm', userBg:'#fb923c', time:'4 hr ago', likes:2178, comments:156, shares:389, country:'🇫🇷', filter:'reflective' },
+  { id:9, mood:'💡 Insight', moodColor:'rgba(232,201,122,0.15)', moodTextColor:'#e8c97a', quote:'Social media is the only place where you can be surrounded by millions and still feel invisible.', tags:['socialmedia','reality','disconnect'], user:'DigitalPhantom', userBg:'#a78bfa', time:'5 hr ago', likes:4230, comments:312, shares:891, country:'🇯🇵', filter:'trending' },
+  { id:10, mood:'🥰 Grateful', moodColor:'rgba(74,222,128,0.15)', moodTextColor:'#4ade80', quote:'My dog looked at me today like I was the most important person in the universe. I needed that more than he knows.', tags:['dogs','love','pets'], user:'PawsAndSilence', userBg:'#34d399', time:'6 hr ago', likes:876, comments:72, shares:134, country:'🇲🇽', filter:'new' },
+  { id:11, mood:'😤 Rant', moodColor:'rgba(255,92,92,0.15)', moodTextColor:'#ff5c5c', quote:"Why does every app need a subscription now? I just wanted to edit ONE photo. I don't need your $15/month for that.", tags:['apps','rant','tech','subscriptions'], user:'TechGrouch', userBg:'#f87171', time:'7 hr ago', likes:5621, comments:423, shares:1102, country:'🇺🇸', filter:'rant' },
+  { id:12, mood:'💭 Reflective', moodColor:'rgba(155,143,232,0.15)', moodTextColor:'#9b8fe8', quote:"I collect people's laugh lines. The way someone's face crinkles when they really laugh is something I never want to forget.", tags:['beauty','people','connection'], user:'SoulCollector', userBg:'#c084fc', time:'8 hr ago', likes:1923, comments:118, shares:267, country:'🇰🇷', filter:'reflective' },
+];
 
-    let html = "";
+const TRENDING_TOPICS = [
+  { tag:'midnight', count:'12.4K thoughts', pct:95 },
+  { tag:'loneliness', count:'8.9K thoughts', pct:80 },
+  { tag:'overthinking', count:'7.2K thoughts', pct:70 },
+  { tag:'grateful', count:'6.8K thoughts', pct:65 },
+  { tag:'society', count:'5.1K thoughts', pct:52 },
+  { tag:'3am', count:'4.7K thoughts', pct:48 },
+  { tag:'mentalhealth', count:'4.2K thoughts', pct:42 },
+  { tag:'kindness', count:'3.9K thoughts', pct:38 },
+];
 
-    data.forEach(t => {
-        html += `
-        <div class="card">
-            <p>${t.text}</p>
-            <small>${t.mood} | ${t.country}</small>
+const LEADERBOARD = [
+  { name:'CosmoPhantom', pts:'4,821 resonates', badge:'🏆', bg:'#e8c97a' },
+  { name:'MidnightEcho', pts:'3,209 resonates', badge:'🥈', bg:'#9b8fe8' },
+  { name:'SilentRoar', pts:'2,891 resonates', badge:'🥉', bg:'#4ecdc4' },
+  { name:'DigitalGhost', pts:'2,134 resonates', badge:'✨', bg:'#ff6b9d' },
+  { name:'TwilightVoice', pts:'1,876 resonates', badge:'🌟', bg:'#4ade80' },
+];
+
+const CATEGORIES = [
+  { icon:'💭', name:'Reflective', count:'48.2K' },
+  { icon:'😔', name:'Sadness', count:'31.7K' },
+  { icon:'😂', name:'Humor', count:'29.4K' },
+  { icon:'🥰', name:'Gratitude', count:'22.1K' },
+  { icon:'😤', name:'Rants', count:'18.9K' },
+  { icon:'💡', name:'Insights', count:'17.3K' },
+  { icon:'😰', name:'Anxiety', count:'15.8K' },
+  { icon:'❤️', name:'Love', count:'14.2K' },
+  { icon:'🌙', name:'3AM Thoughts', count:'12.9K' },
+  { icon:'🌍', name:'Society', count:'11.4K' },
+  { icon:'🎭', name:'Identity', count:'9.7K' },
+  { icon:'🌱', name:'Growth', count:'8.3K' },
+];
+
+const TESTIMONIALS = [
+  { stars:'★★★★★', quote:'For the first time in years, I said what I actually feel. The response I got from people around the world made me realize I\'m not alone.', name:'Anonymous Voice', loc:'🇺🇸 United States', bg:'#9b8fe8' },
+  { stars:'★★★★★', quote:'GAT is the only place I can be truly honest. No filter, no performance. Just me. This platform saved my mental health during a really dark period.', name:'Anonymous Voice', loc:'🇮🇳 India', bg:'#4ecdc4' },
+  { stars:'★★★★★', quote:'I posted a thought at 2am thinking nobody would care. It reached 34 countries and got 1,200 resonates. We are all feeling the same things.', name:'Anonymous Voice', loc:'🇬🇧 United Kingdom', bg:'#e8c97a' },
+];
+
+const FAQS = [
+  { q:'Is this truly anonymous?', a:'Yes. We do not log IP addresses, require emails, or use device fingerprinting. Anonymous posts are completely untraceable to you. Even our team cannot identify who posted what.' },
+  { q:'Can I create an account?', a:'You can create an optional anonymous profile using just a username and password — no email required. This lets you track your thoughts and see your impact, while staying fully anonymous.' },
+  { q:'How does content moderation work?', a:'We use AI to detect genuinely harmful content (harassment, self-harm promotion, illegal material) without reading or storing personal context. Reports from community members also help keep the space safe.' },
+  { q:'What languages are supported?', a:'You can post in any language. Our auto-translation feature renders posts in the reader\'s preferred language across 60+ supported languages, so thoughts are truly global.' },
+  { q:'Is Global Anonymous Thoughts free?', a:'Always. GAT will never charge users, run ads, or sell data. The platform is funded through optional donations and an open-source community model.' },
+  { q:'Can I delete my thoughts?', a:'Yes. Anonymous posts can be deleted within 24 hours via a deletion token provided when you post. Profile posts can be deleted anytime from your dashboard.' },
+];
+
+// ─── RENDER ─────────────────────────────────────────────
+let visibleCount = 9;
+let activeFilter = 'all';
+let postedThoughts = [];
+
+function renderThoughts(filterVal = 'all', searchVal = '') {
+  const grid = document.getElementById('thoughts-grid');
+  let items = [...postedThoughts, ...THOUGHTS];
+  if (filterVal !== 'all') items = items.filter(t => t.filter === filterVal);
+  if (searchVal) items = items.filter(t => (t.quote + t.tags.join(' ')).toLowerCase().includes(searchVal.toLowerCase()));
+  items = items.slice(0, visibleCount);
+
+  grid.innerHTML = items.map(t => `
+    <div class="thought-card" style="--card-accent:${t.moodTextColor}" onclick="resonateCard(this,${t.id})">
+      <style>.thought-card:hover::before{background:linear-gradient(90deg,${t.moodTextColor},transparent);}</style>
+      <div class="thought-mood" style="background:${t.moodColor};color:${t.moodTextColor}">${t.mood}</div>
+      <div class="thought-quote">${t.quote}</div>
+      <div class="thought-tags">${t.tags.map(tag => `<span class="t-tag">${tag}</span>`).join('')}</div>
+      <div class="thought-footer">
+        <div class="thought-user">
+          <div class="user-avatar" style="background:${t.userBg}22;color:${t.userBg}">${t.user.charAt(0)}</div>
+          <div class="user-info">
+            <div class="user-name">${t.user}</div>
+            <div class="user-time">${t.country} · ${t.time}</div>
+          </div>
         </div>
-        `;
-    });
-
-    document.getElementById("feed").innerHTML = html;
+        <div class="thought-actions">
+          <button class="action-btn" onclick="event.stopPropagation();likeThought(this,${t.id})">
+            <svg class="action-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span>${t.likes}</span>
+          </button>
+          <button class="action-btn" onclick="event.stopPropagation();showToast('💬','Comments coming soon!')">
+            <svg class="action-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>${t.comments}</span>
+          </button>
+          <button class="action-btn" onclick="event.stopPropagation();shareThought()">
+            <svg class="action-icon" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            <span>${t.shares}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
 }
 
-loadFeed();
-setInterval(loadFeed, 4000);
-</script>
+function renderTrending() {
+  document.getElementById('trending-list').innerHTML = TRENDING_TOPICS.map((t, i) => `
+    <div class="trending-item" onclick="setFilterFromTag('${t.tag}')">
+      <div class="trend-rank ${i < 3 ? 'top' : ''}">${i + 1}</div>
+      <div class="trend-content">
+        <div class="trend-tag">#${t.tag}</div>
+        <div class="trend-count">${t.count}</div>
+      </div>
+      <div class="trend-bar-wrap">
+        <div class="trend-bar-bg"><div class="trend-bar" style="width:${t.pct}%"></div></div>
+      </div>
+    </div>
+  `).join('');
+}
 
+function renderLeaderboard() {
+  document.getElementById('leaderboard-list').innerHTML = LEADERBOARD.map((l, i) => `
+    <div class="lb-item">
+      <div class="lb-rank">${i + 1}</div>
+      <div class="lb-avatar" style="background:${l.bg}22;color:${l.bg}">${l.name.charAt(0)}</div>
+      <div>
+        <div class="lb-name">${l.name}</div>
+        <div class="lb-pts">${l.pts}</div>
+      </div>
+      <div class="lb-badge">${l.badge}</div>
+    </div>
+  `).join('');
+}
+
+function renderCategories() {
+  document.getElementById('categories-grid').innerHTML = CATEGORIES.map(c => `
+    <div class="cat-card" onclick="showToast('${c.icon}','Filtering: ${c.name}')">
+      <div class="cat-icon">${c.icon}</div>
+      <div class="cat-name">${c.name}</div>
+      <div class="cat-count">${c.count} thoughts</div>
+    </div>
+  `).join('');
+}
+
+function renderTestimonials() {
+  document.getElementById('testimonials-grid').innerHTML = TESTIMONIALS.map(t => `
+    <div class="test-card">
+      <div class="test-stars">${t.stars}</div>
+      <div class="test-quote">"${t.quote}"</div>
+      <div class="test-author">
+        <div class="test-avi" style="background:${t.bg}22;color:${t.bg}">🎭</div>
+        <div>
+          <div class="test-name">${t.name}</div>
+          <div class="test-loc">${t.loc}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderFAQ() {
+  document.getElementById('faq-list').innerHTML = FAQS.map((f, i) => `
+    <div class="faq-item" id="faq-${i}">
+      <div class="faq-q" onclick="toggleFAQ(${i})">${f.q}<span class="faq-arrow">+</span></div>
+      <div class="faq-a">${f.a}</div>
+    </div>
+  `).join('');
+}
+
+function toggleFAQ(i) {
+  const item = document.getElementById('faq-' + i);
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ─── INTERACTIONS ────────────────────────────────────────
+function setFilter(btn, filter) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = filter;
+  renderThoughts(filter, document.getElementById('feed-search').value);
+}
+
+function setFilterFromTag(tag) {
+  document.getElementById('feed').scrollIntoView({ behavior: 'smooth' });
+}
+
+function filterFeed(val) {
+  renderThoughts(activeFilter, val);
+}
+
+function loadMoreThoughts() {
+  visibleCount += 6;
+  renderThoughts(activeFilter, document.getElementById('feed-search').value);
+  if (visibleCount >= THOUGHTS.length + postedThoughts.length) {
+    document.getElementById('load-more-btn').textContent = "You've seen it all! 🌍";
+    document.getElementById('load-more-btn').disabled = true;
+  }
+}
+
+function likeThought(btn, id) {
+  btn.classList.toggle('liked');
+  const numEl = btn.querySelector('span');
+  const t = [...postedThoughts, ...THOUGHTS].find(x => x.id === id);
+  if (t) numEl.textContent = btn.classList.contains('liked') ? t.likes + 1 : t.likes;
+}
+
+function resonateCard(card, id) {}
+
+function shareThought() {
+  if (navigator.share) {
+    navigator.share({ title: 'Global Anonymous Thoughts', url: window.location.href });
+  } else {
+    navigator.clipboard.writeText(window.location.href).then(() => showToast('🔗','Link copied to clipboard!'));
+  }
+}
+
+// ─── COMPOSER ────────────────────────────────────────────
+const textarea = document.getElementById('thought-input');
+const charCount = document.getElementById('char-count');
+
+textarea.addEventListener('input', () => {
+  charCount.textContent = textarea.value.length;
+  charCount.style.color = textarea.value.length > 450 ? '#ff5c5c' : 'var(--text3)';
+});
+
+document.querySelectorAll('.mood-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+
+function postThought() {
+  const text = textarea.value.trim();
+  if (!text) { showToast('⚠️','Write something first!'); return; }
+  const activeMood = document.querySelector('.mood-chip.active');
+  const moodText = activeMood ? activeMood.dataset.mood : '💭 Reflective';
+  const moodMap = {
+    '💭 Reflective': { color:'rgba(155,143,232,0.15)', text:'#9b8fe8' },
+    '😔 Sad': { color:'rgba(99,179,237,0.15)', text:'#63b3ed' },
+    '😤 Frustrated': { color:'rgba(255,92,92,0.15)', text:'#ff5c5c' },
+    '🥰 Grateful': { color:'rgba(74,222,128,0.15)', text:'#4ade80' },
+    '😂 Funny': { color:'rgba(251,191,36,0.15)', text:'#fbbf24' },
+    '😤 Rant': { color:'rgba(255,92,92,0.15)', text:'#ff5c5c' },
+    '💡 Insight': { color:'rgba(232,201,122,0.15)', text:'#e8c97a' },
+    '😰 Anxious': { color:'rgba(251,146,60,0.15)', text:'#fb923c' },
+  };
+  const mc = moodMap[moodText] || moodMap['💭 Reflective'];
+  const colors = ['#9b8fe8','#4ecdc4','#e8c97a','#ff6b9d','#4ade80','#63b3ed'];
+  const bg = colors[Math.floor(Math.random() * colors.length)];
+
+  const newThought = {
+    id: Date.now(),
+    mood: moodText,
+    moodColor: mc.color,
+    moodTextColor: mc.text,
+    quote: text,
+    tags: ['anonymous','new'],
+    user: 'You',
+    userBg: bg,
+    time: 'Just now',
+    likes: 0,
+    comments: 0,
+    shares: 0,
+    country: '🌍',
+    filter: 'new',
+  };
+
+  postedThoughts.unshift(newThought);
+  textarea.value = '';
+  charCount.textContent = '0';
+  renderThoughts(activeFilter, '');
+  showToast('🌍','Your thought is live worldwide!');
+  document.getElementById('feed').scrollIntoView({ behavior:'smooth' });
+}
+
+function scrollToComposer() {
+  document.getElementById('compose').scrollIntoView({ behavior:'smooth' });
+  setTimeout(() => textarea.focus(), 600);
+}
+
+// ─── TAGS ─────────────────────────────────────────────────
+function handleTagInput(e) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const val = e.target.value.replace(/[,#\s]/g,'').trim();
+    if (!val) return;
+    const row = document.getElementById('tags-row');
+    const pill = document.createElement('div');
+    pill.className = 'tag-pill';
+    pill.innerHTML = `${val} <span onclick="removeTag(this)">×</span>`;
+    row.insertBefore(pill, e.target);
+    e.target.value = '';
+  }
+}
+
+function removeTag(el) { el.closest('.tag-pill').remove(); }
+
+// ─── MODALS ───────────────────────────────────────────────
+function openModal(type) {
+  document.getElementById(type + '-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(type) {
+  document.getElementById(type + '-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id.replace('-modal',''));
+}
+function handleSignup() {
+  const name = document.getElementById('signup-username').value.trim() || 'Anonymous';
+  closeModal('signup');
+  showToast('🎭', `Welcome, ${name}!`);
+}
+
+// ─── NOTIFICATIONS ────────────────────────────────────────
+document.getElementById('notif-btn').addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('notif-panel').classList.toggle('open');
+});
+document.addEventListener('click', () => document.getElementById('notif-panel').classList.remove('open'));
+function clearNotifs() {
+  document.getElementById('notif-list').innerHTML = '<div style="padding:24px;text-align:center;color:var(--text3);font-size:13px">No new notifications</div>';
+  document.querySelector('.notif-badge').style.display = 'none';
+}
+
+// ─── MOBILE MENU ─────────────────────────────────────────
+document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('mobile-menu-btn');
+  menu.classList.toggle('open');
+  btn.textContent = menu.classList.contains('open') ? '✕' : '☰';
+});
+
+document.querySelectorAll('.mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('mobile-menu-btn').textContent = '☰';
+  });
+});
+
+// ─── TOAST ───────────────────────────────────────────────
+function showToast(icon, msg) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = `<span class="toast-icon">${icon}</span><span>${msg}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(24px)';
+    toast.style.transition = 'all 0.3s';
+    setTimeout(() => toast.remove(), 300);
+  }, 2800);
+}
+
+// ─── COUNTERS ─────────────────────────────────────────────
+function animateCounter(id, target, suffix = '') {
+  const el = document.getElementById(id);
+  const start = Date.now();
+  const duration = 2000;
+  const update = () => {
+    const elapsed = Date.now() - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = Math.floor(eased * target);
+    if (target >= 1000) {
+      el.textContent = (val / 1000).toFixed(1).replace('.0','') + 'K' + suffix;
+    } else {
+      el.textContent = val + suffix;
+    }
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+// Intersection Observer for counters
+const heroObs = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    animateCounter('counter-thoughts', 2847000);
+    animateCounter('counter-countries', 150, '+');
+    animateCounter('counter-users', 2400000);
+    animateCounter('counter-today', 8721);
+    heroObs.disconnect();
+  }
+}, { threshold: 0.3 });
+heroObs.observe(document.querySelector('.hero-stats'));
+
+// ─── WORLD DOTS ───────────────────────────────────────────
+function renderWorldDots() {
+  const container = document.getElementById('world-dots');
+  const dotsData = [
+    { x:18, y:30, color:'var(--green)' },
+    { x:22, y:45, color:'var(--accent)' },
+    { x:42, y:25, color:'var(--green)' },
+    { x:50, y:35, color:'var(--accent)' },
+    { x:48, y:55, color:'var(--green)' },
+    { x:55, y:40, color:'var(--violet)' },
+    { x:62, y:30, color:'var(--green)' },
+    { x:65, y:50, color:'var(--accent)' },
+    { x:72, y:38, color:'var(--green)' },
+    { x:78, y:25, color:'var(--violet)' },
+    { x:80, y:55, color:'var(--green)' },
+    { x:85, y:42, color:'var(--accent)' },
+    { x:30, y:65, color:'var(--green)' },
+    { x:38, y:70, color:'var(--accent)' },
+    { x:55, y:68, color:'var(--green)' },
+    { x:25, y:20, color:'var(--violet)' },
+  ];
+  container.innerHTML = dotsData.map((d, i) => `
+    <div class="country-dot" style="left:${d.x}%;top:${d.y}%;background:${d.color};color:${d.color};animation-delay:${(i * 0.3) % 3}s"></div>
+  `).join('');
+}
+
+// ─── NAVBAR SCROLL ───────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  if (window.scrollY > 40) {
+    nav.style.background = 'rgba(10,10,15,0.95)';
+    nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.4)';
+  } else {
+    nav.style.background = 'rgba(10,10,15,0.85)';
+    nav.style.boxShadow = 'none';
+  }
+});
+
+// ─── INIT ─────────────────────────────────────────────────
+renderThoughts();
+renderTrending();
+renderLeaderboard();
+renderCategories();
+renderTestimonials();
+renderFAQ();
+renderWorldDots();
+
+// Auto-live updates
+setInterval(() => {
+  const liveEl = document.querySelector('.hero-eyebrow');
+  if (liveEl) {
+    const base = 2847;
+    const rand = base + Math.floor(Math.random() * 10);
+    liveEl.innerHTML = `<span class="live-dot"></span>${rand.toLocaleString()} thoughts shared today`;
+  }
+}, 7000);
+
+// Escape key closes modals
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal('login');
+    closeModal('signup');
+    document.getElementById('notif-panel').classList.remove('open');
+  }
+});
+
+console.log('%c🌍 Global Anonymous Thoughts', 'color:#e8c97a;font-size:20px;font-weight:bold;font-family:serif');
+console.log('%cYour voice. No name. Heard worldwide.', 'color:#a0a0b8;font-size:13px');
+</script>
 </body>
 </html>
